@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/16 20:53:45 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/16 23:45:33 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	key_hook(int keycode, t_game *game)
 		game->player->posY -= game->player->dirY * 0.5;
 	}
 
-	//printf("=== Player ===\npos : [%f:%f]\nrot : [%f:%f]\n", game->player->posX, game->player->posY, game->player->dirX, game->player->dirY);
+	printf("=== Player ===\npos : [%f:%f]\nrot : [%f:%f]\n", game->player->posX, game->player->posY, game->player->dirX, game->player->dirY);
 
 
 	draw_skyground(game);

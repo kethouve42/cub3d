@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/16 21:04:48 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/16 23:49:58 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,14 +195,14 @@ void raycast(t_game *game)
 		int mapSide;
 		if(side == 0)
 		{
-			if(mapX < game->player->posY)
+			if(mapX < game->player->posX)
 				mapSide = 1; // nord
 			else
 				mapSide = 2; // sud
 		}
 		else
 		{
-			if(mapY < game->player->posX)
+			if(mapY < game->player->posY)
 				mapSide = 1; // Ouest
 			else
 				mapSide = 2; // Est
