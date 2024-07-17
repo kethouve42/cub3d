@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/16 19:57:36 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:20:05 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define ROT_SPEED 0.1 // Vitesse de rotation
+# define ROT_SPEED 0.05 // Vitesse de rotation
 
 typedef struct	s_img {
 	void	*img;
@@ -65,7 +65,11 @@ typedef struct s_game
 	void		*mlx;
 	void		*mlx_win;
 	char		**cubfile;
+	int			lineMap;
 	char		**map;
+	int			mapHeight;
+	int			mapLength;
+	int			playerStartRot;
 	//int	screenHeight;
 	//int screenWidth;
 	t_img		img;
@@ -86,7 +90,10 @@ void    load_texture(t_game *game, t_img *texture, char *file_path);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(char *s);
 int	ft_atoi(const char *str);
+void	*ft_calloc(size_t count, size_t size);
 int ft_isnum(char c);
+int ft_isalnum(char c);
+int ft_line_empty(char *s);
 
 /* ===================== DEBUG ====================*/
 void	display_map(char **map);

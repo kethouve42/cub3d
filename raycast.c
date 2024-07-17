@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/16 23:49:58 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:13:35 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, doub
 
 void raycast(t_game *game)
 {
+
+	//printf("debut raycast\n");
 	// Dimensions ecran
 	int screenWidth = 24 * 64;
 	int screenHeight = 11 * 64;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/16 23:45:33 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/17 21:16:16 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	key_hook(int keycode, t_game *game)
 {
 	if (keycode == 65307) // Escape key
 		close_game(game);
-	if (keycode == 65363) // Right arrow key
+	else if (keycode == 65363) // Right arrow key
 	{
 		// Calculer la nouvelle direction après rotation à gauche
 		double oldDirX = game->player->dirX;
@@ -68,7 +68,7 @@ int	key_hook(int keycode, t_game *game)
         game->player->planeX = game->player->planeX * cos(-ROT_SPEED) - game->player->planeY * sin(-ROT_SPEED);
         game->player->planeY = oldPlaneX * sin(-ROT_SPEED) + game->player->planeY * cos(-ROT_SPEED);
 	}
-	if (keycode == 65361) // Left arrow key
+	else if (keycode == 65361) // Left arrow key
 	{
 		// Calculer la nouvelle direction après rotation à droite
         double oldDirX = game->player->dirX;
@@ -80,15 +80,25 @@ int	key_hook(int keycode, t_game *game)
         game->player->planeX = game->player->planeX * cos(ROT_SPEED) - game->player->planeY * sin(ROT_SPEED);
         game->player->planeY = oldPlaneX * sin(ROT_SPEED) + game->player->planeY * cos(ROT_SPEED);
 	}
-	if (keycode == 65362) // Up arrow key
+	else if (keycode == 65362 || keycode == 119 || keycode == 122) // Up arrow or W/Z key
 	{
-		game->player->posX += game->player->dirX * 0.5;
-		game->player->posY += game->player->dirY * 0.5;
+		game->player->posX += game->player->dirX * 0.1;
+		game->player->posY += game->player->dirY * 0.1;
 	}
-	if (keycode == 65364) // Down arrow key
+	else if (keycode == 65364 || keycode == 115) // Down arrow or S key
 	{
-		game->player->posX -= game->player->dirX * 0.5;
-		game->player->posY -= game->player->dirY * 0.5;
+		game->player->posX -= game->player->dirX * 0.1;
+		game->player->posY -= game->player->dirY * 0.1;
+	}
+	else if (keycode == 100) // A/Q key (to the right)
+	{
+		game->player->posX += game->player->dirY * 0.1;
+    	game->player->posY -= game->player->dirX * 0.1;
+	}
+	else if (keycode == 97 || keycode == 113) // A/Q key (to the left)
+	{
+		game->player->posX -= game->player->dirY * 0.1;
+    	game->player->posY += game->player->dirX * 0.1;
 	}
 
 	printf("=== Player ===\npos : [%f:%f]\nrot : [%f:%f]\n", game->player->posX, game->player->posY, game->player->dirX, game->player->dirY);
@@ -99,7 +109,7 @@ int	key_hook(int keycode, t_game *game)
 
 	int x = 0;
 	int	y = 0;
-	while (y < 11)
+	while (y < game->mapHeight)
 	{
 		x = 0;
 		while (game->map[y][x])
@@ -139,7 +149,7 @@ int	main(int ac, char **av)
 	game.player->planeX = 0;
 	game.player->planeY = 0.66;
 
-	char *la_map[] = {
+	/*char *la_map[] = {
 	"111111111111111111111111\0",
 	"100000000000000000000001\0",
 	"100000000000000000000001\0",
@@ -152,9 +162,13 @@ int	main(int ac, char **av)
 	"100000000000100000000001\0",
 	"111111111111111111111111\0",
 	"\0"
-	};
+	};*/
 	
-	game.map = la_map;
+	//game.map = la_map;
+	game.lineMap = 0;
+	game.mapLength = 0;
+	game.mapHeight = 0;
+	game.playerStartRot = 0;
 
 	//game.screenHeight = 11 * 64;
 	//game.screenWidth = 24 * 64;
@@ -172,16 +186,16 @@ int	main(int ac, char **av)
 								
 	int x = 0;
 	int	y = 0;
-	while (y < 11)
+	while (y < game.mapHeight)
 	{
 		x = 0;
-		while (la_map[y][x])
+		while (game.map[y][x])
 		{
 			//printf("[%d : %d]\n", x, y);
 			draw_square(&game.img, y * 16, x * 16, 16, 0x000000);
-			if (la_map[y][x] == '1')
+			if (game.map[y][x] == '1')
 				draw_square(&game.img, y * 16, x * 16, 15, 0x00F000);
-			else if (la_map[y][x] == '0')
+			else if (game.map[y][x] == '0')
 				draw_square(&game.img, y * 16, x * 16, 15, 0x0209FF);
 			x++;
 		}
@@ -190,6 +204,7 @@ int	main(int ac, char **av)
 	draw_player(&game.img, game.player);
 
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.img.img, 0, 0);
-	mlx_key_hook(game.mlx_win, key_hook, &game);
+	mlx_hook(game.mlx_win, 17, 0L, &close_game, &game);
+	mlx_hook(game.mlx_win, 2, 1L<<0, key_hook, &game);
 	mlx_loop(game.mlx);
 }

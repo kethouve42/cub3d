@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 16:59:01 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/16 18:15:21 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:33:30 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,25 @@ int ft_isnum(char c)
     if (c >= '0' && c <= '9')
         return (1);
     return (0);
+}
+
+int ft_isalnum(char c)
+{
+	if ((c >= '!' && c <= '~') || (c >= 128 && c <= 255))
+    	return (1);
+	return (0);
+}
+
+int ft_line_empty(char *s)
+{
+	int x;
+	x = 0;
+
+	while (s[x])
+	{
+		if(ft_isalnum(s[x]) == 1)
+			return (1);
+		x++;
+	}
+	return (0);
 }
