@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/18 17:12:55 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:48:24 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,8 @@ int key_release(int keycode, t_game *game)
 
 int player(t_game *game)
 {
+	int tempX;
+	int tempY;
 	if (game->key->rotate_right == 1) // Right arrow key
 	{
 		// Calculer la nouvelle direction après rotation à gauche
@@ -167,23 +169,43 @@ int player(t_game *game)
 	}
 	if (game->key->forward) // W/Z key
 	{
-		game->player->posX += game->player->dirX * MOVE_SPEED;
-		game->player->posY += game->player->dirY * MOVE_SPEED;
+		tempX = (int)(game->player->posX + game->player->dirX * MOVE_SPEED * HITBOX_SIZE);
+		tempY = (int)(game->player->posY + game->player->dirY * MOVE_SPEED * HITBOX_SIZE);
+		if(game->map[tempX][tempY] == '0')
+		{
+			game->player->posX += game->player->dirX * MOVE_SPEED;
+			game->player->posY += game->player->dirY * MOVE_SPEED;
+		}
 	}
 	if (game->key->back) // S key
 	{
-		game->player->posX -= game->player->dirX * MOVE_SPEED;
-		game->player->posY -= game->player->dirY * MOVE_SPEED;
+		tempX = (int)(game->player->posX - game->player->dirX * MOVE_SPEED * HITBOX_SIZE);
+		tempY = (int)(game->player->posY - game->player->dirY * MOVE_SPEED * HITBOX_SIZE);
+		if(game->map[tempX][tempY] == '0')
+		{
+			game->player->posX -= game->player->dirX * MOVE_SPEED;
+			game->player->posY -= game->player->dirY * MOVE_SPEED;
+		}
 	}
 	if (game->key->right) // D key (to the right)
 	{
-		game->player->posX += game->player->dirY * MOVE_SPEED;
-    	game->player->posY -= game->player->dirX * MOVE_SPEED;
+		tempX = (int)(game->player->posX + game->player->dirY * MOVE_SPEED * HITBOX_SIZE);
+    	tempY = (int)(game->player->posY - game->player->dirX * MOVE_SPEED * HITBOX_SIZE);
+		if(game->map[tempX][tempY] == '0')
+		{
+			game->player->posX += game->player->dirY * MOVE_SPEED;
+    		game->player->posY -= game->player->dirX * MOVE_SPEED;
+		}
 	}
 	if (game->key->left) // A/Q key (to the left)
 	{
-		game->player->posX -= game->player->dirY * MOVE_SPEED;
-    	game->player->posY += game->player->dirX * MOVE_SPEED;
+		tempX = (int)(game->player->posX - game->player->dirY * MOVE_SPEED * HITBOX_SIZE);
+    	tempY = (int)(game->player->posY + game->player->dirX * MOVE_SPEED * HITBOX_SIZE);
+		if(game->map[tempX][tempY] == '0')
+		{
+			game->player->posX -= game->player->dirY * MOVE_SPEED;
+	    	game->player->posY += game->player->dirX * MOVE_SPEED;
+		}
 	}
 
 	draw_skyground(game);
@@ -219,6 +241,11 @@ int	main(int ac, char **av)
 		game.player->planeX = 0;
 		game.player->planeY = 0.66;
 
+		game.graphics->textN.img = NULL;
+		game.graphics->textS.img = NULL;
+		game.graphics->textE.img = NULL;
+		game.graphics->textW.img = NULL;
+
 		game.lineMap = 0;
 		game.mapLength = 0;
 		game.mapHeight = 0;
@@ -237,8 +264,7 @@ int	main(int ac, char **av)
 		game.img->addr = mlx_get_data_addr(game.img->img, &game.img->bits_per_pixel, &game.img->line_length,
 									&game.img->endian);
 	}
-	if (map_analysis(&game, av[1]) == 1)
-		return (1);
+	map_analysis(&game, av[1]);
 
 	draw_skyground(&game);
 	raycast(&game);				

@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/18 17:14:08 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/18 19:55:36 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void draw_skyground(t_game *game)
 	}
 }
 
-// V1 qui bugge un peu
 void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, double wallX, int side, int lineHeight, int rayDirX, int rayDirY, int mapSide)
 {
 	t_img   *tex;
@@ -77,16 +76,12 @@ void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, doub
 
     for (int y = drawStart; y < drawEnd; y++)
     {
-		int d = y * 256 - (11 * 32) * 256 + lineHeight * 128;     // <======== 11*32 c'est la MOITIE de la taille de l'ecran
+		int d = y * 256 - (11 * 32) * 256 + lineHeight * 128;     // <======== 11*32 c'est la MOITIE de la taille de l'ecran, a remplacer par screenHeight
         int texY = ((d * tex->height) / lineHeight) / 256;
 
 		unsigned int color;
 		if (texX >= 0 && texX < tex->width && texY >= 0 && texY < tex->height)
-        {
             color = tex->data[texY * tex->width + texX];
-        }
-    	else
-			close_game(game, "texture out of range");
 		
 		my_mlx_pixel_put(game->img, y, x, color);
     }
@@ -101,7 +96,7 @@ void raycast(t_game *game)
 	int x = 0;
 
 	// Pour chaque colonne X de pixel de la fenetre...
-	while (x < (24 * 64))
+	while (x < (screenWidth))
 	{
 		// Calcul le rayon (position et direction X et Y)
 		double cameraX = 2 * x / (double)screenWidth - 1; // position du rayon sur le plan caméra
@@ -198,7 +193,6 @@ void raycast(t_game *game)
 			else
 				mapSide = 2; // Est
 		}
-		
 
         // Dessiner la ligne texturée pour le mur
         draw_textured_wall(game, x, drawStart, drawEnd, wallX, side, lineHeight, rayDirX, rayDirY, mapSide);
