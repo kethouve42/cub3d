@@ -14,7 +14,8 @@ FILES = cub3d.c\
 		parse.c\
 		get_next_line.c\
 		utils1.c\
-		utils2.c
+		utils2.c\
+		utils3.c
 
 OBJ = $(addprefix $(SRCS), $(FILES:.c=.o))
 

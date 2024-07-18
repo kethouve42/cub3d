@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/17 21:13:35 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:14:08 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void draw_skyground(t_game *game)
 	ground = convert_rgb_to_int(game->graphics->color_ground[0], game->graphics->color_ground[1], game->graphics->color_ground[2]);
 	sky = convert_rgb_to_int(game->graphics->color_sky[0], game->graphics->color_sky[1], game->graphics->color_sky[2]);
 
-	//printf("sky : %x   -   ground : %x\n", sky, ground);
-
 	int	x = 0;
 	int	y = 0;
 	while (y < screenHeight)
@@ -38,25 +36,18 @@ void draw_skyground(t_game *game)
 		while (x < screenWidth)
 		{
 			if (y > screenHeight / 2)
-				my_mlx_pixel_put(&game->img, y, x, ground);
+				my_mlx_pixel_put(game->img, y, x, ground);
 			else
-				my_mlx_pixel_put(&game->img, y, x, sky);
+				my_mlx_pixel_put(game->img, y, x, sky);
 			x++;
 		}
 		y++;
 	}
-	//printf("skyground ended\n");
 }
 
-//                                   MOI
 // V1 qui bugge un peu
 void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, double wallX, int side, int lineHeight, int rayDirX, int rayDirY, int mapSide)
 {
-	//t_img   *tex = &game->textures[texNum];
-	
-	//printf("rayDirX = %d   |   rayDirY = %d\n", rayDirX, rayDirY);
-	//printf("NS : %d\n", NS);
-
 	t_img   *tex;
 	if(side == 1)
 	{
@@ -74,9 +65,13 @@ void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, doub
 	}
 	
 	// Select where in the x-axis in texture
-    int     texX = (int)(wallX * (double)tex->width);
-	if (side == 0 && rayDirX > 0) texX = tex->width - texX - 1;
-    if (side == 1 && rayDirY < 0) texX = tex->width - texX - 1;
+    int     texX = (int)(wallX * (double)(tex->width));
+	if(side == 1 && mapSide == 1)
+		texX = tex->width - texX - 1;
+	if(side == 0 && mapSide == 2)
+		texX = tex->width - texX - 1;
+
+	//printf("textX : %d -> %d        rayX : %d  rayY : %d, side : %d\n", texX, (int)(wallX * (double)(tex->width)), rayDirX, rayDirY, side);
 
 	//printf("tex w %d, tex h %d\n", tex->width, tex->height);
 
@@ -91,19 +86,14 @@ void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, doub
             color = tex->data[texY * tex->width + texX];
         }
     	else
-        {
-    		printf("Texture coordinates out of bounds: texX: %d, texY: %d\n", texX, texY);
-        	color = 0xFF0000;
-        }
+			close_game(game, "texture out of range");
 		
-		my_mlx_pixel_put(&game->img, y, x, color);
+		my_mlx_pixel_put(game->img, y, x, color);
     }
 }
 
 void raycast(t_game *game)
 {
-
-	//printf("debut raycast\n");
 	// Dimensions ecran
 	int screenWidth = 24 * 64;
 	int screenHeight = 11 * 64;
@@ -171,7 +161,6 @@ void raycast(t_game *game)
 			// Vérifier si un mur a été touché
 			if(game->map[mapX][mapY] != '0')
 				hit = 1;
-				//printf("HIT AT {%d - %d}\n", mapX, mapY);
 		}
 
 		// Calculer le rendu en cas d'inclinaison du plan camera vis-a-vis du mur
@@ -214,8 +203,6 @@ void raycast(t_game *game)
         // Dessiner la ligne texturée pour le mur
         draw_textured_wall(game, x, drawStart, drawEnd, wallX, side, lineHeight, rayDirX, rayDirY, mapSide);
 		
-		//printf("END LOOP\n");
 		x++;
 	}
-	//printf("END RAYCAST\n");
 }

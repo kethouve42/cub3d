@@ -6,14 +6,14 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 15:56:15 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/17 21:21:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:15:58 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Compte le nombre de lignes d'un fichier */
-int	get_lines(char *map_path)
+int	get_lines(t_game *game, char *map_path)
 {
 	int		fd;
 	int		i;
@@ -21,10 +21,7 @@ int	get_lines(char *map_path)
 
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1)
-	{
-		printf("Error\nFichier .cub non trouvé\n");
-		return (-1);
-	}
+		close_game(game, "Fichier .cub non trouvé");
 	i = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -37,6 +34,7 @@ int	get_lines(char *map_path)
 	return (i);
 }
 
+/* Retoure une copie du fichier indique, en sautat les 'overrides' premieres lignes */
 char **copy_map(char *map_path, t_game *game, int file_size, int override)
 {
 	char	**map;
@@ -46,12 +44,14 @@ char **copy_map(char *map_path, t_game *game, int file_size, int override)
 	fd = open(map_path, O_RDONLY);
 	if (fd == -1)
 		return NULL;
-	map = ft_calloc(sizeof(char *), file_size);
+	map = ft_calloc(sizeof(char *), file_size + 1);
 	i = 0;
+    char *buff;
 
     while(override > 0)
     {
-        get_next_line(fd);
+        buff = get_next_line(fd);
+        free(buff);
         override--;
     }
 
@@ -69,19 +69,17 @@ char **copy_map(char *map_path, t_game *game, int file_size, int override)
 void    load_texture(t_game *game, t_img *texture, char *file_path)
 {
     file_path[ft_strlen(file_path) - 1] = '\0';
-    printf("%s\n", file_path);
     texture->img = mlx_xpm_file_to_image(game->mlx, file_path, &texture->width, &texture->height);
     if (!texture->img)
     {
         fprintf(stderr, "Failed to load texture: %s\n", file_path);
-        exit(EXIT_FAILURE);
+        close_game(game, NULL);
     }
 	//printf("load texture w: %d h:%d\n", texture->width, texture->height);
     texture->data = (int *)mlx_get_data_addr(texture->img, &texture->bits_per_pixel, &texture->size_l, &texture->endian);
 }
 
 /* C'est moche, mais ca marche ! */
-//! et faudra check si entre 0 et 255
 int    parse_color(t_game *game, char *str, char c)
 {
     while(*str == ' ')
@@ -89,45 +87,71 @@ int    parse_color(t_game *game, char *str, char c)
     if(ft_isnum(*str))
     {
         if (c == 'C')
+        {
             game->graphics->color_sky[0] = ft_atoi(str);
+            if (game->graphics->color_sky[0] < 0 || game->graphics->color_sky[0] > 255)
+                return (printf("color value error\n"), 1);
+        }
         else
+        {
             game->graphics->color_ground[0] = ft_atoi(str);
+            if (game->graphics->color_ground[0] < 0 || game->graphics->color_ground[0] > 255)
+                return (printf("color value error\n"), 1);
+        }
     }
     else
-        return (printf("sytax color error\n"));
+        return (printf("syntax color error\n"), 1);
     while(ft_isnum(*str))
         str++;
     if(*str != ',')
-        return (printf("sytax color error\n"));
+        return (printf("syntax color error\n"), 1);
     str++;
     if(ft_isnum(*str))
     {
         if (c == 'C')
+        {
             game->graphics->color_sky[1] = ft_atoi(str);
+            if (game->graphics->color_sky[1] < 0 || game->graphics->color_sky[1] > 255)
+                return (printf("color value error\n"), 1);
+        }
         else
+        {
             game->graphics->color_ground[1] = ft_atoi(str);
+            if (game->graphics->color_ground[1] < 0 || game->graphics->color_ground[1] > 255)
+                return (printf("color value error\n"), 1);
+        }
     }
     else
-        return (printf("sytax color error\n"));
+        return (printf("syntax color error\n"), 1);
     while(ft_isnum(*str))
         str++;
     if(*str != ',')
-        return (printf("sytax color error\n"));
+        return (printf("syntax color error\n"), 1);
     str++;
     if(ft_isnum(*str))
     {
         if (c == 'C')
+        {
             game->graphics->color_sky[2] = ft_atoi(str);
+            if (game->graphics->color_sky[2] < 0 || game->graphics->color_sky[2] > 255)
+                return (printf("color value error\n"), 1);
+        }
         else
+        {
             game->graphics->color_ground[2] = ft_atoi(str);
+            if (game->graphics->color_ground[2] < 0 || game->graphics->color_ground[2] > 255)
+                return (printf("color value error\n"), 1);
+        }
     }
     else
-        return (printf("sytax color error\n"));
+    {
+        return (printf("syntax color error\n"), 1);
 
-    if(c == 'C')
-        printf("Sky color : %d,%d,%d\n", game->graphics->color_sky[0], game->graphics->color_sky[1], game->graphics->color_sky[2]);
-    else
-        printf("Ground color : %d,%d,%d\n", game->graphics->color_ground[0], game->graphics->color_ground[1], game->graphics->color_ground[2]);
+    }
+    //if(c == 'C')
+        //printf("Sky color : %d,%d,%d\n", game->graphics->color_sky[0], game->graphics->color_sky[1], game->graphics->color_sky[2]);
+    //else
+        //printf("Ground color : %d,%d,%d\n", game->graphics->color_ground[0], game->graphics->color_ground[1], game->graphics->color_ground[2]);
     return 0;
 }
 
@@ -181,14 +205,14 @@ int check_texture(t_game *game)
             }
             else if(ft_strncmp(game->cubfile[i] + j, "F", 1) == 0)
             {
-                parse_color(game, game->cubfile[i] + j + 1, 'F');
-                check += 10000;
+                if (parse_color(game, game->cubfile[i] + j + 1, 'F') == 0)
+                    check += 10000;
                 break;
             }
             else if(ft_strncmp(game->cubfile[i] + j, "C", 1) == 0)
             {
-                parse_color(game, game->cubfile[i] + j + 1, 'C');
-                check += 100000;
+                if (parse_color(game, game->cubfile[i] + j + 1, 'C') == 0)
+                    check += 100000;
                 break;
             }
             else if(ft_isalnum(game->cubfile[i][j]) == 1)
@@ -244,21 +268,51 @@ int is_valid_coord(t_game *game, char **map, int x, int y)
     return (0);
 }
 
+void set_player_rot(t_game *game)
+{
+    if (game->playerStartRot == 1) // Nord
+    {
+        game->player->dirX = -1;
+	    game->player->dirY = 0;
+	    game->player->planeX = 0;
+	    game->player->planeY = 0.66;
+    }
+    else if(game->playerStartRot == 2) // Est
+    {
+        game->player->dirX = 0;
+	    game->player->dirY = 1;
+	    game->player->planeX = 0.66;
+	    game->player->planeY = 0;
+    }
+    else if(game->playerStartRot == 3) // Sud
+    {
+        game->player->dirX = 1;
+	    game->player->dirY = 0;
+	    game->player->planeX = 0;
+	    game->player->planeY = -0.66;
+    }
+    else if(game->playerStartRot == 4) // Ouest
+    {
+        game->player->dirX = 0;
+	    game->player->dirY = -1;
+	    game->player->planeX = -0.66;
+	    game->player->planeY = 0;
+    }
+}
+
 int check_map(t_game *game, char *map_path, int file_size)
 {
     char **map;
 
     while(ft_line_empty(game->cubfile[game->lineMap]) == 0)
-    {
-        //printf("jump line\n");
         game->lineMap++;
-    }
+
     map = copy_map(map_path, game, file_size - game->lineMap, game->lineMap);
     
     //calcul de length et height
     int y = 0;
     game->mapHeight = file_size - game->lineMap;
-    while (map[y])
+    while (y < game->mapHeight)
     {
         if(ft_strlen(map[y]) - 1 > game->mapLength)
         {
@@ -270,18 +324,18 @@ int check_map(t_game *game, char *map_path, int file_size)
         y++;
     }
 
-    printf("\nCopyMap [%d:%d] :\n", game->mapLength, game->mapHeight);
-    display_map(map);
-
     // check si ligne vide en plein milieu de map
     y = 0;
     int check = 1;
-    while(map[y])
+    while(y < game->mapHeight)
     {
         if(ft_line_empty(map[y]) == 1)
         {
             if (check == 0)
-                return (printf("error: empty line in map (line %d)\n", y + 1), 1);
+            {
+                printf("Error\nEmpty line in map (line %d)\n", y + 1);
+                close_game(game);
+            }
             check = 1;
         }
         else
@@ -292,7 +346,7 @@ int check_map(t_game *game, char *map_path, int file_size)
     int x = 0;
     y = 0;
 
-    while(map[y])
+    while(y < game->mapHeight)
     {
         x = 0;
         while(map[y][x])
@@ -309,10 +363,12 @@ int check_map(t_game *game, char *map_path, int file_size)
                     {
                         if (map[y][x] != '0')
                         {
-                            printf("Player : %c into [%d:%d]\n", map[y][x], x + 1, y + 1);
-
+                            //printf("Player : %c into [%d:%d]\n", map[y][x], x + 1, y + 1);
                             if(game->playerStartRot != 0)
-                                return (printf("error : two or more player found\n"), 1);
+                            {
+                                printf("error : two or more player found\n");
+                                close_game(game);
+                            }
                             game->player->posX = y;
                             game->player->posY = x;
                             if (map[y][x] == 'N')
@@ -331,37 +387,94 @@ int check_map(t_game *game, char *map_path, int file_size)
             else
             {
                 printf("error: wrong char at %d:%d (%c found)\n", x, y, map[y][x]);
+                close_game(game);
             }
             x++;
         }
         y++;
     }
+    set_player_rot(game);
+
     if(game->playerStartRot == 0)
-        return (printf("error : no player found\n"), 1);
+    {
+        printf("error : no player found\n");
+        close_game(game);
+    }
     game->map = map;
     return (0);
 }
 
+void	pathfinding(char **map, int x, int y)
+{
+	map[y][x] = '1';
+	if (map[y + 1][x] == '0')
+		pathfinding(map, x, y + 1);
+	if (map[y][x + 1] == '0')
+		pathfinding(map, x + 1, y);
+	if (map[y][x - 1] == '0')
+		pathfinding(map, x - 1, y);
+	if (map[y - 1][x] == '0')
+		pathfinding(map, x, y - 1);
+}
+
+int	check_all_one(t_game *game, char **test_map)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < game->mapHeight)
+	{
+		x = 0;
+		while (x < ft_strlen(test_map[y]))
+		{
+			if (test_map[y][x] != '1' && test_map[y][x] != ' ' && test_map[y][x] != '\n')
+			{
+				printf("error: Une zone de la map n'est pas accessible '%c' at [%d:%d]\n", test_map[y][x], x+1, y+1);
+				close_game(game);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+int	check_path(t_game *game, char *map_path, int file_size)
+{
+	char	**test_map;
+	int		y;
+	int		x;
+
+	test_map = copy_map(map_path, game, file_size - game->lineMap, game->lineMap);
+
+	pathfinding(test_map, (int)game->player->posY, (int)game->player->posX);
+	if (check_all_one(game, test_map) == 1)
+		return (1);
+	free_tab(test_map);
+	return (0);
+}
+
 int	map_analysis(t_game *game, char *map_path)
 {
-	int	check;
     int file_size;
 
-    file_size = get_lines(map_path);
+    int i = ft_strlen(map_path) - 1;
+    if (map_path[i] != 'b' || map_path[i-1] != 'u' || map_path[i-2] != 'c' || map_path[i-3] != '.')
+    {
+        printf("Error\n%s is not a .cub file\n", map_path);
+        close_game(game);
+    }
+
+
+    file_size = get_lines(game, map_path);
     game->cubfile = copy_map(map_path, game, file_size, 0);
 
-    //display_map(game->cubfile);
-
-	check = 0;
-    check += check_texture(game);
-    check += check_map(game, map_path, file_size);
-
-	// PATHFINDING
+    if(check_texture(game) == 1)
+        return (printf("Contenu de la map incorrect\n"), 1);
+    if (check_map(game, map_path, file_size) == 1)
+        return (printf("Contenu de la map incorrect\n"), 1);
+    if (check_path(game, map_path, file_size) == 1)
+        return (printf("Contenu de la map incorrect\n"), 1);
     
-	if (check > 0)
-	{
-		//printf("Contenu de la map incorrect\n");
-		return (1);
-	}
 	return (0);
 }
