@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:28:02 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/18 15:15:23 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:02:43 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,12 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+/* Skip all non-alphanumeric characters */
+char	*skip_empty(char *str)
+{
+	while (!ft_isalnum(*str))
+		str++;
+	return (str);
 }

@@ -10,9 +10,12 @@ CFLAGS = -lm -g
 MLXFLAGS = -Werror -Wall -Wextra -lX11 -lXext -lm
 
 FILES = cub3d.c\
-		raycast.c\
-		parse.c\
 		get_next_line.c\
+		graphic_info.c\
+		graphic_info_bis.c\
+		parse.c\
+		player.c\
+		raycast.c\
 		utils1.c\
 		utils2.c\
 		utils3.c

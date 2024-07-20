@@ -6,36 +6,35 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/18 19:55:36 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:48:05 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "cub3d.h"
+#include "cub3d.h"
 
-int convert_rgb_to_int(int r, int g, int b)
+int	convert_rgb_to_int(int r, int g, int b)
 {
-    return (r << 16) | (g << 8) | b;
+	return ((r << 16) | (g << 8) | b);
 }
 
-void draw_skyground(t_game *game)
+void	draw_skyground(t_game *game)
 {
-	int screenWidth = 24 * 64;
-	int screenHeight = 11 * 64;
+	int	ground;
+	int	sky;
+	int	x;
+	int	y;
 
-	int ground;
-	int sky;
-
-	ground = convert_rgb_to_int(game->graphics->color_ground[0], game->graphics->color_ground[1], game->graphics->color_ground[2]);
-	sky = convert_rgb_to_int(game->graphics->color_sky[0], game->graphics->color_sky[1], game->graphics->color_sky[2]);
-
-	int	x = 0;
-	int	y = 0;
-	while (y < screenHeight)
+	ground = convert_rgb_to_int(game->graphics->color_ground[0],
+			game->graphics->color_ground[1], game->graphics->color_ground[2]);
+	sky = convert_rgb_to_int(game->graphics->color_sky[0],
+			game->graphics->color_sky[1], game->graphics->color_sky[2]);
+	y = 0;
+	while (y < game->graphics->screen_height)
 	{
 		x = 0;
-		while (x < screenWidth)
+		while (x < game->graphics->screen_lenght)
 		{
-			if (y > screenHeight / 2)
+			if (y > game->graphics->screen_height / 2)
 				my_mlx_pixel_put(game->img, y, x, ground);
 			else
 				my_mlx_pixel_put(game->img, y, x, sky);
@@ -45,158 +44,154 @@ void draw_skyground(t_game *game)
 	}
 }
 
-void    draw_textured_wall(t_game *game, int x, int drawStart, int drawEnd, double wallX, int side, int lineHeight, int rayDirX, int rayDirY, int mapSide)
+void	draw_textured_wall(t_game *game, int x, int draw_start, int draw_end, double wall_x, int side, int line_height, int map_side) // A modfier au decoupage de raycast
 {
-	t_img   *tex;
-	if(side == 1)
+	unsigned int	color;
+	t_img			*tex;
+	int				tex_x;
+	int				tex_y;
+	int				y;
+	int				d;
+
+	if (side == 1)
 	{
-		if (mapSide == 1)
-			tex = &game->graphics->textW; //redbrick
+		if (map_side == 1)
+			tex = &game->graphics->text_w; //redbrick
 		else
-			tex = &game->graphics->textE; //mossy
+			tex = &game->graphics->text_e; //mossy
 	}
 	else
 	{
-		if (mapSide == 1)
-			tex = &game->graphics->textN; //wood
+		if (map_side == 1)
+			tex = &game->graphics->text_n; //wood
 		else
-			tex = &game->graphics->textS; //stone
+			tex = &game->graphics->text_s; //stone
 	}
-	
 	// Select where in the x-axis in texture
-    int     texX = (int)(wallX * (double)(tex->width));
-	if(side == 1 && mapSide == 1)
-		texX = tex->width - texX - 1;
-	if(side == 0 && mapSide == 2)
-		texX = tex->width - texX - 1;
-
-	//printf("textX : %d -> %d        rayX : %d  rayY : %d, side : %d\n", texX, (int)(wallX * (double)(tex->width)), rayDirX, rayDirY, side);
-
-	//printf("tex w %d, tex h %d\n", tex->width, tex->height);
-
-    for (int y = drawStart; y < drawEnd; y++)
-    {
-		int d = y * 256 - (11 * 32) * 256 + lineHeight * 128;     // <======== 11*32 c'est la MOITIE de la taille de l'ecran, a remplacer par screenHeight
-        int texY = ((d * tex->height) / lineHeight) / 256;
-
-		unsigned int color;
-		if (texX >= 0 && texX < tex->width && texY >= 0 && texY < tex->height)
-            color = tex->data[texY * tex->width + texX];
-		
+	tex_x = (int)(wall_x * (double)(tex->width));
+	if (side == 1 && map_side == 1)
+		tex_x = tex->width - tex_x - 1;
+	if (side == 0 && map_side == 2)
+		tex_x = tex->width - tex_x - 1;
+	y = draw_start;
+	while (y < draw_end)
+	{
+		d = y * 256 - (game->graphics->screen_height / 2)
+			* 256 + line_height * 128;
+		tex_y = ((d * tex->height) / line_height) / 256;
+		if (tex_x >= 0 && tex_x < tex->width && tex_y >= 0
+			&& tex_y < tex->height)
+			color = tex->data[tex_y * tex->width + tex_x];
 		my_mlx_pixel_put(game->img, y, x, color);
-    }
+		y++;
+	}
 }
 
-void raycast(t_game *game)
+void	raycast(t_game *game)
 {
-	// Dimensions ecran
-	int screenWidth = 24 * 64;
-	int screenHeight = 11 * 64;
-
-	int x = 0;
+	int x;
 
 	// Pour chaque colonne X de pixel de la fenetre...
-	while (x < (screenWidth))
+	x = 0;
+	while (x < (game->graphics->screen_lenght))
 	{
 		// Calcul le rayon (position et direction X et Y)
-		double cameraX = 2 * x / (double)screenWidth - 1; // position du rayon sur le plan caméra
-		double rayDirX = game->player->dirX + game->player->planeX * cameraX;
-		double rayDirY = game->player->dirY + game->player->planeY * cameraX;
+		double camera_x = 2 * x / (double)game->graphics->screen_lenght - 1; // position du rayon sur le plan caméra
+		double ray_dir_x = game->player->dir_x + game->player->plane_x * camera_x;
+		double ray_dir_y = game->player->dir_y + game->player->plane_y * camera_x;
 
 		// Quelle case de la carte le joueur occupe
-		int mapX = (int)game->player->posX;
-		int mapY = (int)game->player->posY;
+		int map_x = (int)game->player->pos_x;
+		int map_y = (int)game->player->pos_y;
 
 		//  =========================== DDA , faut pas chercher a comprendre pk =============================
 		// Longueur du rayon de la position actuelle au prochain x ou y
-		double sideDistX;
-		double sideDistY;
+		double side_dist_x;
+		double side_dist_y;
 
 		// Longueur du rayon d'un x ou y à l'autre
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-		double perpWallDist;
+		double delta_dist_x = fabs(1 / ray_dir_x);
+		double delta_dist_y = fabs(1 / ray_dir_y);
+		double perp_wall_dist;
 
 		// Direction à prendre en x et y (1 ou -1)
-		int stepX;
-		int stepY;
+		int step_x;
+		int step_y;
 
 		int hit = 0; // A-t-on touché un mur ?
 		int side; // Était-ce un mur vertical ou horizontal ?
 		
 		// Calculer la distance initiale aux côtés
-		if(rayDirX < 0) {
-			stepX = -1;
-			sideDistX = (game->player->posX - mapX) * deltaDistX;
+		if (ray_dir_x < 0) {
+			step_x = -1;
+			side_dist_x = (game->player->pos_x - map_x) * delta_dist_x;
 		} else {
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - game->player->posX) * deltaDistX;
+			step_x = 1;
+			side_dist_x = (map_x + 1.0 - game->player->pos_x) * delta_dist_x;
 		}
-		if(rayDirY < 0) {
-			stepY = -1;
-			sideDistY = (game->player->posY - mapY) * deltaDistY;
+		if (ray_dir_y < 0) {
+			step_y = -1;
+			side_dist_y = (game->player->pos_y - map_y) * delta_dist_y;
 		} else {
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - game->player->posY) * deltaDistY;
+			step_y = 1;
+			side_dist_y = (map_y + 1.0 - game->player->pos_y) * delta_dist_y;
 		}
 		
 		// DDA (Digital Differential Analysis)
-		while(hit == 0) // ================> Ici, mettre une limite max pour avoir une render distance
+		while (hit == 0)
 		{
 			// Aller au prochain carré
-			if(sideDistX < sideDistY) {
-				sideDistX += deltaDistX;
-				mapX += stepX;
+			if (side_dist_x < side_dist_y) {
+				side_dist_x += delta_dist_x;
+				map_x += step_x;
 				side = 0;
 			} else {
-				sideDistY += deltaDistY;
-				mapY += stepY;
+				side_dist_y += delta_dist_y;
+				map_y += step_y;
 				side = 1;
 			}
 			// Vérifier si un mur a été touché
-			if(game->map[mapX][mapY] != '0')
+			if (game->map[map_x][map_y] != '0')
 				hit = 1;
 		}
 
 		// Calculer le rendu en cas d'inclinaison du plan camera vis-a-vis du mur
-		if(side == 0) perpWallDist = (mapX - game->player->posX + (1 - stepX) / 2) / rayDirX;
-		else          perpWallDist = (mapY - game->player->posY + (1 - stepY) / 2) / rayDirY;
+		if (side == 0) perp_wall_dist = (map_x - game->player->pos_x + (1 - step_x) / 2) / ray_dir_x;
+		else          perp_wall_dist = (map_y - game->player->pos_y + (1 - step_y) / 2) / ray_dir_y;
 
 		// Calculer la hauteur de ligne pour le dessin
-		int lineHeight = (int)(screenHeight / perpWallDist);
+		int line_height = (int)(game->graphics->screen_height / perp_wall_dist);
 
 		// Calculer les valeurs de début et de fin de dessin
-		int drawStart = -lineHeight / 2 + screenHeight / 2;
-		if(drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + screenHeight / 2;
-		if(drawEnd >= screenHeight) drawEnd = screenHeight - 1;
+		int draw_start = -line_height / 2 + game->graphics->screen_height / 2;
+		if (draw_start < 0) draw_start = 0;
+		int draw_end = line_height / 2 + game->graphics->screen_height / 2;
+		if (draw_end >= game->graphics->screen_height) draw_end = game->graphics->screen_height - 1;
 
 		// Choisir la texture basée sur le côté et le mur touché
-        int texNum = game->map[mapX][mapY] - 49; // -49 car c'est des char qu'on convertit en int, donc -48 (et -1 pour que text1 = la 1ere texture)
-        double wallX; // position exacte où le mur a été touché
-        if (side == 0) wallX = game->player->posY + perpWallDist * rayDirY;
-        else           wallX = game->player->posX + perpWallDist * rayDirX;
-        wallX -= floor((wallX));
+        int tex_num = game->map[map_x][map_y] - 49; // -49 car c'est des char qu'on convertit en int, donc -48 (et -1 pour que text1 = la 1ere texture)
+        double wall_x; // position exacte où le mur a été touché
+        if (side == 0) wall_x = game->player->pos_y + perp_wall_dist * ray_dir_y;
+        else           wall_x = game->player->pos_x + perp_wall_dist * ray_dir_x;
+        wall_x -= floor((wall_x));
 
-		int mapSide;
-		if(side == 0)
+		int map_side;
+		if (side == 0)
 		{
-			if(mapX < game->player->posX)
-				mapSide = 1; // nord
+			if (map_x < game->player->pos_x)
+				map_side = 1; // nord
 			else
-				mapSide = 2; // sud
+				map_side = 2; // sud
 		}
 		else
 		{
-			if(mapY < game->player->posY)
-				mapSide = 1; // Ouest
+			if (map_y < game->player->pos_y)
+				map_side = 1; // Ouest
 			else
-				mapSide = 2; // Est
+				map_side = 2; // Est
 		}
-
         // Dessiner la ligne texturée pour le mur
-        draw_textured_wall(game, x, drawStart, drawEnd, wallX, side, lineHeight, rayDirX, rayDirY, mapSide);
-		
+        draw_textured_wall(game, x, draw_start, draw_end, wall_x, side, line_height, map_side);
 		x++;
 	}
 }
