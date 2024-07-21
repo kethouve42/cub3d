@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/20 21:49:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:21:34 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define ROT_SPEED 0.02 // Vitesse de rotation
-# define MOVE_SPEED 0.04 // Vitesse de deplacement
-# define HITBOX_SIZE 2 // Taille du joueur
+# define ROT_SPEED 0.02
+# define MOVE_SPEED 0.04
+# define HITBOX_SIZE 2
 
 typedef struct s_img {
 	void	*img;
@@ -60,6 +60,32 @@ typedef struct s_key
 	int	rotate_right;
 }	t_key;
 
+typedef struct s_raycast
+{
+	int		x;
+	double	camera_x;
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	double	delta_dist_x;
+	double	delta_dist_y;
+	double	perp_wall_dist;
+	int		step_x;
+	int		step_y;
+	int		hit;
+	int		side;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
+	int		tex_num;
+	double	wall_x;
+	int		map_side;
+
+}		t_raycast;
+
 typedef struct s_graphics
 {
 	t_img	text_n;
@@ -88,18 +114,25 @@ typedef struct s_game
 	t_player	*player;
 }				t_game;
 
-
 /* ============== FONCTIONS NON CLASSEES ==============*/
 void	raycast(t_game *game);
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 char	*get_next_line(int fd);
-void	map_analysis(t_game *game, char *map_path);
-void	load_texture(t_game *game, t_img *texture, char *file_path);
 int		close_game(t_game *game, char *error_msg);
+
+/* ===================== PARSING ====================*/
+void	map_analysis(t_game *game, char *map_path);
+void	check_map(t_game *game, char *map_path, int file_size);
+void	load_texture(t_game *game, t_img *texture, char *file_path);
 int		convert_rgb_to_int(int r, int g, int b);
 void	check_graphics(t_game *game);
 void	parse_color(t_game *game, char *str, char c);
+void	check_path(t_game *game, char *map_path, int file_size);
+char	**copy_map(char *map_path, t_game *game, int file_size, int override);
+int		is_valid_char(char c);
+int		is_valid_coord(t_game *game, char **map, int x, int y);
+void	set_player_rot(t_game *game);
 
 /* ===================== PLAYER ====================*/
 int		player(t_game *game);
@@ -119,6 +152,8 @@ int		ft_isalnum(char c);
 int		ft_line_empty(char *s);
 void	free_tab(char **tab);
 char	*skip_empty(char *str);
+int		get_lines(t_game *game, char *map_path);
+char	**copy_map(char *map_path, t_game *game, int file_size, int override);
 
 /* ===================== DEBUG ====================*/
 void	display_map(char **map);

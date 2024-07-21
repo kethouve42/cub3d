@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/20 20:01:07 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:56:46 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,23 @@ void	graphic_init(t_game *game)
 	game->img->addr = mlx_get_data_addr(game->img->img,
 			&game->img->bits_per_pixel, &game->img->line_length,
 			&game->img->endian);
+}
+
+/* Retrieve all information from the .cub file */
+void	map_analysis(t_game *game, char *map_path)
+{
+	int	file_size;
+	int	i;
+
+	i = ft_strlen(map_path) - 1;
+	if (map_path[i] != 'b' || map_path[i - 1] != 'u'
+		|| map_path[i - 2] != 'c' || map_path[i - 3] != '.')
+		close_game(game, "need a .cub file");
+	file_size = get_lines(game, map_path);
+	game->cubfile = copy_map(map_path, game, file_size, 0);
+	check_graphics(game);
+	check_map(game, map_path, file_size);
+	check_path(game, map_path, file_size);
 }
 
 int	main(int ac, char **av)
