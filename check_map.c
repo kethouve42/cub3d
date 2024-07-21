@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 17:00:10 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:30:41 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 /* Retrieve the map and check its validity */
 void	check_map(t_game *game, char *map_path, int file_size)
 {
-	char	**map;
 	int		y;
 
 	while (game->cubfile[game->line_map]
@@ -110,17 +109,17 @@ void	check_map(t_game *game, char *map_path, int file_size)
 		game->line_map++;
 	if (game->cubfile[game->line_map] == NULL)
 		close_game(game, "No maps found");
-	map = copy_map(map_path, game, file_size - game->line_map, game->line_map);
-	get_map_dimensions(game, file_size, map);
-	check_map_empty_line(game, map);
+	game->map = copy_map(map_path, game, file_size
+			- game->line_map, game->line_map);
+	get_map_dimensions(game, file_size, game->map);
+	check_map_empty_line(game, game->map);
 	y = 0;
 	while (y < game->map_height)
 	{
-		explore_map_value(game, map, 0, y);
+		explore_map_value(game, game->map, 0, y);
 		y++;
 	}
 	set_player_rot(game);
 	if (game->player_start_rot == 0)
 		close_game(game, "error : no player found");
-	game->map = map;
 }

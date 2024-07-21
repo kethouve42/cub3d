@@ -6,19 +6,18 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/21 16:56:46 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:41:00 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	my_mlx_pixel_put(t_img *img, int y, int x, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-}
+/* ========================================================================== */
+/* ================================ MINIMAP ================================= */
+/* ========================================================================== */
+/* =========== These 3 functions allow the display of the minimap =========== */
+/* ============== Call minimap(game) in player() to display it ============== */
+/* ========================================================================== */
 
 /*void	draw_square(t_img *img, int y_start, int x_start, int size, int color)
 {
@@ -37,22 +36,22 @@ void	my_mlx_pixel_put(t_img *img, int y, int x, int color)
 		}
 		y++;
 	}
-}*/
+}
 
-/*void	draw_player(t_img *img, t_player *player)
+void	draw_player(t_img *img, t_player *player)
 {
-	draw_square(img, player->posX * 16, player->posY * 16,
-		player->size, player->color);
-}*/
+	draw_square(img, player->pos_x * 16, player->pos_y * 16,
+		10, 0x80d402);
+}
 
-/*int	minimap(t_game *game)
+int	minimap(t_game *game)
 {
 	int	x;
 	int	y;
 
 	x = 0;
 	y = 0;
-	while (y < game->mapHeight)
+	while (y < game->map_height)
 	{
 		x = 0;
 		while (game->map[y][x])
@@ -73,38 +72,6 @@ void	my_mlx_pixel_put(t_img *img, int y, int x, int color)
 	}
 	draw_player(game->img, game->player);
 }*/
-
-void	free_image(t_game *game, t_img *img)
-{
-	if (img->img)
-		mlx_destroy_image(game->mlx, img->img);
-}
-
-/* Free everything that has been allocated and exit the program */
-int	close_game(t_game *game, char *error_msg)
-{
-	if (error_msg)
-		printf("Error\n%s\n", error_msg);
-	if (game->cubfile)
-		free_tab(game->cubfile);
-	if (game->map)
-		free_tab(game->map);
-	free(game->key);
-	if (game->img->img)
-		mlx_destroy_image(game->mlx, game->img->img);
-	free_image(game, &game->graphics->text_n);
-	free_image(game, &game->graphics->text_s);
-	free_image(game, &game->graphics->text_e);
-	free_image(game, &game->graphics->text_w);
-	free(game->graphics);
-	free(game->player);
-	free(game->img);
-	mlx_destroy_window(game->mlx, game->mlx_win);
-	mlx_destroy_display(game->mlx);
-	free(game->mlx);
-	printf("End\n");
-	exit(0);
-}
 
 /* Update player placements and display
    The speed is divided by 2 in case of diagonal movement */
@@ -208,9 +175,9 @@ int	main(int ac, char **av)
 	draw_skyground(&game);
 	raycast(&game);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.img->img, 0, 0);
-	mlx_hook(game.mlx_win, 17, 0L, &close_game, &game);
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_press, &game);
 	mlx_loop_hook(game.mlx, player, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_release, &game);
+	mlx_hook(game.mlx_win, 17, 0L, &red_cross, &game);
 	mlx_loop(game.mlx);
 }

@@ -6,24 +6,11 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:28:02 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 17:04:06 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:33:11 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	free_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-}
 
 /* Skip all non-alphanumeric characters */
 char	*skip_empty(char *str)

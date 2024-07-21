@@ -6,28 +6,33 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 16:25:07 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:29:26 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+/* ============================== KEY VALUES ================================ */
+/* 65307 = escape	|	65363 = right arrow	 |	65361 = left arrow			  */
+/* 119 = W	|	122 = Z	 |	115 = S	 |	100 = D	 |	97 = A	 |	 113 = Q      */
+/* ========================================================================== */
+
 /* Changes to 1 the keys pressed */
 int	key_press(int keycode, t_game *game)
 {
-	if (keycode == 65307) // Escape key
+	if (keycode == 65307)
 		close_game(game, NULL);
-	if (keycode == 65363) // Right arrow key
+	if (keycode == 65363)
 		game->key->rotate_right = 1;
-	if (keycode == 65361) // Left arrow key
+	if (keycode == 65361)
 		game->key->rotate_left = 1;
-	if (keycode == 119 || keycode == 122) // W/Z key (to the up)
+	if (keycode == 119 || keycode == 122)
 		game->key->forward = 1;
-	if (keycode == 115) // S key (to the back)
+	if (keycode == 115)
 		game->key->back = 1;
-	if (keycode == 100) // D key (to the right)
+	if (keycode == 100)
 		game->key->right = 1;
-	if (keycode == 97 || keycode == 113) // A/Q key (to the left)
+	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
 	return (0);
 }
@@ -35,17 +40,17 @@ int	key_press(int keycode, t_game *game)
 /* Changes to 0 the keys released */
 int	key_release(int keycode, t_game *game)
 {
-	if (keycode == 65363) // Right arrow key
+	if (keycode == 65363)
 		game->key->rotate_right = 0;
-	if (keycode == 65361) // Left arrow key
+	if (keycode == 65361)
 		game->key->rotate_left = 0;
-	if (keycode == 119 || keycode == 122) // W/Z key (to the up)
+	if (keycode == 119 || keycode == 122)
 		game->key->forward = 0;
-	if (keycode == 115) // S key (to the back)
+	if (keycode == 115)
 		game->key->back = 0;
-	if (keycode == 100) // D key (to the right)
+	if (keycode == 100)
 		game->key->right = 0;
-	if (keycode == 97 || keycode == 113) // A/Q key (to the left)
+	if (keycode == 97 || keycode == 113)
 		game->key->left = 0;
 	return (0);
 }

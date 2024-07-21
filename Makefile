@@ -11,6 +11,7 @@ MLXFLAGS = -Werror -Wall -Wextra -lX11 -lXext -lm
 
 FILES = check_map.c\
 		check_map_bis.c\
+		close.c\
 		cub3d.c\
 		get_next_line.c\
 		graphic_info.c\
@@ -18,9 +19,11 @@ FILES = check_map.c\
 		pathfinding.c\
 		player.c\
 		raycast.c\
+		raycast_bis.c\
 		utils1.c\
 		utils2.c\
-		utils3.c
+		utils3.c\
+		debug.c
 
 OBJ = $(addprefix $(SRCS), $(FILES:.c=.o))
 
