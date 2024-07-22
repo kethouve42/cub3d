@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:41:10 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/22 02:36:16 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef struct s_img {
 	int		line_length;
 	int		endian;
 }				t_img;
+
+typedef struct s_sprite
+{
+	double	x;
+	double	y;
+	t_img	s_tex;
+	int		size;
+}			t_sprite;
 
 typedef struct s_player
 {
@@ -111,10 +119,12 @@ typedef struct s_game
 	int			map_height;
 	int			map_length;
 	int			player_start_rot;
+	double		*zBuffer; //garde en mémoire la distance entre le joueur et le mur
 	t_key		*key;
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
+	t_sprite	*sprite;
 }				t_game;
 
 /* ===================== GRAPHICS ==================== */
@@ -163,6 +173,7 @@ int		ft_line_empty(char *s);
 char	*skip_empty(char *str);
 int		get_lines(t_game *game, char *map_path);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
+char	*ft_strdup(const char *s1);
 
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);
@@ -170,5 +181,10 @@ void	display_key_input(t_game *game);
 void	display_player_info(t_game *game);
 void	display_texture_info(t_img *texture);
 void	display_color(t_game *game);
+
+/* ==================== SPRITE===================== */
+void	init_sprite(t_game *game);
+void    draw_sprite(t_game *game, t_sprite *sprite);
+void	sprite_init(t_game *game);
 
 #endif

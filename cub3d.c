@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/21 20:41:00 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/22 07:44:52 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,33 @@
 /* ========================================================================== */
 /* =========== These 3 functions allow the display of the minimap =========== */
 /* ============== Call minimap(game) in player() to display it ============== */
+/*================= Add of draw_square for a square player ===================*/
 /* ========================================================================== */
 
-/*void	draw_square(t_img *img, int y_start, int x_start, int size, int color)
+/*void	draw_circle(t_img *img, int y_center, int x_center, int radius, int color)
+{
+	int x;
+	int y;
+	int radius_squared;
+
+	radius_squared = radius * radius;
+	y = -radius;
+	while (y <= radius)
+	{
+		x = -radius;
+		while (x <= radius)
+		{
+			if (x * x + y * y <= radius_squared)
+			{
+				my_mlx_pixel_put(img, y_center + y, x_center + x, color);
+			}
+			x++;
+		}
+		y++;
+	}
+}
+
+void	draw_square(t_img *img, int y_start, int x_start, int size, int color)
 {
 	int	x;
 	int	y;
@@ -40,8 +64,7 @@
 
 void	draw_player(t_img *img, t_player *player)
 {
-	draw_square(img, player->pos_x * 16, player->pos_y * 16,
-		10, 0x80d402);
+	draw_circle(img, player->pos_x * 16, player->pos_y * 16, 5, 0x80d402);
 }
 
 int	minimap(t_game *game)
@@ -171,6 +194,7 @@ int	main(int ac, char **av)
 		return (1);
 	game_init(&game);
 	graphic_init(&game);
+	sprite_init(&game);		//initialisation du sprite
 	map_analysis(&game, av[1]);
 	draw_skyground(&game);
 	raycast(&game);

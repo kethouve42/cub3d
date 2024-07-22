@@ -23,7 +23,8 @@ FILES = check_map.c\
 		utils1.c\
 		utils2.c\
 		utils3.c\
-		debug.c
+		debug.c\
+		sprite.c
 
 OBJ = $(addprefix $(SRCS), $(FILES:.c=.o))
 
