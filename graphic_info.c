@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/20 21:50:15 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:32:45 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,34 @@ void	load_texture(t_game *game, t_img *texture, char *file_path)
 /* Update the tester and return the corresponding texture location */
 t_img	*set_test_texture(t_game *game, int *check, int check_tmp)
 {
-	*check += check_tmp;
 	if (check_tmp == 1)
-		return (&game->graphics->text_n);
+	{
+		if (game->graphics->tex_n.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_n.index++;
+		return (&game->graphics->tex_n.tex[game->graphics->tex_n.index - 1]);
+	}
 	else if (check_tmp == 10)
-		return (&game->graphics->text_s);
+	{
+		if (game->graphics->tex_s.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_s.index++;
+		return (&game->graphics->tex_s.tex[game->graphics->tex_s.index - 1]);
+	}
 	else if (check_tmp == 100)
-		return (&game->graphics->text_w);
+	{
+		if (game->graphics->tex_w.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_w.index++;
+		return (&game->graphics->tex_w.tex[game->graphics->tex_w.index - 1]);
+	}
 	else if (check_tmp == 1000)
-		return (&game->graphics->text_e);
+	{
+		if (game->graphics->tex_e.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_e.index++;
+		return (&game->graphics->tex_e.tex[game->graphics->tex_e.index - 1]);
+	}
 }
 
 /* Searche for corresponding texture identifier (NO, SO, WE, EA) */
@@ -101,6 +120,7 @@ void	check_graphics(t_game *game)
 	int		j;
 	int		check;
 
+	check_how_many_texture(game);
 	i = 0;
 	check = 0;
 	while (check != 111111 && game->cubfile[i])
@@ -116,5 +136,9 @@ void	check_graphics(t_game *game)
 	}
 	if (check != 111111)
 		close_game(game, "Missing graphic info");
+	game->graphics->tex_n.index = 0;
+	game->graphics->tex_s.index = 0;
+	game->graphics->tex_e.index = 0;
+	game->graphics->tex_w.index = 0;
 	game->line_map = i;
 }

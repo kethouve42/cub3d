@@ -1,6 +1,9 @@
       NO texture/wood.xpm
 SO texture/greystone.xpm
 WE      texture/redbrick.xpm
+SO      texture/mossy.xpm
+      NO texture/eagle.xpm
+        NO texture/eagle.xpm
    EA      texture/mossy.xpm
 
 C 41, 146, 255

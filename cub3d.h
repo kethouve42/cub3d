@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/22 02:36:16 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:44:53 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,13 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <math.h>
+# include <sys/time.h>
+# include <string.h>
 
-# define ROT_SPEED 0.02
+# define ROT_SPEED 0.01
 # define MOVE_SPEED 0.04
 # define HITBOX_SIZE 2
+# define SPRITE_UPDATE 500
 
 typedef struct s_img {
 	void	*img;
@@ -37,14 +40,6 @@ typedef struct s_img {
 	int		line_length;
 	int		endian;
 }				t_img;
-
-typedef struct s_sprite
-{
-	double	x;
-	double	y;
-	t_img	s_tex;
-	int		size;
-}			t_sprite;
 
 typedef struct s_player
 {
@@ -64,6 +59,7 @@ typedef struct s_key
 	int	right;
 	int	rotate_left;
 	int	rotate_right;
+	int	last_x;
 }	t_key;
 
 typedef struct s_raycast
@@ -97,16 +93,23 @@ typedef struct s_raycast
 	int				d;
 }		t_raycast;
 
+typedef struct s_texture
+{
+	int		index;
+	int		nb;
+	t_img	*tex;
+}			t_texture;
+
 typedef struct s_graphics
 {
-	t_img	text_n;
-	t_img	text_s;
-	t_img	text_e;
-	t_img	text_w;
-	int		color_sky[3];
-	int		color_ground[3];
-	int		screen_height;
-	int		screen_lenght;
+	t_texture	tex_n;
+	t_texture	tex_s;
+	t_texture	tex_e;
+	t_texture	tex_w;
+	int			color_sky[3];
+	int			color_ground[3];
+	int			screen_height;
+	int			screen_lenght;
 }			t_graphics;
 
 typedef struct s_game
@@ -119,13 +122,21 @@ typedef struct s_game
 	int			map_height;
 	int			map_length;
 	int			player_start_rot;
-	double		*zBuffer; //garde en mémoire la distance entre le joueur et le mur
 	t_key		*key;
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
-	t_sprite	*sprite;
+
+	int			start_time;
+	int			last_time_update;
 }				t_game;
+
+/* ======================= TIME ====================== */
+int		get_current_time(void);
+void	update_all_sprites_index(t_game *game);
+
+/* ====================== SOUND ===================== */
+void    playsound(char *file, int wait, int stop, int attenued);
 
 /* ===================== GRAPHICS ==================== */
 void	raycast(t_game *game);
@@ -146,12 +157,14 @@ char	**copy_map(char *map_path, t_game *game, int file_size, int override);
 int		is_valid_char(char c);
 int		is_valid_coord(t_game *game, char **map, int x, int y);
 void	set_player_rot(t_game *game);
+void	check_how_many_texture(t_game *game);
 
 /* ===================== PLAYER ==================== */
 int		player(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
-void	player_rotation(t_game *game, double old_dir_x, double old_plane_x);
+int		mouse(int x, int y, t_game *game);
+//void	player_rotation(t_game *game, double old_dir_x, double old_plane_x);
 void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y);
 void	player_right_left(t_game *game, double speed, int temp_x, int temp_y);
 
@@ -173,7 +186,6 @@ int		ft_line_empty(char *s);
 char	*skip_empty(char *str);
 int		get_lines(t_game *game, char *map_path);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
-char	*ft_strdup(const char *s1);
 
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);
@@ -181,10 +193,5 @@ void	display_key_input(t_game *game);
 void	display_player_info(t_game *game);
 void	display_texture_info(t_img *texture);
 void	display_color(t_game *game);
-
-/* ==================== SPRITE===================== */
-void	init_sprite(t_game *game);
-void    draw_sprite(t_game *game, t_sprite *sprite);
-void	sprite_init(t_game *game);
 
 #endif

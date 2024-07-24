@@ -6,16 +6,24 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:33:23 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:13:53 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_image(t_game *game, t_img *img)
+void	free_texture(t_game *game, t_texture *tex)
 {
-	if (img->img)
-		mlx_destroy_image(game->mlx, img->img);
+	int	i;
+
+	i = 0;
+	while (i < tex->nb)
+	{
+		if (tex->tex[i].img)
+			mlx_destroy_image(game->mlx, tex->tex[i].img);
+		i++;
+	}
+	free(tex->tex);
 }
 
 void	free_tab(char **tab)
@@ -48,10 +56,10 @@ int	close_game(t_game *game, char *error_msg)
 	free(game->key);
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
-	free_image(game, &game->graphics->text_n);
-	free_image(game, &game->graphics->text_s);
-	free_image(game, &game->graphics->text_e);
-	free_image(game, &game->graphics->text_w);
+	free_texture(game, &game->graphics->tex_n);
+	free_texture(game, &game->graphics->tex_s);
+	free_texture(game, &game->graphics->tex_e);
+	free_texture(game, &game->graphics->tex_w);
 	free(game->graphics);
 	free(game->player);
 	free(game->img);

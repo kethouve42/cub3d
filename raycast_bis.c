@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:23:45 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 19:29:50 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/22 19:00:13 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ void	raycast_part_five(t_game *game, t_raycast *raycast)
 {
 	if (raycast->side == 0 && raycast->map_x < game->player->pos_x)
 	{
-		raycast->tex = &game->graphics->text_n;
+		raycast->tex = &game->graphics->tex_n.tex[game->graphics->tex_n.index];
 		raycast->map_side = 1;
 	}
 	else if (raycast->side == 0 && !(raycast->map_x < game->player->pos_x))
 	{
-		raycast->tex = &game->graphics->text_s;
+		raycast->tex = &game->graphics->tex_s.tex[game->graphics->tex_s.index];
 		raycast->map_side = 2;
 	}
 	else if (raycast->side == 1 && raycast->map_y < game->player->pos_y)
 	{
-		raycast->tex = &game->graphics->text_w;
+		raycast->tex = &game->graphics->tex_w.tex[game->graphics->tex_w.index];
 		raycast->map_side = 1;
 	}
 	else if (raycast->side == 1 && !(raycast->map_y < game->player->pos_y))
 	{
-		raycast->tex = &game->graphics->text_e;
+		raycast->tex = &game->graphics->tex_e.tex[game->graphics->tex_e.index];
 		raycast->map_side = 2;
 	}
 	else

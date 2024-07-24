@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:29:26 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:38:22 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,31 +55,30 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
-/* Rotate player by changing dir and plane */
-void	player_rotation(t_game *game, double old_dir_x, double old_plane_x)
+/* Rotate player if mouse x-axis has changed */
+int	mouse(int x, int y, t_game *game)
 {
-	if (game->key->rotate_right && !game->key->rotate_left)
+	int		delta_x;
+	double	old_dir_x;
+	double	old_plane_x;
+
+	if (game->key->last_x == -1)
 	{
-		game->player->dir_x = game->player->dir_x * cos(-ROT_SPEED)
-			- game->player->dir_y * sin(-ROT_SPEED);
-		game->player->dir_y = old_dir_x * sin(-ROT_SPEED)
-			+ game->player->dir_y * cos(-ROT_SPEED);
-		game->player->plane_x = game->player->plane_x * cos(-ROT_SPEED)
-			- game->player->plane_y * sin(-ROT_SPEED);
-		game->player->plane_y = old_plane_x * sin(-ROT_SPEED)
-			+ game->player->plane_y * cos(-ROT_SPEED);
+		game->key->last_x = x;
+		return (0);
 	}
-	else if (game->key->rotate_left && !game->key->rotate_right)
-	{
-		game->player->dir_x = game->player->dir_x * cos(ROT_SPEED)
-			- game->player->dir_y * sin(ROT_SPEED);
-		game->player->dir_y = old_dir_x * sin(ROT_SPEED)
-			+ game->player->dir_y * cos(ROT_SPEED);
-		game->player->plane_x = game->player->plane_x * cos(ROT_SPEED)
-			- game->player->plane_y * sin(ROT_SPEED);
-		game->player->plane_y = old_plane_x * sin(ROT_SPEED)
-			+ game->player->plane_y * cos(ROT_SPEED);
-	}
+	delta_x = x - game->key->last_x;
+	game->key->last_x = x;
+	old_dir_x = game->player->dir_x;
+	game->player->dir_x = game->player->dir_x * cos(-delta_x * ROT_SPEED)
+		- game->player->dir_y * sin(-delta_x * ROT_SPEED);
+	game->player->dir_y = old_dir_x * sin(-delta_x * ROT_SPEED)
+		+ game->player->dir_y * cos(-delta_x * ROT_SPEED);
+	old_plane_x = game->player->plane_x;
+	game->player->plane_x = game->player->plane_x * cos(-delta_x * ROT_SPEED)
+		- game->player->plane_y * sin(-delta_x * ROT_SPEED);
+	game->player->plane_y = old_plane_x * sin(-delta_x * ROT_SPEED)
+		+ game->player->plane_y * cos(-delta_x * ROT_SPEED);
 }
 
 /* Moves the player vertically if there is no wall */

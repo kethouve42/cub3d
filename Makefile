@@ -20,11 +20,12 @@ FILES = check_map.c\
 		player.c\
 		raycast.c\
 		raycast_bis.c\
+		sound.c\
+		time_system.c\
 		utils1.c\
 		utils2.c\
 		utils3.c\
-		debug.c\
-		sprite.c
+		debug.c
 
 OBJ = $(addprefix $(SRCS), $(FILES:.c=.o))
 
