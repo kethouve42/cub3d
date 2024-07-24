@@ -21,6 +21,7 @@ FILES = check_map.c\
 		raycast.c\
 		raycast_bis.c\
 		sound.c\
+		sprite.c\
 		time_system.c\
 		utils1.c\
 		utils2.c\

@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/23 16:38:22 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:56:44 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,46 @@
 /* ============================== KEY VALUES ================================ */
 /* 65307 = escape	|	65363 = right arrow	 |	65361 = left arrow			  */
 /* 119 = W	|	122 = Z	 |	115 = S	 |	100 = D	 |	97 = A	 |	 113 = Q      */
+/* 101 = E																	  */
 /* ========================================================================== */
+
+void	change_door_state(t_game *game, int x, int y)
+{
+	if (game->map[y][x] == 'D')
+		game->map[y][x] = 'd';
+	else if (game->map[y][x] == 'd')
+	{
+		if ((int)game->player->pos_x != y || (int)game->player->pos_y != x)
+			game->map[y][x] = 'D';
+		else
+			printf("dans la porte\n");
+	}
+	else
+		printf ("Nani ???\n");
+	printf("change door [%d:%d] => %c\n", x + 1, y + 1, game->map[y][x]);
+}
+
+void	open_door(t_game *game, int y, int x, char **map)
+{
+	//if (map[y][x] == 'D' || map[y][x] == 'd')
+		//change_door_state(game, x, y);
+	if (map[y - 1][x] == 'D' || map[y - 1][x] == 'd')
+		change_door_state(game, x, y - 1);
+	if (map[y - 1][x - 1] == 'D' || map[y - 1][x - 1] == 'd')
+		change_door_state(game, x - 1, y - 1);
+	if (map[y - 1][x + 1] == 'D' || map[y - 1][x + 1] == 'd')
+		change_door_state(game, x + 1, y - 1);
+	if (map[y][x - 1] == 'D' || map[y][x - 1] == 'd')
+		change_door_state(game, x - 1, y);
+	if (map[y][x + 1] == 'D' || map[y][x + 1] == 'd')
+		change_door_state(game, x + 1, y);
+	if (map[y + 1][x] == 'D' || map[y + 1][x] == 'd')
+		change_door_state(game, x, y + 1);
+	if (map[y + 1][x - 1] == 'D' || map[y + 1][x - 1] == 'd')
+		change_door_state(game, x - 1, y + 1);
+	if (map[y + 1][x + 1] == 'D' || map[y + 1][x + 1] == 'd')
+		change_door_state(game, x + 1, y + 1);
+}
 
 /* Changes to 1 the keys pressed */
 int	key_press(int keycode, t_game *game)
@@ -34,6 +73,8 @@ int	key_press(int keycode, t_game *game)
 		game->key->right = 1;
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
+	if (keycode == 101)
+		open_door(game, (int)game->player->pos_x, (int)game->player->pos_y, game->map);
 	return (0);
 }
 
@@ -90,7 +131,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] == '0')
+		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
 		{
 			game->player->pos_x += game->player->dir_x * speed;
 			game->player->pos_y += game->player->dir_y * speed;
@@ -102,7 +143,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] == '0')
+		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
 		{
 			game->player->pos_x -= game->player->dir_x * speed;
 			game->player->pos_y -= game->player->dir_y * speed;
@@ -119,7 +160,7 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] == '0')
+		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
 		{
 			game->player->pos_x += game->player->dir_y * speed;
 			game->player->pos_y -= game->player->dir_x * speed;
@@ -131,7 +172,7 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] == '0')
+		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
 		{
 			game->player->pos_x -= game->player->dir_y * speed;
 			game->player->pos_y += game->player->dir_x * speed;

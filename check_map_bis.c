@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:50:59 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 17:00:26 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 18:57:31 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /* Check the validity of a character on the map */
 int	is_valid_char(char c)
 {
-	if (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == 'D' ||  c == 'B' ||  c == 'P')
 		return (1);
 	return (0);
 }

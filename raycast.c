@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 19:29:44 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:44:29 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	raycast_part_three(t_game *game, t_raycast *raycast)
 			raycast->map_y += raycast->step_y;
 			raycast->side = 1;
 		}
-		if (game->map[raycast->map_x][raycast->map_y] != '0')
+		if (game->map[raycast->map_x][raycast->map_y] == '1')
 			raycast->hit = 1;
 	}
 	if (raycast->side == 0)
@@ -108,10 +108,57 @@ void	raycast_part_four(t_game *game, t_raycast *raycast)
 	raycast->wall_x -= floor((raycast->wall_x));
 }
 
+/* Impact test of the ray on a wall and its size */
+void	raycast_part_three_door(t_game *game, t_raycast *raycast)
+{
+	while (raycast->hit == 0)
+	{
+		if (raycast->side_dist_x < raycast->side_dist_y)
+		{
+			raycast->side_dist_x += raycast->delta_dist_x;
+			raycast->map_x += raycast->step_x;
+			raycast->side = 0;
+		}
+		else
+		{
+			raycast->side_dist_y += raycast->delta_dist_y;
+			raycast->map_y += raycast->step_y;
+			raycast->side = 1;
+		}
+		if (game->map[raycast->map_x][raycast->map_y] == '1')
+			raycast->hit = 1;
+		if (game->map[raycast->map_x][raycast->map_y] == 'D')
+			raycast->hit = 2;
+	}
+	if (raycast->side == 0)
+		raycast->perp_wall_dist = (raycast->map_x - game->player->pos_x
+				+ (1 - raycast->step_x) / 2) / raycast->ray_dir_x;
+	else
+		raycast->perp_wall_dist = (raycast->map_y - game->player->pos_y
+				+ (1 - raycast->step_y) / 2) / raycast->ray_dir_y;
+}
+
+/* Determines which texture to use */
+void	raycast_part_five_door(t_game *game, t_raycast *raycast)
+{
+	if (raycast->side == 0 && raycast->map_x < game->player->pos_x)
+		raycast->map_side = 1;
+	else if (raycast->side == 0 && !(raycast->map_x < game->player->pos_x))
+		raycast->map_side = 2;
+
+	else if (raycast->side == 1 && raycast->map_y < game->player->pos_y)
+		raycast->map_side = 1;
+	else if (raycast->side == 1 && !(raycast->map_y < game->player->pos_y))
+		raycast->map_side = 2;
+	else
+		close_game(game, "Incorrect door detection");
+}
+
 /* Draws a ray for each pixel column, and draws its point of impact */
 void	raycast(t_game *game)
 {
 	t_raycast	raycast;
+	t_raycast	raycast_door;
 
 	raycast.x = 0;
 	while (raycast.x < (game->graphics->screen_lenght))
@@ -122,6 +169,29 @@ void	raycast(t_game *game)
 		raycast_part_four(game, &raycast);
 		raycast_part_five(game, &raycast);
 		raycast_part_six(game, &raycast);
+		game->z_buffer[raycast.x] = raycast.perp_wall_dist;
 		raycast.x++;
+	}
+	raycast_door.x = 0;
+	raycast_door.tex = &game->graphics->tex_door;
+	while (raycast_door.x < (game->graphics->screen_lenght))
+	{
+		raycast_part_one(game, &raycast_door);
+		raycast_part_two(game, &raycast_door);
+		raycast_part_three_door(game, &raycast_door);
+		if (raycast_door.hit == 2)
+		{
+			raycast_part_four(game, &raycast_door);
+			raycast_part_five_door(game, &raycast_door);
+			raycast_part_six(game, &raycast_door);
+		}
+		raycast_door.x++;
+	}
+
+	int i = 0;
+	while (i < game->graphics->sprite_count)
+	{
+		draw_sprite(game, &game->graphics->sprites[i]);
+		i++;
 	}
 }

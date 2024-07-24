@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:30:41 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:25:20 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,16 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 			|| map[y][x] == '\n')
 		{
 			if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
-				|| map[y][x] == 'E' || map[y][x] == 'W')
+				|| map[y][x] == 'E' || map[y][x] == 'W' || map[y][x] == 'D'
+				|| map[y][x] == 'B' || map[y][x] == 'P')
 			{
 				if (is_valid_coord(game, map, x, y) == 1)
 					close_game(game, NULL);
-				if (map[y][x] != '0')
+				if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
+					|| map[y][x] == 'W')
 					get_player_start(game, map, x, y);
+				if (map[y][x] == 'B' || map[y][x] == 'P')
+					get_sprite(game, map, x, y);
 			}
 		}
 		else
@@ -112,6 +116,7 @@ void	check_map(t_game *game, char *map_path, int file_size)
 	game->map = copy_map(map_path, game, file_size
 			- game->line_map, game->line_map);
 	get_map_dimensions(game, file_size, game->map);
+	check_how_many_sprites(game);
 	check_map_empty_line(game, game->map);
 	y = 0;
 	while (y < game->map_height)

@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:23:45 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/22 19:00:13 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 15:45:30 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ void	raycast_part_six(t_game *game, t_raycast *raycast)
 			&& raycast->tex_y >= 0 && raycast->tex_y < raycast->tex->height)
 			raycast->color = raycast->tex->data[raycast->tex_y
 				* raycast->tex->width + raycast->tex_x];
-		my_mlx_pixel_put(game->img, raycast->y, raycast->x, raycast->color);
+		if ((raycast->color & 0x00FFFFFF) != 0)
+			my_mlx_pixel_put(game->img, raycast->y, raycast->x, raycast->color);
 		raycast->y++;
 	}
 }

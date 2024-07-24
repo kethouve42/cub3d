@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/23 16:39:15 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:26:22 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,27 @@
 /* =========== These 3 functions allow the display of the minimap =========== */
 /* ============== Call minimap(game) in player() to display it ============== */
 /* ========================================================================== */
+
+void	draw_circle(t_img *img, int y_center, int x_center, int radius, int color)
+{
+	int	x;
+	int	y;
+	int radius_squared;
+
+	radius_squared = radius * radius;
+	y = -radius;
+	while (y <= radius)
+	{
+		x = -radius;
+		while (x <= radius)
+		{
+			if (x * x + y * y <= radius_squared)
+				my_mlx_pixel_put(img, y_center + y, x_center + x, color);
+			x++;
+		}
+		y++;
+	}
+}
 
 void	draw_square(t_img *img, int y_start, int x_start, int size, int color)
 {
@@ -40,8 +61,7 @@ void	draw_square(t_img *img, int y_start, int x_start, int size, int color)
 
 void	draw_player(t_img *img, t_player *player)
 {
-	draw_square(img, player->pos_x * 16, player->pos_y * 16,
-		10, 0x80d402);
+	draw_circle(img, player->pos_x * 16, player->pos_y * 16, 5, 0x80d402);
 }
 
 int	minimap(t_game *game)
@@ -134,6 +154,7 @@ void	graphic_init(t_game *game)
 	game->graphics->tex_s.index = 0;
 	game->graphics->tex_e.index = 0;
 	game->graphics->tex_w.index = 0;
+	game->graphics->sprite_count = 0;
 	game->mlx = mlx_init();
 	game->mlx_win = mlx_new_window(game->mlx, game->graphics->screen_lenght,
 			game->graphics->screen_height, "cub3d");
@@ -169,6 +190,7 @@ int	main(int ac, char **av)
 		return (1);
 	game_init(&game);
 	graphic_init(&game);
+	sprite_init(&game);
 	map_analysis(&game, av[1]);
 	draw_skyground(&game);
 	raycast(&game);

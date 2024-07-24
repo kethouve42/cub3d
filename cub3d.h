@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/23 16:44:53 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:35:29 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,25 @@ typedef struct s_texture
 	t_img	*tex;
 }			t_texture;
 
+typedef	struct s_sprite
+{
+	double	x;
+	double	y;
+	t_img	s_tex;
+	int		size;
+}			t_sprite;
+
 typedef struct s_graphics
 {
 	t_texture	tex_n;
 	t_texture	tex_s;
 	t_texture	tex_e;
 	t_texture	tex_w;
+	t_img		tex_door;
+	t_img		s_pillar;
+	t_img		s_barrel;
+	t_sprite	*sprites;
+	int			sprite_count;
 	int			color_sky[3];
 	int			color_ground[3];
 	int			screen_height;
@@ -126,7 +139,8 @@ typedef struct s_game
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
-
+	//t_sprite	*sprite;
+	double		*z_buffer;
 	int			start_time;
 	int			last_time_update;
 }				t_game;
@@ -144,6 +158,11 @@ void	raycast_part_five(t_game *game, t_raycast *raycast);
 void	raycast_part_six(t_game *game, t_raycast *raycast);
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
+void	sprite_init(t_game *game);
+void	init_sprite(t_game *game);
+void    draw_sprite(t_game *game, t_sprite *sprite);
+void	check_how_many_sprites(t_game *game);
+void    get_sprite(t_game *game, char **map, int x, int y);
 
 /* ===================== PARSING ==================== */
 void	map_analysis(t_game *game, char *map_path);
@@ -186,6 +205,7 @@ int		ft_line_empty(char *s);
 char	*skip_empty(char *str);
 int		get_lines(t_game *game, char *map_path);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
+char	*ft_strdup(const char *s1);
 
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);

@@ -3,31 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/22 03:06:36 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:45:35 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void    get_sprite(t_game *game, char **map, int x, int y)
+{
+    t_sprite sprite;
+    
+    if (map[y][x] == 'B')
+        sprite.s_tex = game->graphics->s_barrel;
+    else if (map[y][x] == 'P')
+        sprite.s_tex = game->graphics->s_pillar;
+    sprite.x = y + 0.5;
+    sprite.y = x + 0.5;
+    sprite.size = 16;
+
+    game->graphics->sprites[game->graphics->sprite_count] = sprite;
+    game->graphics->sprite_count++;
+}
+
 void	sprite_init(t_game *game)
 {
-	game->sprite = malloc(sizeof(t_sprite));
-	game->sprite->size = 16;
-	game->sprite->x = 4.5;
-	game->sprite->y = 4.5;
-	game->sprite->s_tex.img = NULL;
-	game->zBuffer = (double *)malloc(sizeof(double) * (24 * 64));
+	//game->sprite = malloc(sizeof(t_sprite));
+	//game->sprite->size = 16;
+	//game->sprite->x = 4.5;
+	//game->sprite->y = 4.5;
+	//game->sprite->s_tex.img = NULL;
+	game->z_buffer = (double *)malloc(sizeof(double) * (24 * 64));
 	init_sprite(game);
 }
 
 void	init_sprite(t_game *game)
 {
 	char *path;
-	path = ft_strdup("texture/Guard_Original.xpm\n");
-	load_texture(game, &game->sprite->s_tex, path);
+	path = ft_strdup("texture/pillar.xpm\n"); // a replacer par le parsing de la map
+	load_texture(game, &game->graphics->s_pillar, path);
+
+    path = ft_strdup("texture/barrel.xpm\n"); // a replacer par le parsing de la map
+	load_texture(game, &game->graphics->s_barrel, path);
+
+	path = ft_strdup("texture/door.xpm\n"); // a replacer par le parsing de la map
+	load_texture(game, &game->graphics->tex_door, path);
 }
 
 void    draw_sprite(t_game *game, t_sprite *sprite)
@@ -66,7 +88,7 @@ void    draw_sprite(t_game *game, t_sprite *sprite)
     for (int stripe = drawStartX; stripe < drawEndX; stripe++) //pour chaque ligne de pixel vertical
 	{
         int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth) / 256;
-        if (transformY > 0 && stripe > 0 && stripe < 24 * 64 && transformY < game->zBuffer[stripe]) {
+        if (transformY > 0 && stripe > 0 && stripe < 24 * 64 && transformY < game->z_buffer[stripe]) {
             for (int y = drawStartY; y < drawEndY; y++) // pour chaque pixel sur cette ligne
 			{
                 int d = (y) * 256 - 11 * 64 * 128 + spriteHeight * 128;

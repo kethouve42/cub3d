@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/22 19:31:43 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:21:20 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,28 @@ void	set_img_tex(t_texture *tex)
 		tex->tex[i].img = NULL;
 		i++;
 	}
+}
+
+void	check_how_many_sprites(t_game *game)
+{
+	int	x;
+	int y;
+	int counter;
+
+	counter = 0;
+	y = 0;
+	while (y < game->map_height)
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (game->map[y][x] == 'B' || game->map[y][x] == 'P')
+				counter++;
+			x++;
+		}
+		y++;
+	}
+	game->graphics->sprites = malloc(sizeof(t_sprite) * counter);
 }
 
 /* Check hom many animated sprites exists for one all textures */
