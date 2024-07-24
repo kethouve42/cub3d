@@ -3,14 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/24 19:45:35 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 00:28:43 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	swap_sprite(t_sprite *a, t_sprite *b)
+{
+	t_sprite	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void	sprite_dist(t_graphics *graphics, t_game *game)
+{
+	int	i;
+	int	j;
+	double	dist1;
+	double	dist2;
+
+	i = 0;
+	while (i < graphics->sprite_count)
+	{
+		graphics->sprites[i].spriteX = graphics->sprites[i].x - game->player->pos_x;
+		graphics->sprites[i].spriteY = graphics->sprites[i].y - game->player->pos_y;
+		i++;
+	}
+	i = 0;
+	while (i < graphics->sprite_count - 1) {
+		j = 0;
+		while (j < graphics->sprite_count - i - 1) {
+			dist1 = sqrt(pow(graphics->sprites[j].spriteX, 2) + pow(graphics->sprites[j].spriteY, 2));
+			dist2 = sqrt(pow(graphics->sprites[j + 1].spriteX, 2) + pow(graphics->sprites[j + 1].spriteY, 2));
+			if (dist1 < dist2) {
+				swap_sprite(&graphics->sprites[j], &graphics->sprites[j + 1]);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+	/*while (i < graphics->sprite_count)
+	{
+		dist1 = sqrt(pow(graphics->sprites[i].x - game->player->pos_x, 2) +
+                    pow(graphics->sprites[i].y - game->player->pos_y, 2));
+		dist2 = sqrt(pow(graphics->sprites[i + 1].x - game->player->pos_x, 2) +
+                    pow(graphics->sprites[i + 1].y - game->player->pos_y, 2));
+		if (dist1 < dist2)
+		{
+			swap_sprite(&graphics->sprites[i], &graphics->sprites[i + 1]);
+			i = 0;
+		}
+		else
+			i++;
+	}
+}*/
 
 void    get_sprite(t_game *game, char **map, int x, int y)
 {
@@ -35,7 +88,7 @@ void	sprite_init(t_game *game)
 	//game->sprite->x = 4.5;
 	//game->sprite->y = 4.5;
 	//game->sprite->s_tex.img = NULL;
-	game->z_buffer = (double *)malloc(sizeof(double) * (24 * 64));
+	game->z_buffer = (double *)malloc(sizeof(double) * (game->graphics->screen_lenght ));
 	init_sprite(game);
 }
 
@@ -69,29 +122,29 @@ void    draw_sprite(t_game *game, t_sprite *sprite)
     double transformY = invDet * (-game->player->plane_y * spriteX + game->player->plane_x * spriteY);
 
 	/*calcul de la coordonnée x sur l'ecran*/
-    int spriteScreenX = (int)((24 * 64 / 2) * (1 + transformX / transformY));
+    int spriteScreenX = (int)((game->graphics->screen_lenght / 2) * (1 + transformX / transformY));
 
 	/*calcul la hauteur et la largeur du sprite ainsi que le début de son dessin et sa fin*/
-    int spriteHeight = abs((int)(11 * 64 / transformY)) / 1;
-    int drawStartY = -spriteHeight / 2 + 11 * 64 / 2;
+    int spriteHeight = abs((int)(game->graphics->screen_height / transformY)) / 1;
+    int drawStartY = -spriteHeight / 2 + game->graphics->screen_height / 2;
     if (drawStartY < 0) drawStartY = 0;
-    int drawEndY = spriteHeight / 2 + 11 * 64 / 2;
-    if (drawEndY >= 11 * 64) drawEndY = 11 * 64 - 1;
+    int drawEndY = spriteHeight / 2 + game->graphics->screen_height / 2;
+    if (drawEndY >= game->graphics->screen_height) drawEndY = game->graphics->screen_height - 1;
 
-    int spriteWidth = abs((int)(11 * 64 / transformY)) / 1;
+    int spriteWidth = abs((int)(game->graphics->screen_height / transformY)) / 1;
     int drawStartX = -spriteWidth / 2 + spriteScreenX;
     if (drawStartX < 0) drawStartX = 0;
     int drawEndX = spriteWidth / 2 + spriteScreenX;
-    if (drawEndX >= 24 * 64) drawEndX = 24 * 64 - 1;
+    if (drawEndX >= game->graphics->screen_lenght ) drawEndX = game->graphics->screen_lenght  - 1;
 
 	/*dessin du sprite*/
     for (int stripe = drawStartX; stripe < drawEndX; stripe++) //pour chaque ligne de pixel vertical
 	{
         int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * tex->width / spriteWidth) / 256;
-        if (transformY > 0 && stripe > 0 && stripe < 24 * 64 && transformY < game->z_buffer[stripe]) {
+        if (transformY > 0 && stripe > 0 && stripe < game->graphics->screen_lenght  && transformY < game->z_buffer[stripe]) {
             for (int y = drawStartY; y < drawEndY; y++) // pour chaque pixel sur cette ligne
 			{
-                int d = (y) * 256 - 11 * 64 * 128 + spriteHeight * 128;
+                int d = (y) * 256 - game->graphics->screen_height * 128 + spriteHeight * 128;
                 int texY = ((d * tex->height) / spriteHeight) / 256;
                 unsigned int color = tex->data[texY * tex->width + texX];
                 if ((color & 0x00FFFFFF) != 0) //check si le sprite est transparent

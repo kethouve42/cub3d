@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 19:44:29 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 00:56:30 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ void	raycast(t_game *game)
 	t_raycast	raycast_door;
 
 	raycast.x = 0;
+	//printf("screen_lenght: %d\n", game->graphics->screen_lenght);
 	while (raycast.x < (game->graphics->screen_lenght))
 	{
 		raycast_part_one(game, &raycast);
@@ -184,10 +185,12 @@ void	raycast(t_game *game)
 			raycast_part_four(game, &raycast_door);
 			raycast_part_five_door(game, &raycast_door);
 			raycast_part_six(game, &raycast_door);
+			game->z_buffer[raycast_door.x] = raycast.perp_wall_dist;
 		}
 		raycast_door.x++;
 	}
 
+	sprite_dist(game->graphics, game);
 	int i = 0;
 	while (i < game->graphics->sprite_count)
 	{

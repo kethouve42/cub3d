@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/24 19:26:22 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 00:39:36 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,14 +148,15 @@ void	graphic_init(t_game *game)
 {
 	game->img = malloc(sizeof(t_img));
 	game->graphics = malloc(sizeof(t_graphics));
-	game->graphics->screen_lenght = 24 * 64;
-	game->graphics->screen_height = 11 * 64;
+	//game->graphics->screen_lenght = 24 * 64;
+	//game->graphics->screen_height = 13 * 64;
 	game->graphics->tex_n.index = 0;
 	game->graphics->tex_s.index = 0;
 	game->graphics->tex_e.index = 0;
 	game->graphics->tex_w.index = 0;
 	game->graphics->sprite_count = 0;
 	game->mlx = mlx_init();
+	mlx_get_screen_size(game->mlx, &game->graphics->screen_lenght, &game->graphics->screen_height);
 	game->mlx_win = mlx_new_window(game->mlx, game->graphics->screen_lenght,
 			game->graphics->screen_height, "cub3d");
 	game->img->img = mlx_new_image(game->mlx, game->graphics->screen_lenght,

@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 19:35:29 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 00:34:54 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <X11/Xlib.h>
+# include <X11/Xutil.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include "./minilibx-linux/mlx.h"
@@ -104,6 +106,8 @@ typedef	struct s_sprite
 {
 	double	x;
 	double	y;
+	double	spriteX;
+	double	spriteY;
 	t_img	s_tex;
 	int		size;
 }			t_sprite;
@@ -163,6 +167,7 @@ void	init_sprite(t_game *game);
 void    draw_sprite(t_game *game, t_sprite *sprite);
 void	check_how_many_sprites(t_game *game);
 void    get_sprite(t_game *game, char **map, int x, int y);
+void	sprite_dist(t_graphics *graphics, t_game *game);
 
 /* ===================== PARSING ==================== */
 void	map_analysis(t_game *game, char *map_path);
