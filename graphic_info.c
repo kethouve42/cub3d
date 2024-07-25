@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 15:54:41 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:20:24 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	load_texture(t_game *game, t_img *texture, char *file_path)
 			&texture->bits_per_pixel, &texture->size_l, &texture->endian);
 }
 
-/* Update the tester and return the corresponding texture location */
-t_img	*set_test_texture(t_game *game, int *check, int check_tmp)
+/* Update the tester and return the corresponding texture location - part 1 */
+t_img	*set_test_texture_one(t_game *game, int *check, int check_tmp)
 {
 	if (check_tmp == 1)
 	{
@@ -46,20 +46,8 @@ t_img	*set_test_texture(t_game *game, int *check, int check_tmp)
 		game->graphics->tex_s.index++;
 		return (&game->graphics->tex_s.tex[game->graphics->tex_s.index - 1]);
 	}
-	else if (check_tmp == 100)
-	{
-		if (game->graphics->tex_w.index == 0)
-			*check += check_tmp;
-		game->graphics->tex_w.index++;
-		return (&game->graphics->tex_w.tex[game->graphics->tex_w.index - 1]);
-	}
-	else if (check_tmp == 1000)
-	{
-		if (game->graphics->tex_e.index == 0)
-			*check += check_tmp;
-		game->graphics->tex_e.index++;
-		return (&game->graphics->tex_e.tex[game->graphics->tex_e.index - 1]);
-	}
+	else
+		return (set_test_texture_two(game, check, check_tmp));
 }
 
 /* Searche for corresponding texture identifier (NO, SO, WE, EA) */
@@ -70,13 +58,13 @@ int	test_texture(t_game *game, int *check, int i, int j)
 
 	texture = NULL;
 	if (ft_strncmp(game->cubfile[i] + j, "NO", 2) == 0)
-		texture = set_test_texture(game, check, 1);
+		texture = set_test_texture_one(game, check, 1);
 	else if (ft_strncmp(game->cubfile[i] + j, "SO", 2) == 0)
-		texture = set_test_texture(game, check, 10);
+		texture = set_test_texture_one(game, check, 10);
 	else if (ft_strncmp(game->cubfile[i] + j, "WE", 2) == 0)
-		texture = set_test_texture(game, check, 100);
+		texture = set_test_texture_one(game, check, 100);
 	else if (ft_strncmp(game->cubfile[i] + j, "EA", 2) == 0)
-		texture = set_test_texture(game, check, 1000);
+		texture = set_test_texture_one(game, check, 1000);
 	if (texture)
 	{
 		path = game->cubfile[i] + j + 2;

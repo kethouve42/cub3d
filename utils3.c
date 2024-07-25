@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:28:02 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:33:11 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:56:12 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,19 @@ int	get_lines(t_game *game, char *map_path)
 	}
 	close(fd);
 	return (i);
+}
+
+/* Check if a char is one of the char into str */
+int	is_into_str(char c, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }

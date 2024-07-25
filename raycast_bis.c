@@ -6,53 +6,106 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:23:45 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 15:45:30 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:47:41 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/* Change the image displayed on the screen */
-void	my_mlx_pixel_put(t_img *img, int y, int x, int color)
+/* Setup values and begin ray calculation  */
+void	raycast_part_one(t_game *game, t_raycast *raycast)
 {
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
+	raycast->hit = 0;
+	raycast->map_x = (int)game->player->pos_x;
+	raycast->map_y = (int)game->player->pos_y;
+	raycast->camera_x = 2 * raycast->x
+		/ (double)game->graphics->screen_lenght - 1;
+	raycast->ray_dir_x = game->player->dir_x + game->player->plane_x
+		* raycast->camera_x;
+	raycast->ray_dir_y = game->player->dir_y + game->player->plane_y
+		* raycast->camera_x;
+	raycast->delta_dist_x = fabs(1 / raycast->ray_dir_x);
+	raycast->delta_dist_y = fabs(1 / raycast->ray_dir_y);
 }
 
-/* Change the three RGB values ​​to a single int */
-int	convert_rgb_to_int(int r, int g, int b)
+/* Calculate the initial distance to the sides */
+void	raycast_part_two(t_game *game, t_raycast *raycast)
 {
-	return ((r << 16) | (g << 8) | b);
-}
-
-/* Displays the background of the screen, according to the colors of the .cub */
-void	draw_skyground(t_game *game)
-{
-	int	ground;
-	int	sky;
-	int	x;
-	int	y;
-
-	ground = convert_rgb_to_int(game->graphics->color_ground[0],
-			game->graphics->color_ground[1], game->graphics->color_ground[2]);
-	sky = convert_rgb_to_int(game->graphics->color_sky[0],
-			game->graphics->color_sky[1], game->graphics->color_sky[2]);
-	y = 0;
-	while (y < game->graphics->screen_height)
+	if (raycast->ray_dir_x < 0)
 	{
-		x = 0;
-		while (x < game->graphics->screen_lenght)
-		{
-			if (y > game->graphics->screen_height / 2)
-				my_mlx_pixel_put(game->img, y, x, ground);
-			else
-				my_mlx_pixel_put(game->img, y, x, sky);
-			x++;
-		}
-		y++;
+		raycast->step_x = -1;
+		raycast->side_dist_x = (game->player->pos_x - raycast->map_x)
+			* raycast->delta_dist_x;
 	}
+	else
+	{
+		raycast->step_x = 1;
+		raycast->side_dist_x = (raycast->map_x + 1.0 - game->player->pos_x)
+			* raycast->delta_dist_x;
+	}
+	if (raycast->ray_dir_y < 0)
+	{
+		raycast->step_y = -1;
+		raycast->side_dist_y = (game->player->pos_y - raycast->map_y)
+			* raycast->delta_dist_y;
+	}
+	else
+	{
+		raycast->step_y = 1;
+		raycast->side_dist_y = (raycast->map_y + 1.0 - game->player->pos_y)
+			* raycast->delta_dist_y;
+	}
+}
+
+/* Impact test of the ray on a wall and its size */
+void	raycast_part_three(t_game *game, t_raycast *raycast)
+{
+	while (raycast->hit == 0)
+	{
+		if (raycast->side_dist_x < raycast->side_dist_y)
+		{
+			raycast->side_dist_x += raycast->delta_dist_x;
+			raycast->map_x += raycast->step_x;
+			raycast->side = 0;
+		}
+		else
+		{
+			raycast->side_dist_y += raycast->delta_dist_y;
+			raycast->map_y += raycast->step_y;
+			raycast->side = 1;
+		}
+		if (game->map[raycast->map_x][raycast->map_y] == '1')
+			raycast->hit = 1;
+	}
+	if (raycast->side == 0)
+		raycast->perp_wall_dist = (raycast->map_x - game->player->pos_x
+				+ (1 - raycast->step_x) / 2) / raycast->ray_dir_x;
+	else
+		raycast->perp_wall_dist = (raycast->map_y - game->player->pos_y
+				+ (1 - raycast->step_y) / 2) / raycast->ray_dir_y;
+}
+
+/* Preparation of information for drawing */
+void	raycast_part_four(t_game *game, t_raycast *raycast)
+{
+	raycast->line_height = (int)(game->graphics->screen_height
+			/ raycast->perp_wall_dist);
+	raycast->draw_start = -raycast->line_height / 2
+		+ game->graphics->screen_height / 2;
+	if (raycast->draw_start < 0)
+		raycast->draw_start = 0;
+	raycast->draw_end = raycast->line_height / 2
+		+ game->graphics->screen_height / 2;
+	if (raycast->draw_end >= game->graphics->screen_height)
+		raycast->draw_end = game->graphics->screen_height - 1;
+	raycast->tex_num = game->map[raycast->map_x][raycast->map_y] - 49;
+	if (raycast->side == 0)
+		raycast->wall_x = game->player->pos_y + raycast->perp_wall_dist
+			* raycast->ray_dir_y;
+	else
+		raycast->wall_x = game->player->pos_x + raycast->perp_wall_dist
+			* raycast->ray_dir_x;
+	raycast->wall_x -= floor((raycast->wall_x));
 }
 
 /* Determines which texture to use */
@@ -80,29 +133,4 @@ void	raycast_part_five(t_game *game, t_raycast *raycast)
 	}
 	else
 		close_game(game, "Incorrect wall detection");
-}
-
-/* Retrieves the pixels from the texture and displays a column on the screen */
-void	raycast_part_six(t_game *game, t_raycast *raycast)
-{
-	raycast->tex_x = (int)(raycast->wall_x * (double)(raycast->tex->width));
-	if (raycast->side == 1 && raycast->map_side == 1)
-		raycast->tex_x = raycast->tex->width - raycast->tex_x - 1;
-	if (raycast->side == 0 && raycast->map_side == 2)
-		raycast->tex_x = raycast->tex->width - raycast->tex_x - 1;
-	raycast->y = raycast->draw_start;
-	while (raycast->y < raycast->draw_end)
-	{
-		raycast->d = raycast->y * 256 - (game->graphics->screen_height / 2)
-			* 256 + raycast->line_height * 128;
-		raycast->tex_y = ((raycast->d * raycast->tex->height)
-				/ raycast->line_height) / 256;
-		if (raycast->tex_x >= 0 && raycast->tex_x < raycast->tex->width
-			&& raycast->tex_y >= 0 && raycast->tex_y < raycast->tex->height)
-			raycast->color = raycast->tex->data[raycast->tex_y
-				* raycast->tex->width + raycast->tex_x];
-		if ((raycast->color & 0x00FFFFFF) != 0)
-			my_mlx_pixel_put(game->img, raycast->y, raycast->x, raycast->color);
-		raycast->y++;
-	}
 }

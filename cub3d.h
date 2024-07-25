@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 00:34:54 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:49:34 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,28 @@ typedef struct s_raycast
 	int				d;
 }		t_raycast;
 
+typedef	struct	s_ray_tex
+{
+	double sprite_x;
+	double sprite_y;
+	double inv_det;
+	double transform_x;
+	double transform_y;
+	int sprite_screen_x;
+	int sprite_height;
+	int draw_start_y;
+	int draw_end_y;
+	int sprite_width;
+	int draw_start_x;
+	int draw_end_x;
+	int stripe;
+	int tex_x;
+	int y;
+	int d;
+	int tex_y;
+	unsigned int color;
+}			t_ray_tex;
+
 typedef struct s_texture
 {
 	int		index;
@@ -106,8 +128,8 @@ typedef	struct s_sprite
 {
 	double	x;
 	double	y;
-	double	spriteX;
-	double	spriteY;
+	double	sprite_x;
+	double	sprite_y;
 	t_img	s_tex;
 	int		size;
 }			t_sprite;
@@ -118,6 +140,7 @@ typedef struct s_graphics
 	t_texture	tex_s;
 	t_texture	tex_e;
 	t_texture	tex_w;
+	char		*tmp_path;
 	t_img		tex_door;
 	t_img		s_pillar;
 	t_img		s_barrel;
@@ -143,11 +166,13 @@ typedef struct s_game
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
-	//t_sprite	*sprite;
 	double		*z_buffer;
 	int			start_time;
 	int			last_time_update;
 }				t_game;
+
+/* ====================== MINIMAP ==================== */
+int	minimap(t_game *game);
 
 /* ======================= TIME ====================== */
 int		get_current_time(void);
@@ -156,18 +181,26 @@ void	update_all_sprites_index(t_game *game);
 /* ====================== SOUND ===================== */
 void    playsound(char *file, int wait, int stop, int attenued);
 
-/* ===================== GRAPHICS ==================== */
+/* ===================== RAYCAST ==================== */
 void	raycast(t_game *game);
+void	raycast_part_one(t_game *game, t_raycast *raycast);
+void	raycast_part_two(t_game *game, t_raycast *raycast);
+void	raycast_part_three(t_game *game, t_raycast *raycast);
+void	raycast_part_four(t_game *game, t_raycast *raycast);
 void	raycast_part_five(t_game *game, t_raycast *raycast);
 void	raycast_part_six(t_game *game, t_raycast *raycast);
+void	raycast_part_three_door(t_game *game, t_raycast *raycast);
+void	raycast_part_five_door(t_game *game, t_raycast *raycast);
+
+/* ===================== GRAPHICS ==================== */
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
-void	init_sprite(t_game *game);
-void    draw_sprite(t_game *game, t_sprite *sprite);
+void    draw_sprite(t_game *game);
 void	check_how_many_sprites(t_game *game);
 void    get_sprite(t_game *game, char **map, int x, int y);
 void	sprite_dist(t_graphics *graphics, t_game *game);
+t_img	*set_test_texture_two(t_game *game, int *check, int check_tmp);
 
 /* ===================== PARSING ==================== */
 void	map_analysis(t_game *game, char *map_path);
@@ -188,9 +221,9 @@ int		player(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 int		mouse(int x, int y, t_game *game);
-//void	player_rotation(t_game *game, double old_dir_x, double old_plane_x);
 void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y);
 void	player_right_left(t_game *game, double speed, int temp_x, int temp_y);
+void	open_door(t_game *game, int y, int x, char **map);
 
 /* ============== CLOSE ============== */
 int		close_game(t_game *game, char *error_msg);
@@ -211,6 +244,7 @@ char	*skip_empty(char *str);
 int		get_lines(t_game *game, char *map_path);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
 char	*ft_strdup(const char *s1);
+int	is_into_str(char c, char *str);
 
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);

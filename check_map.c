@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 19:25:20 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:55:40 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,11 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 		if (is_valid_char(map[y][x]) == 1 || map[y][x] == ' '
 			|| map[y][x] == '\n')
 		{
-			if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
-				|| map[y][x] == 'E' || map[y][x] == 'W' || map[y][x] == 'D'
-				|| map[y][x] == 'B' || map[y][x] == 'P')
+			if (is_into_str(map[y][x], "0NSEWDBP"))
 			{
 				if (is_valid_coord(game, map, x, y) == 1)
 					close_game(game, NULL);
-				if (map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E'
-					|| map[y][x] == 'W')
+				if (is_into_str(map[y][x], "NSWE"))
 					get_player_start(game, map, x, y);
 				if (map[y][x] == 'B' || map[y][x] == 'P')
 					get_sprite(game, map, x, y);

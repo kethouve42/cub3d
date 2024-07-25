@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:41:33 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/24 19:04:32 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:34:38 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	pathfinding(char **map, int x, int y)
 	map[y][x] = '1';
 	if (map[y + 1][x] == '0' || map[y + 1][x] == 'D')
 		pathfinding(map, x, y + 1);
-	if (map[y][x + 1] == '0'  || map[y][x + 1] == 'D')
+	if (map[y][x + 1] == '0' || map[y][x + 1] == 'D')
 		pathfinding(map, x + 1, y);
 	if (map[y][x - 1] == '0' || map[y][x - 1] == 'D')
 		pathfinding(map, x - 1, y);
@@ -59,7 +59,6 @@ void	check_path(t_game *game, char *map_path, int file_size)
 	int		y;
 	int		x;
 
-		//display_map(game->map);
 	test_map = copy_map(map_path, game, file_size
 			- game->line_map, game->line_map);
 	pathfinding(test_map, (int)game->player->pos_y, (int)game->player->pos_x);

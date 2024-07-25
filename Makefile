@@ -16,12 +16,17 @@ FILES = check_map.c\
 		get_next_line.c\
 		graphic_info.c\
 		graphic_info_bis.c\
+		graphic_info_ter.c\
+		minimap.c\
 		pathfinding.c\
 		player.c\
+		player_bis.c\
 		raycast.c\
 		raycast_bis.c\
+		raycast_ter.c\
 		sound.c\
 		sprite.c\
+		sprite_bis.c\
 		time_system.c\
 		utils1.c\
 		utils2.c\

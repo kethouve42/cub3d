@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 00:49:06 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:29:10 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,6 @@
 /* 119 = W	|	122 = Z	 |	115 = S	 |	100 = D	 |	97 = A	 |	 113 = Q      */
 /* 101 = E																	  */
 /* ========================================================================== */
-
-void	change_door_state(t_game *game, int x, int y)
-{
-	if (game->map[y][x] == 'D')
-		game->map[y][x] = 'd';
-	else if (game->map[y][x] == 'd')
-	{
-		if ((int)game->player->pos_x != y || (int)game->player->pos_y != x)
-			game->map[y][x] = 'D';
-		else
-			printf("dans la porte\n");
-	}
-	else
-		printf ("Nani ???\n");
-	printf("change door [%d:%d] => %c\n", x + 1, y + 1, game->map[y][x]);
-}
-
-void	open_door(t_game *game, int y, int x, char **map)
-{
-	//if (map[y][x] == 'D' || map[y][x] == 'd')
-		//change_door_state(game, x, y);
-	if (map[y - 1][x] == 'D' || map[y - 1][x] == 'd')
-		change_door_state(game, x, y - 1);
-	if (map[y - 1][x - 1] == 'D' || map[y - 1][x - 1] == 'd')
-		change_door_state(game, x - 1, y - 1);
-	if (map[y - 1][x + 1] == 'D' || map[y - 1][x + 1] == 'd')
-		change_door_state(game, x + 1, y - 1);
-	if (map[y][x - 1] == 'D' || map[y][x - 1] == 'd')
-		change_door_state(game, x - 1, y);
-	if (map[y][x + 1] == 'D' || map[y][x + 1] == 'd')
-		change_door_state(game, x + 1, y);
-	if (map[y + 1][x] == 'D' || map[y + 1][x] == 'd')
-		change_door_state(game, x, y + 1);
-	if (map[y + 1][x - 1] == 'D' || map[y + 1][x - 1] == 'd')
-		change_door_state(game, x - 1, y + 1);
-	if (map[y + 1][x + 1] == 'D' || map[y + 1][x + 1] == 'd')
-		change_door_state(game, x + 1, y + 1);
-}
 
 /* Changes to 1 the keys pressed */
 int	key_press(int keycode, t_game *game)
@@ -74,7 +36,8 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
 	if (keycode == 101)
-		open_door(game, (int)game->player->pos_x, (int)game->player->pos_y, game->map);
+		open_door(game, (int)game->player->pos_x,
+			(int)game->player->pos_y, game->map);
 	return (0);
 }
 
@@ -96,32 +59,6 @@ int	key_release(int keycode, t_game *game)
 	return (0);
 }
 
-/* Rotate player if mouse x-axis has changed */
-int	mouse(int x, int y, t_game *game)
-{
-	int		delta_x;
-	double	old_dir_x;
-	double	old_plane_x;
-
-	if (game->key->last_x == -1)
-	{
-		game->key->last_x = x;
-		return (0);
-	}
-	delta_x = x - game->key->last_x;
-	game->key->last_x = x;
-	old_dir_x = game->player->dir_x;
-	game->player->dir_x = game->player->dir_x * cos(-delta_x * ROT_SPEED)
-		- game->player->dir_y * sin(-delta_x * ROT_SPEED);
-	game->player->dir_y = old_dir_x * sin(-delta_x * ROT_SPEED)
-		+ game->player->dir_y * cos(-delta_x * ROT_SPEED);
-	old_plane_x = game->player->plane_x;
-	game->player->plane_x = game->player->plane_x * cos(-delta_x * ROT_SPEED)
-		- game->player->plane_y * sin(-delta_x * ROT_SPEED);
-	game->player->plane_y = old_plane_x * sin(-delta_x * ROT_SPEED)
-		+ game->player->plane_y * cos(-delta_x * ROT_SPEED);
-}
-
 /* Moves the player vertically if there is no wall */
 void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 {
@@ -131,7 +68,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
+		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
 		{
 			game->player->pos_x += game->player->dir_x * speed;
 			game->player->pos_y += game->player->dir_y * speed;
@@ -143,7 +80,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
+		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
 		{
 			game->player->pos_x -= game->player->dir_x * speed;
 			game->player->pos_y -= game->player->dir_y * speed;
@@ -160,7 +97,7 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
+		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
 		{
 			game->player->pos_x += game->player->dir_y * speed;
 			game->player->pos_y -= game->player->dir_x * speed;
@@ -172,10 +109,33 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (game->map[temp_x][temp_y] != '1' && game->map[temp_x][temp_y] != 'D')
+		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
 		{
 			game->player->pos_x -= game->player->dir_y * speed;
 			game->player->pos_y += game->player->dir_x * speed;
 		}
 	}
+}
+
+/* Update player placements and display
+   The speed is divided by 2 in case of diagonal movement */
+int	player(t_game *game)
+{
+	int		temp_x;
+	int		temp_y;
+
+	if (game->key->left + game->key->right == 1)
+		player_forward_back(game, MOVE_SPEED / 2, temp_x, temp_y);
+	else
+		player_forward_back(game, MOVE_SPEED, temp_x, temp_y);
+	if (game->key->forward + game->key->back == 1)
+		player_right_left(game, MOVE_SPEED / 2, temp_x, temp_y);
+	else
+		player_right_left(game, MOVE_SPEED, temp_x, temp_y);
+	draw_skyground(game);
+	raycast(game);
+	minimap(game);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img->img, 0, 0);
+	update_all_sprites_index(game);
+	return (0);
 }

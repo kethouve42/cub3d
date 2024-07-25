@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/22 19:13:53 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:58:27 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,24 @@ int	red_cross(t_game *game)
 	close_game(game, NULL);
 }
 
+void	free_graphics(t_game *game)
+{
+	if (game->graphics->s_barrel.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_barrel.img);
+	if (game->graphics->s_pillar.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pillar.img);
+	if (game->graphics->tex_door.img)
+		mlx_destroy_image(game->mlx, game->graphics->tex_door.img);
+	free_texture(game, &game->graphics->tex_n);
+	free_texture(game, &game->graphics->tex_s);
+	free_texture(game, &game->graphics->tex_e);
+	free_texture(game, &game->graphics->tex_w);
+	free(game->graphics->sprites);
+	if (game->graphics->tmp_path != NULL)
+		free(game->graphics->tmp_path);
+	free(game->graphics);
+}
+
 /* Free everything that has been allocated and exit the program */
 int	close_game(t_game *game, char *error_msg)
 {
@@ -54,13 +72,10 @@ int	close_game(t_game *game, char *error_msg)
 	if (game->map)
 		free_tab(game->map);
 	free(game->key);
+	free(game->z_buffer);
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
-	free_texture(game, &game->graphics->tex_n);
-	free_texture(game, &game->graphics->tex_s);
-	free_texture(game, &game->graphics->tex_e);
-	free_texture(game, &game->graphics->tex_w);
-	free(game->graphics);
+	free_graphics(game);
 	free(game->player);
 	free(game->img);
 	mlx_destroy_window(game->mlx, game->mlx_win);
