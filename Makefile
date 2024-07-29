@@ -1,10 +1,11 @@
 NAME = cub3d_THE_GAME
 
-SRCS = ./
+SRCS_DIR = srcs
 INCLUDE = ./
 MLX_PATH = minilibx-linux/
 MLX_LIB = libmlx_Linux.a
 
+OBJDIR = obj
 CC = gcc
 CFLAGS = -lm -g
 MLXFLAGS = -Werror -Wall -Wextra -lX11 -lXext -lm
@@ -33,18 +34,21 @@ FILES = check_map.c\
 		utils3.c\
 		debug.c
 
-OBJ = $(addprefix $(SRCS), $(FILES:.c=.o))
+SRC = $(addprefix $(SRCS_DIR)/, $(FILES))
+OBJ = $(addprefix $(OBJDIR)/, $(FILES:.c=.o))
 
-all: $(NAME) clean
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(MLX_PATH)$(MLX_LIB) $(MLXFLAGS) -o $@ -I$(MLX_PATH) -I$(INCLUDE)
 
-%.o: %.c
+$(OBJDIR)/%.o: $(SRCS_DIR)/%.c
+	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ)
+	rm -rf $(OBJDIR)
 
 fclean: clean
 	rm -f $(NAME)

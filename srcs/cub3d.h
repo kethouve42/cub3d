@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/29 17:28:30 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:46:33 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <X11/Xutil.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "./minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx.h"
 # include <stdio.h>
 # include <sys/types.h>
 # include <sys/stat.h>
