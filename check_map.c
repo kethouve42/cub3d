@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 16:55:40 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:16:51 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void	get_player_start(t_game *game, char **map, int x, int y)
 {
 	if (game->player_start_rot != 0)
 		close_game(game, "Two or more player found");
-	game->player->pos_x = y;
-	game->player->pos_y = x;
+	game->player->pos_x = y + 0.5;
+	game->player->pos_y = x + 0.5;
 	if (map[y][x] == 'N')
 		game->player_start_rot = 1;
 	else if (map[y][x] == 'E')

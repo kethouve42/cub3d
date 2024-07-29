@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 17:29:10 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:17:10 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
+		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0)
 		{
 			game->player->pos_x += game->player->dir_x * speed;
 			game->player->pos_y += game->player->dir_y * speed;
@@ -80,7 +80,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
+		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0)
 		{
 			game->player->pos_x -= game->player->dir_x * speed;
 			game->player->pos_y -= game->player->dir_y * speed;
@@ -97,7 +97,7 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y - game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
+		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0)
 		{
 			game->player->pos_x += game->player->dir_y * speed;
 			game->player->pos_y -= game->player->dir_x * speed;
@@ -109,7 +109,7 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_x
 				* speed * HITBOX_SIZE);
-		if (is_into_str(game->map[temp_x][temp_y], "1D") == 0)
+		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0)
 		{
 			game->player->pos_x -= game->player->dir_y * speed;
 			game->player->pos_y += game->player->dir_x * speed;

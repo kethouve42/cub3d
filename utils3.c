@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:28:02 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 16:56:12 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:32:02 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_map_line(t_map	*map, t_player	*player, int x1, int y1)
+{
+	map->x0 = (int)(player->pos_x * 16);
+	map->y0 = (int)(player->pos_y * 16);
+	map->color = 0xFF0000;
+	map->dx = abs(x1 - map->x0);
+	map->dy = abs(y1 - map->y0);
+	if (map->x0 < x1)
+		map->sx = 1;
+	else
+		map->sx = -1;
+	if (map->y0 < y1)
+		map->sy = 1;
+	else
+		map->sy = -1;
+	if (map->dx > map->dy)
+		map->err = (map->dx / 2);
+	else
+		map->err = (-(map->dy) / 2);
+}
 
 /* Skip all non-alphanumeric characters */
 char	*skip_empty(char *str)

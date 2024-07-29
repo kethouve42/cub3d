@@ -1,0 +1,886 @@
+
+
+
+========================2==============================================
+end_line=======================================================================================================
+map->x0:y0= 96:128
+map.x0:y0= 96:128
+x1:y1= 88:141
+e2:err = 6:6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 95:129
+x1:y1= 88:141
+e2:err = 1:1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 94:130
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 93:131
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 93:132
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 92:133
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 91:134
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 91:135
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 90:136
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 90:137
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 89:138
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 88:139
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 88:140
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 87:141
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 86:142
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 86:143
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 85:144
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 85:145
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 84:146
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 83:147
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 83:148
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 82:149
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 82:150
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 81:151
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 80:152
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 80:153
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 79:154
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 78:155
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 78:156
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 77:157
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 77:158
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 76:159
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 75:160
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 75:161
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 74:162
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 74:163
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 73:164
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 72:165
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 72:166
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 71:167
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 70:168
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 70:169
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 69:170
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 69:171
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 68:172
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 67:173
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 67:174
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 66:175
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 66:176
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 65:177
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 64:178
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 64:179
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 63:180
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 62:181
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 62:182
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 61:183
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 61:184
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 60:185
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 59:186
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 59:187
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 58:188
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 58:189
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 57:190
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 56:191
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 56:192
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 55:193
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 54:194
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 54:195
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 53:196
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 53:197
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 52:198
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 51:199
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 51:200
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 50:201
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 50:202
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 49:203
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 48:204
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 48:205
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 47:206
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 46:207
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 46:208
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 45:209
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 45:210
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 44:211
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 43:212
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 43:213
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 42:214
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 42:215
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 41:216
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 40:217
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 40:218
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 39:219
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 38:220
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 38:221
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 37:222
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 37:223
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 36:224
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 35:225
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 35:226
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 34:227
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 34:228
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 33:229
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 32:230
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 32:231
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 31:232
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 30:233
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 30:234
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 29:235
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 29:236
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 28:237
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 27:238
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 27:239
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 26:240
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 26:241
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 25:242
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 24:243
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 24:244
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 23:245
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 22:246
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 22:247
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 21:248
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 21:249
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 20:250
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 19:251
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 19:252
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 18:253
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 18:254
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 17:255
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 16:256
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 16:257
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 15:258
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 14:259
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 14:260
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 13:261
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 13:262
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 12:263
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 11:264
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 11:265
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 10:266
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 10:267
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 9:268
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 8:269
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 8:270
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 7:271
+x1:y1= 88:141
+e2:err = -7:-7
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 6:272
+x1:y1= 88:141
+e2:err = -12:-12
+dx:dy = 8,13
+hello2
+map.x0:y0= 6:273
+x1:y1= 88:141
+e2:err = -4:-4
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 5:274
+x1:y1= 88:141
+e2:err = -9:-9
+dx:dy = 8,13
+hello2
+map.x0:y0= 5:275
+x1:y1= 88:141
+e2:err = -1:-1
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 4:276
+x1:y1= 88:141
+e2:err = -6:-6
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 3:277
+x1:y1= 88:141
+e2:err = -11:-11
+dx:dy = 8,13
+hello2
+map.x0:y0= 3:278
+x1:y1= 88:141
+e2:err = -3:-3
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 2:279
+x1:y1= 88:141
+e2:err = -8:-8
+dx:dy = 8,13
+hello2
+map.x0:y0= 2:280
+x1:y1= 88:141
+e2:err = 0:0
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 1:281
+x1:y1= 88:141
+e2:err = -5:-5
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= 0:282
+x1:y1= 88:141
+e2:err = -10:-10
+dx:dy = 8,13
+hello2
+map.x0:y0= 0:283
+x1:y1= 88:141
+e2:err = -2:-2
+dx:dy = 8,13
+hello1
+hello2
+map.x0:y0= -1:284
+x1:y1= 88:141
+Erreur de segmentation (core dumped)

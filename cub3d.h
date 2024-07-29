@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 17:49:34 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/29 17:28:30 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,20 @@ typedef struct s_game
 	int			last_time_update;
 }				t_game;
 
+typedef	struct s_map
+{
+	int dx;
+	int dy;
+	int sx;
+	int sy;
+	int err;
+	int e2;
+	int	color;
+	int	x0;
+	int	y0;
+}				t_map;
+
+
 /* ====================== MINIMAP ==================== */
 int	minimap(t_game *game);
 
@@ -244,7 +258,8 @@ char	*skip_empty(char *str);
 int		get_lines(t_game *game, char *map_path);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
 char	*ft_strdup(const char *s1);
-int	is_into_str(char c, char *str);
+int		is_into_str(char c, char *str);
+void	init_map_line(t_map	*map, t_player	*player, int x1, int y1);
 
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);
