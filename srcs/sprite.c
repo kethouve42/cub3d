@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/25 18:19:55 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/30 16:30:38 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,15 @@ void	get_sprite(t_game *game, char **map, int x, int y)
 
 void	sprite_init(t_game *game)
 {
+	int	i = 0;
 	game->z_buffer = (double *)malloc(sizeof(double)
 			* (game->graphics->screen_lenght));
+
+	while (i < game->graphics->screen_lenght)
+	{
+		game->z_buffer[i] = 0;
+		i++;
+	}
 	game->graphics->tmp_path = ft_strdup("texture/pillar.xpm\n");
 	load_texture(game, &game->graphics->s_pillar, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);

@@ -32,6 +32,7 @@ FILES = check_map.c\
 		utils1.c\
 		utils2.c\
 		utils3.c\
+		shoot.c\
 		debug.c
 
 SRC = $(addprefix $(SRCS_DIR)/, $(FILES))

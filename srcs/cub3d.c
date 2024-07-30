@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/25 17:12:10 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:38:17 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_ennemie(t_game	*game)
+{
+	game->ennemie.x = 7.75;
+	game->ennemie.y = 4.25;
+	game->ennemie.s_tex.img = NULL;
+	char *tmp_path = ft_strdup("texture/warrior.xpm\n");
+	load_texture(game, &game->ennemie.s_tex, tmp_path);
+	free(tmp_path);
+}
 
 /* Setup the default values ​​of the game */
 void	game_init(t_game *game)
@@ -33,6 +43,7 @@ void	game_init(t_game *game)
 	game->key->back = 0;
 	game->key->left = 0;
 	game->key->right = 0;
+	game->key->shoot = 0;
 	game->key->last_x = -1;
 	game->start_time = get_current_time();
 	game->last_time_update = get_current_time();
@@ -102,6 +113,7 @@ int	main(int ac, char **av)
 	graphic_init(&game);
 	window_init(&game);
 	sprite_init(&game);
+	init_ennemie(&game);
 	map_analysis(&game, av[1]);
 	draw_skyground(&game);
 	raycast(&game);

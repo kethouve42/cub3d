@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 18:20:01 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/30 17:02:26 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	draw_sprite_part_three(t_game *game, t_ray_tex *ray_tex, t_img *tex)
 				/ ray_tex->sprite_height) / 256;
 		ray_tex->color = tex->data[ray_tex->tex_y
 			* tex->width + ray_tex->tex_x];
-		if ((ray_tex->color & 0x00FFFFFF) != 0)
+		if (ray_tex->color & 0x00FFFFFF)
 			my_mlx_pixel_put(game->img, ray_tex->y,
 				ray_tex->stripe, ray_tex->color);
 		ray_tex->y++;
