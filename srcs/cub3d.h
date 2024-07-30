@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/29 17:46:33 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:41:00 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@
 # define HITBOX_SIZE 2
 # define SPRITE_UPDATE 500
 
-typedef struct s_img {
+typedef struct s_img
+{
 	void	*img;
 	char	*addr;
 	int		*data;
@@ -95,26 +96,26 @@ typedef struct s_raycast
 	int				d;
 }		t_raycast;
 
-typedef	struct	s_ray_tex
+typedef struct s_ray_tex
 {
-	double sprite_x;
-	double sprite_y;
-	double inv_det;
-	double transform_x;
-	double transform_y;
-	int sprite_screen_x;
-	int sprite_height;
-	int draw_start_y;
-	int draw_end_y;
-	int sprite_width;
-	int draw_start_x;
-	int draw_end_x;
-	int stripe;
-	int tex_x;
-	int y;
-	int d;
-	int tex_y;
-	unsigned int color;
+	double			sprite_x;
+	double			sprite_y;
+	double			inv_det;
+	double			transform_x;
+	double			transform_y;
+	int				sprite_screen_x;
+	int				sprite_height;
+	int				draw_start_y;
+	int				draw_end_y;
+	int				sprite_width;
+	int				draw_start_x;
+	int				draw_end_x;
+	int				stripe;
+	int				tex_x;
+	int				y;
+	int				d;
+	int				tex_y;
+	unsigned int	color;
 }			t_ray_tex;
 
 typedef struct s_texture
@@ -124,7 +125,7 @@ typedef struct s_texture
 	t_img	*tex;
 }			t_texture;
 
-typedef	struct s_sprite
+typedef struct s_sprite
 {
 	double	x;
 	double	y;
@@ -171,29 +172,28 @@ typedef struct s_game
 	int			last_time_update;
 }				t_game;
 
-typedef	struct s_map
+typedef struct s_map
 {
-	int dx;
-	int dy;
-	int sx;
-	int sy;
-	int err;
-	int e2;
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	e2;
 	int	color;
 	int	x0;
 	int	y0;
 }				t_map;
 
-
 /* ====================== MINIMAP ==================== */
-int	minimap(t_game *game);
+int		minimap(t_game *game);
 
 /* ======================= TIME ====================== */
 int		get_current_time(void);
 void	update_all_sprites_index(t_game *game);
 
 /* ====================== SOUND ===================== */
-void    playsound(char *file, int wait, int stop, int attenued);
+void	playsound(char *file, int wait, int stop, int attenued);
 
 /* ===================== RAYCAST ==================== */
 void	raycast(t_game *game);
@@ -210,9 +210,9 @@ void	raycast_part_five_door(t_game *game, t_raycast *raycast);
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
-void    draw_sprite(t_game *game);
+void	draw_sprite(t_game *game);
 void	check_how_many_sprites(t_game *game);
-void    get_sprite(t_game *game, char **map, int x, int y);
+void	get_sprite(t_game *game, char **map, int x, int y);
 void	sprite_dist(t_graphics *graphics, t_game *game);
 t_img	*set_test_texture_two(t_game *game, int *check, int check_tmp);
 
