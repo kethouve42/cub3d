@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/30 17:38:17 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:37:19 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	init_ennemie(t_game	*game)
 {
-	game->ennemie.x = 7.75;
-	game->ennemie.y = 4.25;
+	game->ennemie.x = 2.5;
+	game->ennemie.y = 9.5;
 	game->ennemie.s_tex.img = NULL;
-	char *tmp_path = ft_strdup("texture/warrior.xpm\n");
-	load_texture(game, &game->ennemie.s_tex, tmp_path);
-	free(tmp_path);
+	game->graphics->tmp_path = ft_strdup("texture/warrior.xpm\n");
+	load_texture(game, &game->ennemie.s_tex, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
 }
 
 /* Setup the default values ​​of the game */

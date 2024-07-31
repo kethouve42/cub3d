@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/30 17:38:45 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:42:14 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	raycast(t_game *game)
 		raycast.x++;
 	}
 	draw_sprite(game);
+	draw_ennemies(game, game->ennemie);
 	raycast_door(game);
 	draw_sprite(game);
 	draw_ennemies(game, game->ennemie);

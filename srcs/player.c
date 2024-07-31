@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/30 17:37:51 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:39:17 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	key_press(int keycode, t_game *game)
 		game->key->right = 1;
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
-	if (keycode == 32) //espace for shoot
+	if (keycode == 32)
 		shoot(game);
 	if (keycode == 101)
 		open_door(game, (int)game->player->pos_x,
@@ -57,7 +57,7 @@ int	key_release(int keycode, t_game *game)
 	if (keycode == 100)
 		game->key->right = 0;
 	if (keycode == 97 || keycode == 113)
-		game->key->left = 0; //espace for shoot
+		game->key->left = 0;
 	if (keycode == 32)
 		game->key->shoot = 0;
 	return (0);
