@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/31 14:35:27 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:51:38 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,13 +127,20 @@ typedef struct s_texture
 
 typedef struct s_sprite
 {
+	int		index;
+	int		nb;
 	double	x;
 	double	y;
 	double	sprite_x;
 	double	sprite_y;
-	t_img	s_tex;
+	t_img	*s_tex;
 	int		size;
 }			t_sprite;
+
+typedef struct s_enemies
+{
+	t_sprite	*sprite;
+}			t_enemies;
 
 typedef struct s_graphics
 {
@@ -145,7 +152,7 @@ typedef struct s_graphics
 	t_img		tex_door;
 	t_img		s_pillar;
 	t_img		s_barrel;
-	t_sprite	*sprites;
+	t_sprite	**sprites;
 	int			sprite_count;
 	int			color_sky[3];
 	int			color_ground[3];
@@ -167,7 +174,7 @@ typedef struct s_game
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
-	t_sprite	ennemie;
+	t_enemies	enemies;
 	double		*z_buffer;
 	int			start_time;
 	int			last_time_update;
@@ -217,7 +224,7 @@ void	sprite_init(t_game *game);
 void	draw_sprite(t_game *game);
 void	check_how_many_sprites(t_game *game);
 void	get_sprite(t_game *game, char **map, int x, int y);
-void	sprite_dist(t_graphics *graphics, t_game *game);
+void	sprite_sort(t_graphics *graphics, t_game *game);
 t_img	*set_test_texture_two(t_game *game, int *check, int check_tmp);
 
 /* ===================== PARSING ==================== */
@@ -273,13 +280,15 @@ void	display_texture_info(t_img *texture);
 void	display_color(t_game *game);
 
 /*======================== ENNEMIES ========================*/
-void	draw_ennemies(t_game *game, t_sprite ennemie);
+void	draw_ennemies(t_game *game, t_sprite *ennemie);
 int		ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y);
 double	calculate_distance(double x1, double y1, double x2, double y2);
 double	calculate_angle(double dir_x1, double dir_y1,
 			double dir_x2, double dir_y2);
-int		check_shot(t_game *game, t_sprite enemies, int num_enemies);
+int		check_shot(t_game *game, t_sprite *enemies, int num_enemies);
 void	shoot(t_game *game);
 void	draw_cursor(t_game *game);
+
+void	add_enemies(t_game *game);
 
 #endif

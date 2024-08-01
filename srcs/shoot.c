@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/31 14:29:26 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:44:40 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ void	draw_cursor(t_game *game)
 
 void	shoot(t_game *game)
 {
-	if (check_shot(game, game->ennemie, 1))
+	if (check_shot(game, game->enemies.sprite, 1))
 		printf("Tir réussi!\n");
 	else
 		printf("Tir manqué!\n");
 }
 
-void	draw_ennemies(t_game *game, t_sprite ennemie)
+void	draw_ennemies(t_game *game, t_sprite *ennemie)
 {
 	t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 
-	sprite = &game->ennemie;
-	tex = &sprite->s_tex;
+	sprite = game->enemies.sprite;
+	tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite);
 	draw_sprite_part_two(game, &ray_tex, tex);
 }
@@ -106,7 +106,7 @@ int	ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y)
 		}
 		if (game->map[map_x][map_y] == '1')
 			break ;
-		if (map_x == (int)game->ennemie.x && map_y == (int)game->ennemie.y)
+		if (map_x == (int)game->enemies.sprite->sprite_x && map_y == (int)game->enemies.sprite->sprite_y)
 			return 0; // Pas d'intersection avec un mur
 	}
 	return 1; // Intersection avec un mur
@@ -127,7 +127,7 @@ double	calculate_angle(double dr_x1, double dr_y1, double dr_x2, double dr_y2)
 	return (fabs(atan2(det, dot)));
 }
 
-int	check_shot(t_game *game, t_sprite enemies, int num_enemies)
+int	check_shot(t_game *game, t_sprite *enemies, int num_enemies)
 {
 	double	enemy_dir_x;
 	double	enemy_dir_y;
@@ -138,10 +138,10 @@ int	check_shot(t_game *game, t_sprite enemies, int num_enemies)
 	i = 0;
 	while (i < num_enemies)
 	{
-		enemy_dir_x = enemies.x - game->player->pos_x;
-		enemy_dir_y = enemies.y - game->player->pos_y;
+		enemy_dir_x = enemies->sprite_x - game->player->pos_x;
+		enemy_dir_y = enemies->sprite_y - game->player->pos_y;
 		distance_to_enemy = calculate_distance(game->player->pos_x,
-				game->player->pos_y, enemies.x, enemies.y);
+				game->player->pos_y, enemies->sprite_x, enemies->sprite_y);
 		if (distance_to_enemy <= 10.0)
 		{
 			shot_angle = calculate_angle(game->player->dir_x,

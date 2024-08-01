@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/31 13:42:14 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:51:28 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	raycast(t_game *game)
 	t_raycast	raycast;
 	int			i;
 
-	sprite_dist(game->graphics, game);
+	sprite_sort(game->graphics, game);
 	raycast.x = 0;
 	while (raycast.x < (game->graphics->screen_lenght))
 	{
@@ -97,9 +97,9 @@ void	raycast(t_game *game)
 		raycast.x++;
 	}
 	draw_sprite(game);
-	draw_ennemies(game, game->ennemie);
+	//draw_ennemies(game, game->enemies.sprite);
 	raycast_door(game);
 	draw_sprite(game);
-	draw_ennemies(game, game->ennemie);
+	//draw_ennemies(game, game->enemies.sprite);
 	draw_cursor(game);
 }

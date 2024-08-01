@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphic_info_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 17:20:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/01 16:56:50 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	check_how_many_sprites(t_game *game)
 		}
 		y++;
 	}
-	game->graphics->sprites = malloc(sizeof(t_sprite) * counter);
+	game->graphics->sprites = malloc(sizeof(t_sprite *) * (counter));
 }
 
 void	check_how_many_texture_loop(t_game *game, int i, int j)

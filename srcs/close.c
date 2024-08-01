@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 16:58:27 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:09:16 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	free_sprite(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->graphics->sprite_count)
+	{
+		free(game->graphics->sprites[i]->s_tex);
+		free(game->graphics->sprites[i]);
+		i++;
+	}
+	mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[0].img);
+	mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[1].img);
+	free(game->enemies.sprite->s_tex);
+	free(game->enemies.sprite);
+}
 
 void	free_texture(t_game *game, t_texture *tex)
 {
@@ -56,7 +73,8 @@ void	free_graphics(t_game *game)
 	free_texture(game, &game->graphics->tex_s);
 	free_texture(game, &game->graphics->tex_e);
 	free_texture(game, &game->graphics->tex_w);
-	free(game->graphics->sprites);
+	if (game->graphics->sprites)
+		free(game->graphics->sprites);
 	if (game->graphics->tmp_path != NULL)
 		free(game->graphics->tmp_path);
 	free(game->graphics);
@@ -67,6 +85,7 @@ int	close_game(t_game *game, char *error_msg)
 {
 	if (error_msg)
 		printf("Error\n%s\n", error_msg);
+	free_sprite(game);
 	if (game->cubfile)
 		free_tab(game->cubfile);
 	if (game->map)

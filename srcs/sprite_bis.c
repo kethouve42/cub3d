@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/30 17:02:26 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 18:39:36 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	draw_sprite_part_one(t_game *game, t_ray_tex *ray_tex, t_sprite *sprite)
 {
-	ray_tex->sprite_x = sprite->x - game->player->pos_x;
-	ray_tex->sprite_y = sprite->y - game->player->pos_y;
+	ray_tex->sprite_x = sprite->sprite_x - game->player->pos_x;
+	ray_tex->sprite_y = sprite->sprite_y - game->player->pos_y;
 	ray_tex->inv_det = 1.0 / (game->player->plane_x * game->player->dir_y
 			- game->player->dir_x * game->player->plane_y);
 	ray_tex->transform_x = ray_tex->inv_det * (game->player->dir_y
@@ -87,14 +87,33 @@ void	draw_sprite(t_game *game)
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 	int			i;
+	double	dist1;
+	double	dist2;
+	double	old_dist;
+	int	flag = 0;
 
 	i = 0;
+	old_dist = 99;
+	dist1 = sqrt(pow(game->enemies.sprite->sprite_x - game->player->pos_x, 2)
+					+ pow(game->enemies.sprite->sprite_y - game->player->pos_y, 2));
 	while (i < game->graphics->sprite_count)
 	{
-		sprite = &game->graphics->sprites[i];
-		tex = &sprite->s_tex;
+		sprite = game->graphics->sprites[i];
+		tex = &sprite->s_tex[sprite->index];
+		dist2 = sqrt(pow(sprite->sprite_x - game->player->pos_x, 2)
+			+ pow(sprite->sprite_y - game->player->pos_y, 2));
+		if (dist1 > dist2 && dist1 < old_dist)
+		{
+			flag = 1;
+			draw_ennemies(game, game->enemies.sprite);
+		}
 		draw_sprite_part_one(game, &ray_tex, sprite);
 		draw_sprite_part_two(game, &ray_tex, tex);
+		old_dist = dist2;
 		i++;
+	}
+	if (flag == 0)
+	{
+		draw_ennemies(game, game->enemies.sprite);
 	}
 }

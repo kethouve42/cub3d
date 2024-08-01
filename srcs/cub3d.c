@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/07/31 14:37:19 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 19:11:20 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,20 @@
 
 void	init_ennemie(t_game	*game)
 {
-	game->ennemie.x = 2.5;
-	game->ennemie.y = 9.5;
-	game->ennemie.s_tex.img = NULL;
+	game->enemies.sprite = malloc(sizeof(t_sprite));
+	game->enemies.sprite->sprite_x = 2.5;
+	game->enemies.sprite->sprite_y = 9.5;
+	game->enemies.sprite->s_tex = malloc(sizeof(t_img) * 2);
+	game->enemies.sprite->s_tex[0].img = NULL;
+	game->enemies.sprite->s_tex[1].img = NULL;
+	game->enemies.sprite->index = 0;
+	game->enemies.sprite->nb = 2;
 	game->graphics->tmp_path = ft_strdup("texture/warrior.xpm\n");
-	load_texture(game, &game->ennemie.s_tex, game->graphics->tmp_path);
+	load_texture(game, &game->enemies.sprite->s_tex[0], game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/warrior2.xpm\n");
+	load_texture(game, &game->enemies.sprite->s_tex[1], game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
 }
@@ -55,6 +64,7 @@ void	graphic_init(t_game *game)
 {
 	game->img = malloc(sizeof(t_img));
 	game->graphics = malloc(sizeof(t_graphics));
+	game->graphics->sprites = NULL;
 	game->graphics->screen_lenght = 24 * 64;
 	game->graphics->screen_height = 13 * 64;
 	game->graphics->tex_n.index = 0;
@@ -116,6 +126,7 @@ int	main(int ac, char **av)
 	sprite_init(&game);
 	init_ennemie(&game);
 	map_analysis(&game, av[1]);
+	//add_enemies(&game);
 	draw_skyground(&game);
 	raycast(&game);
 	playsound("suspense", 0, 0, 0);
