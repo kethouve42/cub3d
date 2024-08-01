@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:25:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 18:41:49 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/01 23:49:10 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	update_all_sprites_index(t_game *game)
 {
 	if (get_current_time() - game->last_time_update > SPRITE_UPDATE)
 	{
+		move_enemies(game);
 		update_sprite_index(game, &game->graphics->tex_n);
 		update_sprite_index(game, &game->graphics->tex_s);
 		update_sprite_index(game, &game->graphics->tex_e);

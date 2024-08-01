@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/01 19:11:20 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/02 00:13:01 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 void	init_ennemie(t_game	*game)
 {
+	game->enemies.move = 10;
+	game->enemies.move_state = 1;
+	game->enemies.chase_status = 0;
 	game->enemies.sprite = malloc(sizeof(t_sprite));
 	game->enemies.sprite->sprite_x = 2.5;
 	game->enemies.sprite->sprite_y = 9.5;
@@ -127,6 +130,7 @@ int	main(int ac, char **av)
 	init_ennemie(&game);
 	map_analysis(&game, av[1]);
 	//add_enemies(&game);
+	//move_enemies(&game);
 	draw_skyground(&game);
 	raycast(&game);
 	playsound("suspense", 0, 0, 0);
