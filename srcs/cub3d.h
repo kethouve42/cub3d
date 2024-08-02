@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 23:42:11 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:13:18 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct s_enemies
 	int			chase_status;
 	int			move_state;
 	int			move;
+	int			n_move;
 	t_sprite	*sprite;
 }			t_enemies;
 
@@ -292,7 +293,6 @@ int		check_shot(t_game *game, t_sprite *enemies, int num_enemies);
 void	shoot(t_game *game);
 void	draw_cursor(t_game *game);
 
-void	add_enemies(t_game *game);
 void	move_enemies(t_game *game);
 
 #endif

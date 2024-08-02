@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/02 00:41:44 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:11:13 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ int	ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y)
 	return 1; // Intersection avec un mur
 }
 
-double	calculate_distance(double x1, double y1, double x2, double y2)
+double	calculate_distance(double x1, double y1, double x2, double y2) // creer une variable distance dans ennemi rafraichi a chaque frame pour mise au norme de draw sprite
 {
-	return (sqrt((x2 - x1) * (x2 - y1) + (y2 - y1) * (y2 - y1)));
+	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
 }
 
 double	calculate_angle(double dr_x1, double dr_y1, double dr_x2, double dr_y2)

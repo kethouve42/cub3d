@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/02 00:13:01 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:01:49 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	init_ennemie(t_game	*game)
 {
-	game->enemies.move = 10;
+	game->enemies.n_move = 10;
+	game->enemies.move = game->enemies.n_move;
 	game->enemies.move_state = 1;
 	game->enemies.chase_status = 0;
 	game->enemies.sprite = malloc(sizeof(t_sprite));

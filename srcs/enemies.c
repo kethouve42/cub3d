@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:26:08 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/02 01:08:06 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/02 21:13:09 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@ void	chase(t_game *game)
 
 void	detection(t_game *game)
 {
-	if (game->enemies.sprite->sprite_x - game->player->pos_x <= 1 && game->enemies.sprite->sprite_x - game->player->pos_x >= -1)
+	if (game->enemies.sprite->sprite_x - game->player->pos_x <= 1
+		&& game->enemies.sprite->sprite_x - game->player->pos_x >= -1)
 	{
-		if (game->enemies.sprite->sprite_y - game->player->pos_y <= 1 && game->enemies.sprite->sprite_y - game->player->pos_y >= -1)
+		if (game->enemies.sprite->sprite_y - game->player->pos_y <= 1
+			&& game->enemies.sprite->sprite_y - game->player->pos_y >= -1)
 		{
 			printf("CHASE_ON\n");
 			game->enemies.chase_status = 1;
@@ -59,7 +61,7 @@ void	move_enemies(t_game *game)
 		game->enemies.move--;
 		if (game->enemies.move == 0)
 		{
-			game->enemies.move = 10;
+			game->enemies.move = game->enemies.n_move;
 			if (game->enemies.move_state == 1)
 				game->enemies.move_state = 2;
 			else if (game->enemies.move_state == 2)
@@ -71,16 +73,12 @@ void	move_enemies(t_game *game)
 		}
 		detection(game);
 	}
-	if ((game->enemies.sprite->sprite_x - game->player->pos_x <= 0.1 && game->enemies.sprite->sprite_x - game->player->pos_x >= -0.1)
-		&& (game->enemies.sprite->sprite_y - game->player->pos_y <= 0.1 && game->enemies.sprite->sprite_y - game->player->pos_y >= -0.1)) // a ameliorer
+	if ((game->enemies.sprite->sprite_x - game->player->pos_x <= 0.1
+		&& game->enemies.sprite->sprite_x - game->player->pos_x >= -0.1)
+		&& (game->enemies.sprite->sprite_y - game->player->pos_y <= 0.1
+		&& game->enemies.sprite->sprite_y - game->player->pos_y >= -0.1)) // a ameliorer
 	{
 		printf("game over\n");
 		close_game(game, NULL);
 	}
-}
-
-void	add_enemies(t_game *game)
-{
-	game->graphics->sprites[game->graphics->sprite_count] = game->enemies.sprite;
-	game->graphics->sprite_count++;
 }
