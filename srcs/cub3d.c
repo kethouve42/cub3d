@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/02 21:01:49 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/06 00:25:41 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	init_ennemie(t_game	*game)
 	game->enemies.sprite->s_tex[1].img = NULL;
 	game->enemies.sprite->index = 0;
 	game->enemies.sprite->nb = 2;
-	game->graphics->tmp_path = ft_strdup("texture/warrior.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/w_guard1.xpm\n");
 	load_texture(game, &game->enemies.sprite->s_tex[0], game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/warrior2.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
 	load_texture(game, &game->enemies.sprite->s_tex[1], game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
