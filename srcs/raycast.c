@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/10 23:55:43 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:21:19 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	raycast(t_game *game)
 	int			i;
 
 	sprite_sort(game->graphics, game);
+	enemies_sort(game->enemies, game);
 	raycast.x = 0;
 	while (raycast.x < (game->graphics->screen_lenght))
 	{

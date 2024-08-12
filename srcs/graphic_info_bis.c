@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   graphic_info_bis.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 16:56:50 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:22:00 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,11 @@ void	check_how_many_sprites(t_game *game)
 {
 	int	x;
 	int	y;
-	int	counter;
+	int	object_counter;
+	int	enemies_counter;
 
-	counter = 0;
+	object_counter = 0;
+	enemies_counter = 0;
 	y = 0;
 	while (y < game->map_height)
 	{
@@ -40,12 +42,15 @@ void	check_how_many_sprites(t_game *game)
 		while (game->map[y][x])
 		{
 			if (game->map[y][x] == 'B' || game->map[y][x] == 'P')
-				counter++;
+				object_counter++;
+			else if (game->map[y][x] == 'G')
+				enemies_counter++;
 			x++;
 		}
 		y++;
 	}
-	game->graphics->sprites = malloc(sizeof(t_sprite *) * (counter));
+	game->graphics->sprites = malloc(sizeof(t_sprite *) * (object_counter));
+	game->enemies = malloc(sizeof(t_sprite *) * (enemies_counter));
 }
 
 void	check_how_many_texture_loop(t_game *game, int i, int j)

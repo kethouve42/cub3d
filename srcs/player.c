@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/11 02:56:00 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:59:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 			game->player->pos_x += game->player->dir_x * speed;
 			game->player->pos_y += game->player->dir_y * speed;
 		}
-		if (is_into_str(game->map[temp_x][temp_y], "d") == 1)
+		if (is_into_str(game->map[temp_x][temp_y], "d") == 1) // a appliquer aux 4 directions
 		{
 			if(game->player->pos_x - temp_x < 0.7 && game->player->pos_x - temp_x > 0.3)
 			{

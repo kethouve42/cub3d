@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 19:09:16 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:46:07 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	free_sprite(t_game *game)
 		free(game->graphics->sprites[i]);
 		i++;
 	}
-	mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[0].img);
-	mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[1].img);
-	free(game->enemies.sprite->s_tex);
-	free(game->enemies.sprite);
+	//mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[0].img);
+	//mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[1].img);
+	//free(game->enemies.sprite->s_tex);
+	//free(game->enemies.sprite);
 }
 
 void	free_texture(t_game *game, t_texture *tex)

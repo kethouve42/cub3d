@@ -1,143 +1,225 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemies.c                                          :+:      :+:    :+:   */
+/*   enemies->c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student->42->fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/01 15:26:08 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/08 03:13:31 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:46:23 by acasanov         ###   ########->fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	chase(t_game *game)
+void	get_enemie(t_game *game, char **map, int x, int y)
+{
+	t_enemie	*enemie;
+
+	enemie = malloc(sizeof(t_enemie));
+	enemie->hp = 3;
+	enemie->n_move = 3000;
+	enemie->move = enemie->n_move;
+	enemie->move_state = 1;
+	enemie->chase_status = 0;
+	enemie->sprite = malloc(sizeof(t_sprite));
+	enemie->sprite->sprite_x = y + 0.5;
+	enemie->sprite->sprite_y = x + 0.5;
+	enemie->sprite->s_tex = malloc(sizeof(t_img) * 3);
+	enemie->sprite->s_tex[0].img = NULL;
+	enemie->sprite->s_tex[1].img = NULL;
+	enemie->sprite->s_tex[2].img = NULL;
+	enemie->sprite->index = 0;
+	enemie->sprite->nb = 3;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard1.xpm\n");
+	load_texture(game, &enemie->sprite->s_tex[0], game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
+	load_texture(game, &enemie->sprite->s_tex[1], game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
+	load_texture(game, &enemie->sprite->s_tex[2], game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	map[y][x] = '0';
+	game->enemies[game->enemies_count] = enemie;
+	game->enemies_count++;
+}
+
+void	swap_enemies(t_enemie *a, t_enemie *b)
+{
+	t_enemie	temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void	enemies_sort(t_enemie **enemies, t_game *game)
+{
+	double	dist1;
+	double	dist2;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < game->enemies_count - 1)
+	{
+		j = 0;
+		while (j < game->enemies_count - i - 1)
+		{
+			dist1 = sqrt(pow(enemies[j]->sprite->sprite_x - game->player->pos_x, 2)
+					+ pow(enemies[j]->sprite->sprite_y - game->player->pos_y, 2));
+			dist2 = sqrt(pow(enemies[j + 1]->sprite->sprite_x - game->player->pos_x, 2)
+					+ pow(enemies[j + 1]->sprite->sprite_y - game->player->pos_y, 2));
+			if (dist1 < dist2)
+				swap_enemies(enemies[j], enemies[j + 1]);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	draw_ennemies(t_game *game, t_sprite *enemie)
+{
+	t_img		*tex;
+	t_ray_tex	ray_tex;
+	t_sprite	*sprite;
+
+	sprite = enemie;
+	tex = &sprite->s_tex[sprite->index];
+	draw_sprite_part_one(game, &ray_tex, sprite);
+	draw_sprite_part_two(game, &ray_tex, tex);
+}
+
+void	chase(t_game *game, t_enemie *enemie)
 {
 	int	temp_x;
 	int	temp_y;
 	
-	temp_x = game->enemies.sprite->sprite_x;
-	temp_y = game->enemies.sprite->sprite_y;
-	if (game->enemies.sprite->sprite_x > game->player->pos_x)
+	temp_x = enemie->sprite->sprite_x;
+	temp_y = enemie->sprite->sprite_y;
+	if (enemie->sprite->sprite_x > game->player->pos_x)
 	{
-		temp_x = (int)game->enemies.sprite->sprite_x - 0.02 * HITBOX_SIZE;
+		temp_x = (int)enemie->sprite->sprite_x - 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			game->enemies.sprite->sprite_x -= 0.05;
+			enemie->sprite->sprite_x -= 0.02;
 	}
-	if (game->enemies.sprite->sprite_x < game->player->pos_x)
+	if (enemie->sprite->sprite_x < game->player->pos_x)
 	{
-		temp_x = (int)game->enemies.sprite->sprite_x + 0.02 * HITBOX_SIZE;
+		temp_x = (int)enemie->sprite->sprite_x + 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			game->enemies.sprite->sprite_x += 0.05;
+			enemie->sprite->sprite_x += 0.02;
 	}
-	if (game->enemies.sprite->sprite_y < game->player->pos_y)
+	if (enemie->sprite->sprite_y < game->player->pos_y)
 	{
-		temp_y = (int)game->enemies.sprite->sprite_y + 0.02 * HITBOX_SIZE;
+		temp_y = (int)enemie->sprite->sprite_y + 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			game->enemies.sprite->sprite_y += 0.05;
+			enemie->sprite->sprite_y += 0.02;
 	}
-	if (game->enemies.sprite->sprite_y > game->player->pos_y)
+	if (enemie->sprite->sprite_y > game->player->pos_y)
 	{
-		temp_y = (int)game->enemies.sprite->sprite_y - 0.02 * HITBOX_SIZE;
+		temp_y = (int)enemie->sprite->sprite_y - 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			game->enemies.sprite->sprite_y -= 0.05;
+			enemie->sprite->sprite_y -= 0.02;
 	}
 }
 
-void	detection(t_game *game)
+void	detection(t_game *game, t_enemie *enemie)
 {
-	if (game->enemies.sprite->sprite_x - game->player->pos_x <= 1
-		&& game->enemies.sprite->sprite_x - game->player->pos_x >= -1)
+	if (enemie->sprite->sprite_x - game->player->pos_x <= 1
+		&& enemie->sprite->sprite_x - game->player->pos_x >= -1)
 	{
-		if (game->enemies.sprite->sprite_y - game->player->pos_y <= 1
-			&& game->enemies.sprite->sprite_y - game->player->pos_y >= -1)
+		if (enemie->sprite->sprite_y - game->player->pos_y <= 1
+			&& enemie->sprite->sprite_y - game->player->pos_y >= -1)
 		{
 			printf("CHASE_ON\n");
-			game->enemies.chase_status = 1;
+			enemie->chase_status = 1;
 		}
 	}
-			/*printf("game->enemies.sprite->sprite_x - game->player->pos_x: %f\n", game->enemies.sprite->sprite_x - game->player->pos_x);
-			printf("game->enemies.sprite->sprite_y - game->player->pos_y: %f\n", game->enemies.sprite->sprite_y - game->player->pos_y);
-			printf("game->player->pos_x - game->enemies.sprite->sprite_x: %f\n", game->player->pos_x - game->enemies.sprite->sprite_x);
-			printf("game->player->pos_y - game->enemies.sprite->sprite_y: %f\n", game->player->pos_y - game->enemies.sprite->sprite_y);
-			printf("player x:%f | y:%f || ennemy: x:%f | y:%f\n", game->enemies.sprite->sprite_y, game->enemies.sprite->sprite_x, game->player->pos_y, game->player->pos_x);*/
+			/*printf("enemie->sprite->sprite_x - game->player->pos_x: %f\n", enemie->sprite->sprite_x - game->player->pos_x);
+			printf("enemie->sprite->sprite_y - game->player->pos_y: %f\n", enemie->sprite->sprite_y - game->player->pos_y);
+			printf("game->player->pos_x - enemie->sprite->sprite_x: %f\n", game->player->pos_x - enemie->sprite->sprite_x);
+			printf("game->player->pos_y - enemie->sprite->sprite_y: %f\n", game->player->pos_y - enemie->sprite->sprite_y);
+			printf("player x:%f | y:%f || ennemy: x:%f | y:%f\n", enemie->sprite->sprite_y, enemie->sprite->sprite_x, game->player->pos_y, game->player->pos_x);*/
 }
 
-void	move_enemies(t_game *game)
+void	move_enemies(t_game *game, t_enemie *enemie)
 {
 	int	temp_y;
 	int	temp_x;
 
-	temp_x = (int)game->enemies.sprite->sprite_x;
-	temp_y = (int)game->enemies.sprite->sprite_y;
-	if (game->enemies.chase_status == 1)
-		chase(game);
+	temp_x = (int)enemie->sprite->sprite_x;
+	temp_y = (int)enemie->sprite->sprite_y;
+	if (enemie->chase_status == 1)
+		chase(game, enemie);
 	else
 	{
-		if (game->enemies.move_state == 1)
+		if (enemie->move_state == 1)
 		{
-			temp_x = (int)game->enemies.sprite->sprite_x - 0.02;
+			temp_x = (int)(enemie->sprite->sprite_x - 0.01 - 0.1);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				game->enemies.sprite->sprite_x -= 0.02;
+				enemie->sprite->sprite_x -= 0.01;
 			else
 			{
-				game->enemies.move = game->enemies.n_move + 1;
-				game->enemies.move_state = 2;
+				enemie->move = enemie->n_move + 1;
+				enemie->move_state = 2;
 			}
 		}
-		else if (game->enemies.move_state == 2)
+		else if (enemie->move_state == 2)
 		{
-			temp_y = (int)game->enemies.sprite->sprite_y - 0.02;
+			temp_y = (int)(enemie->sprite->sprite_y - 0.01 - 0.1);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				game->enemies.sprite->sprite_y -= 0.02;
+				enemie->sprite->sprite_y -= 0.01;
 			else
 			{
-				game->enemies.move = game->enemies.n_move + 1;
-				game->enemies.move_state = 3;
+				enemie->move = enemie->n_move + 1;
+				enemie->move_state = 3;
 			}
 		}
-		else if (game->enemies.move_state == 3)
+		else if (enemie->move_state == 3)
 		{
-			temp_x = (int)game->enemies.sprite->sprite_x + 0.02;
+			temp_x = (int)(enemie->sprite->sprite_x + 0.01 + 0.1);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				game->enemies.sprite->sprite_x += 0.02;
+				enemie->sprite->sprite_x += 0.01;
 			else
 			{
-				game->enemies.move = game->enemies.n_move + 1;
-				game->enemies.move_state = 4;
+				enemie->move = enemie->n_move + 1;
+				enemie->move_state = 4;
 			}
 		}
-		else if (game->enemies.move_state == 4)
+		else if (enemie->move_state == 4)
 		{
-			temp_y = (int)game->enemies.sprite->sprite_y + 0.02;
+			temp_y = (int)(enemie->sprite->sprite_y + 0.01 + 0.1);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				game->enemies.sprite->sprite_y += 0.02;
+				enemie->sprite->sprite_y += 0.01;
 			else
 			{
-				game->enemies.move = game->enemies.n_move + 1;
-				game->enemies.move_state = 1;
+				enemie->move = enemie->n_move + 1;
+				enemie->move_state = 1;
 			}
 		}
-		game->enemies.move--;
-		if (game->enemies.move == 0)
+		enemie->move--;
+		if (enemie->move == 0)
 		{
-			game->enemies.move = game->enemies.n_move;
-			if (game->enemies.move_state == 1)
-				game->enemies.move_state = 2;
-			else if (game->enemies.move_state == 2)
-				game->enemies.move_state = 3;
-			else if (game->enemies.move_state == 3)
-				game->enemies.move_state = 4;
+			enemie->move = enemie->n_move;
+			if (enemie->move_state == 1)
+				enemie->move_state = 2;
+			else if (enemie->move_state == 2)
+				enemie->move_state = 3;
+			else if (enemie->move_state == 3)
+				enemie->move_state = 4;
 			else
-				game->enemies.move_state = 1;
+				enemie->move_state = 1;
 		}
-		detection(game);
+		detection(game, enemie);
 	}
-	if ((game->enemies.sprite->sprite_x - game->player->pos_x <= 0.1
-		&& game->enemies.sprite->sprite_x - game->player->pos_x >= -0.1)
-		&& (game->enemies.sprite->sprite_y - game->player->pos_y <= 0.1
-		&& game->enemies.sprite->sprite_y - game->player->pos_y >= -0.1)) // a ameliorer
+	if ((enemie->sprite->sprite_x - game->player->pos_x <= 0.1
+		&& enemie->sprite->sprite_x - game->player->pos_x >= -0.1)
+		&& (enemie->sprite->sprite_y - game->player->pos_y <= 0.1
+		&& enemie->sprite->sprite_y - game->player->pos_y >= -0.1)) // a ameliorer
 	{
 		printf("game over\n");
 		close_game(game, NULL);

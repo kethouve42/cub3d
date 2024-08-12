@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/10 23:45:45 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:14:46 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define ROT_SPEED 0.01
 # define MOVE_SPEED 0.04
 # define HITBOX_SIZE 2
-# define SPRITE_UPDATE 100
+# define SPRITE_UPDATE 500
 
 typedef struct s_img {
 	void	*img;
@@ -139,12 +139,13 @@ typedef struct s_sprite
 
 typedef struct s_enemies
 {
+	int			hp;
 	int			chase_status;
 	int			move_state;
 	int			move;
 	int			n_move;
 	t_sprite	*sprite;
-}			t_enemies;
+}			t_enemie;
 
 typedef struct s_graphics
 {
@@ -179,10 +180,12 @@ typedef struct s_game
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
-	t_enemies	enemies;
+	t_enemie	**enemies;
+	int			enemies_count;
 	double		*z_buffer;
 	int			start_time;
 	int			last_time_update;
+	int			last_ennemi_time_update;
 }				t_game;
 
 typedef struct s_map
@@ -286,14 +289,15 @@ void	display_color(t_game *game);
 
 /*======================== ENNEMIES ========================*/
 void	draw_ennemies(t_game *game, t_sprite *ennemie);
-int		ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y);
+int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y);
 double	calculate_distance(double x1, double y1, double x2, double y2);
-double	calculate_angle(double dir_x1, double dir_y1,
-			double dir_x2, double dir_y2);
-int		check_shot(t_game *game, t_sprite *enemies, int num_enemies);
+double	calculate_angle(double dir_x1, double dir_y1, double dir_x2,
+			double dir_y2);
+int		check_shot(t_game *game, t_sprite *enemies);
 void	shoot(t_game *game);
 void	draw_cursor(t_game *game);
-
-void	move_enemies(t_game *game);
+void	get_enemie(t_game *game, char **map, int x, int y);
+void	enemies_sort(t_enemie **enemies, t_game *game);
+void	move_enemies(t_game *game, t_enemie *enemie);
 
 #endif

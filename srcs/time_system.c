@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   time_system.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:25:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/02 21:14:01 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:24:20 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,18 @@ Patch note mouse update :
 
 void	update_enemies(t_game *game)
 {
-	game->enemies.sprite->index++;
-	//printf("player_index: %d\n", game->enemies.sprite.index);
-	if (game->enemies.sprite->index >= game->enemies.sprite->nb)
-		game->enemies.sprite->index = 0;
-	//printf("player_index: %d| nb: %d\n", game->enemies.sprite->index, game->enemies.sprite->nb);
-	//printf("player_x: %f| player_y: %f\n", game->enemies.sprite->x, game->enemies.sprite->y);
+	int i = 0;
+
+	while (i < game->enemies_count)
+	{
+		if (game->enemies[i]->hp > 0)
+		{
+			game->enemies[i]->sprite->index++;
+			if (game->enemies[i]->sprite->index >= game->enemies[i]->sprite->nb - 1)
+				game->enemies[i]->sprite->index = 0;
+		}
+		i++;
+	}
 }
 
 void update_sprite(t_game *game)
@@ -64,9 +70,20 @@ void	update_sprite_index(t_game *game, t_texture *tex)
 
 void	update_all_sprites_index(t_game *game)
 {
+	int i = 0;
+
+	if (get_current_time() - game->last_ennemi_time_update > 35)
+	{
+		while (i < game->enemies_count)
+		{
+			if (game->enemies[i]->hp > 0)
+				move_enemies(game, game->enemies[i]);
+			i++;
+		}
+		game->last_ennemi_time_update = get_current_time();
+	}
 	if (get_current_time() - game->last_time_update > SPRITE_UPDATE)
 	{
-		move_enemies(game);
 		update_sprite_index(game, &game->graphics->tex_n);
 		update_sprite_index(game, &game->graphics->tex_s);
 		update_sprite_index(game, &game->graphics->tex_e);

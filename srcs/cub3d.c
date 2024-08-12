@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/10 23:46:12 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:46:30 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	init_ennemie(t_game	*game)
 {
-	game->enemies.n_move = 300;
+	/*game->enemies.hp = 3;
+	game->enemies.n_move = 3000;
 	game->enemies.move = game->enemies.n_move;
 	game->enemies.move_state = 1;
 	game->enemies.chase_status = 0;
@@ -33,7 +34,7 @@ void	init_ennemie(t_game	*game)
 	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
 	load_texture(game, &game->enemies.sprite->s_tex[1], game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = NULL;*/
 }
 
 /* Setup the default values ​​of the game */
@@ -61,6 +62,8 @@ void	game_init(t_game *game)
 	game->key->last_x = -1;
 	game->start_time = get_current_time();
 	game->last_time_update = get_current_time();
+	game->last_ennemi_time_update = get_current_time();
+	game->enemies_count = 0;
 }
 
 /* Setup the default values ​​of the window */
@@ -129,10 +132,8 @@ int	main(int ac, char **av)
 	graphic_init(&game);
 	window_init(&game);
 	sprite_init(&game);
-	init_ennemie(&game);
+	//init_ennemie(&game);
 	map_analysis(&game, av[1]);
-	//add_enemies(&game);
-	//move_enemies(&game);
 	draw_skyground(&game);
 	raycast(&game);
 	playsound("suspense", 0, 0, 0);

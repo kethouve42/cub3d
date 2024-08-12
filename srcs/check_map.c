@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/29 17:16:51 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:26:26 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 		if (is_valid_char(map[y][x]) == 1 || map[y][x] == ' '
 			|| map[y][x] == '\n')
 		{
-			if (is_into_str(map[y][x], "0NSEWDBP"))
+			if (is_into_str(map[y][x], "0NSEWDBPG"))
 			{
 				if (is_valid_coord(game, map, x, y) == 1)
 					close_game(game, NULL);
@@ -88,6 +88,8 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 					get_player_start(game, map, x, y);
 				if (map[y][x] == 'B' || map[y][x] == 'P')
 					get_sprite(game, map, x, y);
+				if (map[y][x] == 'G')
+					get_enemie(game, map, x, y);
 			}
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/02 21:11:13 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:22:26 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,29 @@ void	draw_cursor(t_game *game)
 
 void	shoot(t_game *game)
 {
-	if (check_shot(game, game->enemies.sprite, 1))
-		printf("Tir réussi!\n");
-	else
-		printf("Tir manqué!\n");
+	int	i = game->enemies_count - 1;
+
+	printf("pan !\n");
+	while (i >= 0)
+	{
+		if (check_shot(game, game->enemies[i]->sprite))
+		{
+			printf("Tir réussi!\n");
+			game->enemies[i]->hp -= 1;
+			if (game->enemies[i]->hp <= 0)
+			{
+				game->enemies[i]->chase_status = 0;
+				game->enemies[i]->move_state = 0;
+				game->enemies[i]->sprite->index = game->enemies[i]->sprite->nb;
+				printf("Kill !\n");
+			}
+			break;
+		}
+		i--;
+	}
 }
 
-void	draw_ennemies(t_game *game, t_sprite *ennemie)
-{
-	t_img		*tex;
-	t_ray_tex	ray_tex;
-	t_sprite	*sprite;
-
-	sprite = game->enemies.sprite;
-	tex = &sprite->s_tex[sprite->index];
-	draw_sprite_part_one(game, &ray_tex, sprite);
-	draw_sprite_part_two(game, &ray_tex, tex);
-}
-
-int	ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y)
+int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y)
 {
 	int		map_x;
 	int		map_y;
@@ -106,7 +110,7 @@ int	ray_intersects_wall(t_game *game, double ray_dir_x, double ray_dir_y)
 		}
 		if (game->map[map_x][map_y] == '1')
 			break ;
-		if (map_x == (int)game->enemies.sprite->sprite_x && map_y == (int)game->enemies.sprite->sprite_y)
+		if (map_x == (int)enemie->sprite_x && map_y == (int)enemie->sprite_y)
 			return 0; // Pas d'intersection avec un mur
 	}
 	return 1; // Intersection avec un mur
@@ -127,30 +131,23 @@ double	calculate_angle(double dr_x1, double dr_y1, double dr_x2, double dr_y2)
 	return (fabs(atan2(det, dot)));
 }
 
-int	check_shot(t_game *game, t_sprite *enemies, int num_enemies)
+int	check_shot(t_game *game, t_sprite *enemies)
 {
 	double	enemy_dir_x;
 	double	enemy_dir_y;
 	double	distance_to_enemy;
 	double	shot_angle;
-	int		i;
 
-	i = 0;
-	while (i < num_enemies)
+	enemy_dir_x = enemies->sprite_x - game->player->pos_x;
+	enemy_dir_y = enemies->sprite_y - game->player->pos_y;
+	distance_to_enemy = calculate_distance(game->player->pos_x,
+		game->player->pos_y, enemies->sprite_x, enemies->sprite_y);
+	if (distance_to_enemy <= 10.0)
 	{
-		enemy_dir_x = enemies->sprite_x - game->player->pos_x;
-		enemy_dir_y = enemies->sprite_y - game->player->pos_y;
-		distance_to_enemy = calculate_distance(game->player->pos_x,
-				game->player->pos_y, enemies->sprite_x, enemies->sprite_y);
-		if (distance_to_enemy <= 10.0)
-		{
-			shot_angle = calculate_angle(game->player->dir_x,
-					game->player->dir_y, enemy_dir_x, enemy_dir_y);
-			if (shot_angle <= 0.05 && ray_intersects_wall(game, enemy_dir_x,
-					enemy_dir_y) == 0)
-				return (1);
-		}
-		i++;
+		shot_angle = calculate_angle(game->player->dir_x,
+				game->player->dir_y, enemy_dir_x, enemy_dir_y);
+		if (shot_angle <= 0.05 && ray_intersects_wall(game, enemies, enemy_dir_x, enemy_dir_y) == 0)
+		return (1);
 	}
 	return (0);
 }

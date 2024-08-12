@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/06 00:38:11 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:42:56 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,30 +90,36 @@ void	draw_sprite(t_game *game)
 	double	dist1;
 	double	dist2;
 	double	old_dist;
-	int	flag = 0;
+	int	enemi_index = 0;
 
 	i = 0;
 	old_dist = 99;
-	dist1 = sqrt(pow(game->enemies.sprite->sprite_x - game->player->pos_x, 2)
-					+ pow(game->enemies.sprite->sprite_y - game->player->pos_y, 2));
+	dist1 = sqrt(pow(game->enemies[enemi_index]->sprite->sprite_x - game->player->pos_x, 2) + pow(game->enemies[enemi_index]->sprite->sprite_y - game->player->pos_y, 2));
 	while (i < game->graphics->sprite_count)
 	{
 		sprite = game->graphics->sprites[i];
 		tex = &sprite->s_tex[sprite->index];
 		dist2 = sqrt(pow(sprite->sprite_x - game->player->pos_x, 2)
 			+ pow(sprite->sprite_y - game->player->pos_y, 2));
-		if (dist1 > dist2 && dist1 < old_dist)
+		if (enemi_index < game->enemies_count && dist1 > dist2 && dist1 < old_dist)
 		{
-			flag = 1;
-			draw_ennemies(game, game->enemies.sprite);
+			draw_ennemies(game, game->enemies[enemi_index]->sprite);
+			enemi_index++;
+			if (enemi_index < game->enemies_count)
+				dist1 = sqrt(pow(game->enemies[enemi_index]->sprite->sprite_x - game->player->pos_x, 2) + pow(game->enemies[enemi_index]->sprite->sprite_y - game->player->pos_y, 2));
 		}
-		draw_sprite_part_one(game, &ray_tex, sprite);
-		draw_sprite_part_two(game, &ray_tex, tex);
-		old_dist = dist2;
-		i++;
+		else
+		{
+			draw_sprite_part_one(game, &ray_tex, sprite);
+			draw_sprite_part_two(game, &ray_tex, tex);
+			old_dist = dist2;
+			i++;
+		}
 	}
-	if (flag == 0)
+	while(enemi_index < game->enemies_count)
 	{
-		draw_ennemies(game, game->enemies.sprite);
+		draw_ennemies(game, game->enemies[enemi_index]->sprite);
+		enemi_index++;
+
 	}
 }
