@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/12 18:22:26 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:28:01 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	shoot(t_game *game)
 			{
 				game->enemies[i]->chase_status = 0;
 				game->enemies[i]->move_state = 0;
-				game->enemies[i]->sprite->index = game->enemies[i]->sprite->nb;
+				game->enemies[i]->sprite->index = game->enemies[i]->sprite->nb - 1;
 				printf("Kill !\n");
 			}
 			break;

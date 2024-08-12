@@ -31,7 +31,7 @@ void	get_enemie(t_game *game, char **map, int x, int y)
 	enemie->sprite->s_tex[2].img = NULL;
 	enemie->sprite->index = 0;
 	enemie->sprite->nb = 3;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard1.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/w_guard3.xpm\n");
 	load_texture(game, &enemie->sprite->s_tex[0], game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
