@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/06 00:25:41 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:46:12 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_ennemie(t_game	*game)
 {
-	game->enemies.n_move = 10;
+	game->enemies.n_move = 300;
 	game->enemies.move = game->enemies.n_move;
 	game->enemies.move_state = 1;
 	game->enemies.chase_status = 0;
@@ -86,6 +86,7 @@ void	graphic_init(t_game *game)
 	game->graphics->s_pillar.img = NULL;
 	game->graphics->s_barrel.img = NULL;
 	game->graphics->tex_door.img = NULL;
+	game->graphics->tex_door2.img = NULL;
 	game->graphics->sprite_count = 0;
 }
 

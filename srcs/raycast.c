@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 18:51:28 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:55:43 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	raycast_door(t_game *game)
 	t_raycast	ray_door;
 
 	ray_door.x = 0;
-	ray_door.tex = &game->graphics->tex_door;
 	while (ray_door.x < (game->graphics->screen_lenght))
 	{
 		raycast_part_one(game, &ray_door);
@@ -68,10 +67,20 @@ void	raycast_door(t_game *game)
 		raycast_part_three_door(game, &ray_door);
 		if (ray_door.hit == 2)
 		{
+			ray_door.tex = &game->graphics->tex_door;
 			raycast_part_four(game, &ray_door);
 			raycast_part_five_door(game, &ray_door);
 			raycast_part_six(game, &ray_door);
 			game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;
+		}
+		else if (ray_door.hit == 3)
+		{
+			ray_door.tex = &game->graphics->tex_door2;
+			raycast_part_four(game, &ray_door);
+			raycast_part_five_door(game, &ray_door);
+			raycast_part_six(game, &ray_door);
+			game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;
+
 		}
 		ray_door.x++;
 	}

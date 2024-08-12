@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/01 18:50:51 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/11 00:17:09 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,12 @@ void	sprite_init(t_game *game)
 	load_texture(game, &game->graphics->s_barrel, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/door.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/door1.xpm\n");
 	load_texture(game, &game->graphics->tex_door, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/door3.xpm\n");
+	load_texture(game, &game->graphics->tex_door2, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
 }

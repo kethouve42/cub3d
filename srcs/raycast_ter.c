@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_ter.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:19 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/25 17:47:46 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:56:04 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	raycast_part_three_door(t_game *game, t_raycast *raycast)
 			raycast->hit = 1;
 		if (game->map[raycast->map_x][raycast->map_y] == 'D')
 			raycast->hit = 2;
+		if (game->map[raycast->map_x][raycast->map_y] == 'd')
+			raycast->hit = 3;
 	}
 	if (raycast->side == 0)
 		raycast->perp_wall_dist = (raycast->map_x - game->player->pos_x

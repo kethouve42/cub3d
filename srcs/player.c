@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/01 15:02:15 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/11 02:56:00 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,18 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 				* speed * HITBOX_SIZE);
 		temp_y = (int)(game->player->pos_y + game->player->dir_y
 				* speed * HITBOX_SIZE);
-		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0)
+		if (is_into_str(game->map[temp_x][temp_y], "1DPB") == 0 && is_into_str(game->map[temp_x][temp_y], "d") != 1)
 		{
 			game->player->pos_x += game->player->dir_x * speed;
 			game->player->pos_y += game->player->dir_y * speed;
+		}
+		if (is_into_str(game->map[temp_x][temp_y], "d") == 1)
+		{
+			if(game->player->pos_x - temp_x < 0.7 && game->player->pos_x - temp_x > 0.3)
+			{
+				game->player->pos_x += game->player->dir_x * speed;
+				game->player->pos_y += game->player->dir_y * speed;
+			}
 		}
 	}
 	if (game->key->back)

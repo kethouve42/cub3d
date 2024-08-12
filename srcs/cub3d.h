@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/02 21:13:18 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:45:45 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define ROT_SPEED 0.01
 # define MOVE_SPEED 0.04
 # define HITBOX_SIZE 2
-# define SPRITE_UPDATE 500
+# define SPRITE_UPDATE 100
 
 typedef struct s_img {
 	void	*img;
@@ -154,6 +154,7 @@ typedef struct s_graphics
 	t_texture	tex_w;
 	char		*tmp_path;
 	t_img		tex_door;
+	t_img		tex_door2;
 	t_img		s_pillar;
 	t_img		s_barrel;
 	t_sprite	**sprites;
