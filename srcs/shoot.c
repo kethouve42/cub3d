@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/12 18:28:01 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/13 15:58:51 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	shoot(t_game *game)
 {
 	int	i = game->enemies_count - 1;
 
-	printf("pan !\n");
 	while (i >= 0)
 	{
 		if (check_shot(game, game->enemies[i]->sprite))
@@ -98,6 +97,8 @@ int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double
 	}
 	while (1)
 	{
+		if (map_x == (int)enemie->sprite_x && map_y == (int)enemie->sprite_y)
+			return 0; // Pas d'intersection avec un mur
 		if (side_dist_x < side_dist_y)
 		{
 			side_dist_x += fabs(1 / ray_dir_x);
@@ -110,8 +111,6 @@ int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double
 		}
 		if (game->map[map_x][map_y] == '1')
 			break ;
-		if (map_x == (int)enemie->sprite_x && map_y == (int)enemie->sprite_y)
-			return 0; // Pas d'intersection avec un mur
 	}
 	return 1; // Intersection avec un mur
 }
@@ -146,8 +145,10 @@ int	check_shot(t_game *game, t_sprite *enemies)
 	{
 		shot_angle = calculate_angle(game->player->dir_x,
 				game->player->dir_y, enemy_dir_x, enemy_dir_y);
-		if (shot_angle <= 0.05 && ray_intersects_wall(game, enemies, enemy_dir_x, enemy_dir_y) == 0)
-		return (1);
+		if (shot_angle <= 0.1/distance_to_enemy && ray_intersects_wall(game, enemies, enemy_dir_x, enemy_dir_y) == 0)
+			return (1);
 	}
+	else
+		printf("trop loin\n");
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/11 00:17:09 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:10:57 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,18 @@ void	sprite_init(t_game *game)
 	game->graphics->tmp_path = NULL;
 	game->graphics->tmp_path = ft_strdup("texture/door3.xpm\n");
 	load_texture(game, &game->graphics->tex_door2, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard3.xpm\n");
+	load_texture(game, &game->graphics->s_enemi_one, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
+	load_texture(game, &game->graphics->s_enemi_two, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
+	load_texture(game, &game->graphics->s_enemi_dead, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
 }

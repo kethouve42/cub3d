@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 16:46:07 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:39:28 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,22 @@ void	free_sprite(t_game *game)
 		free(game->graphics->sprites[i]);
 		i++;
 	}
-	//mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[0].img);
-	//mlx_destroy_image(game->mlx, game->enemies.sprite->s_tex[1].img);
-	//free(game->enemies.sprite->s_tex);
-	//free(game->enemies.sprite);
+}
+
+void	free_enemie(t_game *game)
+{
+	int i = 0;
+	int j;
+
+	while (i < game->enemies_count)
+	{
+		j = 0;
+		free(game->enemies[i]->sprite->s_tex);
+		free(game->enemies[i]->sprite);
+		free(game->enemies[i]);
+		i++;
+	}
+	free(game->enemies);
 }
 
 void	free_texture(t_game *game, t_texture *tex)
@@ -69,6 +81,14 @@ void	free_graphics(t_game *game)
 		mlx_destroy_image(game->mlx, game->graphics->s_pillar.img);
 	if (game->graphics->tex_door.img)
 		mlx_destroy_image(game->mlx, game->graphics->tex_door.img);
+	if (game->graphics->tex_door2.img)
+		mlx_destroy_image(game->mlx, game->graphics->tex_door2.img);
+	if (game->graphics->s_enemi_one.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_enemi_one.img);
+	if (game->graphics->s_enemi_two.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_enemi_two.img);
+	if (game->graphics->s_enemi_dead.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_enemi_dead.img);
 	free_texture(game, &game->graphics->tex_n);
 	free_texture(game, &game->graphics->tex_s);
 	free_texture(game, &game->graphics->tex_e);
@@ -94,6 +114,7 @@ int	close_game(t_game *game, char *error_msg)
 	free(game->z_buffer);
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
+	free_enemie(game);
 	free_graphics(game);
 	free(game->player);
 	free(game->img);

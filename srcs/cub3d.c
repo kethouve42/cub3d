@@ -6,36 +6,11 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/12 16:46:30 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:43:38 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void	init_ennemie(t_game	*game)
-{
-	/*game->enemies.hp = 3;
-	game->enemies.n_move = 3000;
-	game->enemies.move = game->enemies.n_move;
-	game->enemies.move_state = 1;
-	game->enemies.chase_status = 0;
-	game->enemies.sprite = malloc(sizeof(t_sprite));
-	game->enemies.sprite->sprite_x = 2.5;
-	game->enemies.sprite->sprite_y = 9.5;
-	game->enemies.sprite->s_tex = malloc(sizeof(t_img) * 2);
-	game->enemies.sprite->s_tex[0].img = NULL;
-	game->enemies.sprite->s_tex[1].img = NULL;
-	game->enemies.sprite->index = 0;
-	game->enemies.sprite->nb = 2;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard1.xpm\n");
-	load_texture(game, &game->enemies.sprite->s_tex[0], game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
-	load_texture(game, &game->enemies.sprite->s_tex[1], game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;*/
-}
 
 /* Setup the default values ​​of the game */
 void	game_init(t_game *game)
@@ -90,6 +65,9 @@ void	graphic_init(t_game *game)
 	game->graphics->s_barrel.img = NULL;
 	game->graphics->tex_door.img = NULL;
 	game->graphics->tex_door2.img = NULL;
+	game->graphics->s_enemi_one.img = NULL;
+	game->graphics->s_enemi_two.img = NULL;
+	game->graphics->s_enemi_dead.img = NULL;
 	game->graphics->sprite_count = 0;
 }
 
@@ -132,7 +110,6 @@ int	main(int ac, char **av)
 	graphic_init(&game);
 	window_init(&game);
 	sprite_init(&game);
-	//init_ennemie(&game);
 	map_analysis(&game, av[1]);
 	draw_skyground(&game);
 	raycast(&game);

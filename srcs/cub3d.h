@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 18:14:46 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:10:25 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,9 @@ typedef struct s_graphics
 	t_img		tex_door2;
 	t_img		s_pillar;
 	t_img		s_barrel;
+	t_img		s_enemi_one;
+	t_img		s_enemi_two;
+	t_img		s_enemi_dead;
 	t_sprite	**sprites;
 	int			sprite_count;
 	int			color_sky[3];

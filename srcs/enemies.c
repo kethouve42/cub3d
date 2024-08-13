@@ -31,18 +31,9 @@ void	get_enemie(t_game *game, char **map, int x, int y)
 	enemie->sprite->s_tex[2].img = NULL;
 	enemie->sprite->index = 0;
 	enemie->sprite->nb = 3;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard3.xpm\n");
-	load_texture(game, &enemie->sprite->s_tex[0], game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
-	load_texture(game, &enemie->sprite->s_tex[1], game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
-	load_texture(game, &enemie->sprite->s_tex[2], game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
+	enemie->sprite->s_tex[0] = game->graphics->s_enemi_one;
+	enemie->sprite->s_tex[1] = game->graphics->s_enemi_two;
+	enemie->sprite->s_tex[2] = game->graphics->s_enemi_dead;
 	map[y][x] = '0';
 	game->enemies[game->enemies_count] = enemie;
 	game->enemies_count++;
@@ -139,11 +130,6 @@ void	detection(t_game *game, t_enemie *enemie)
 			enemie->chase_status = 1;
 		}
 	}
-			/*printf("enemie->sprite->sprite_x - game->player->pos_x: %f\n", enemie->sprite->sprite_x - game->player->pos_x);
-			printf("enemie->sprite->sprite_y - game->player->pos_y: %f\n", enemie->sprite->sprite_y - game->player->pos_y);
-			printf("game->player->pos_x - enemie->sprite->sprite_x: %f\n", game->player->pos_x - enemie->sprite->sprite_x);
-			printf("game->player->pos_y - enemie->sprite->sprite_y: %f\n", game->player->pos_y - enemie->sprite->sprite_y);
-			printf("player x:%f | y:%f || ennemy: x:%f | y:%f\n", enemie->sprite->sprite_y, enemie->sprite->sprite_x, game->player->pos_y, game->player->pos_x);*/
 }
 
 void	move_enemies(t_game *game, t_enemie *enemie)
@@ -159,7 +145,7 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 	{
 		if (enemie->move_state == 1)
 		{
-			temp_x = (int)(enemie->sprite->sprite_x - 0.01 - 0.1);
+			temp_x = (int)(enemie->sprite->sprite_x - 0.01 - 0.15);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 				enemie->sprite->sprite_x -= 0.01;
 			else
@@ -170,7 +156,7 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 		}
 		else if (enemie->move_state == 2)
 		{
-			temp_y = (int)(enemie->sprite->sprite_y - 0.01 - 0.1);
+			temp_y = (int)(enemie->sprite->sprite_y - 0.01 - 0.15);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 				enemie->sprite->sprite_y -= 0.01;
 			else
@@ -181,7 +167,7 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 		}
 		else if (enemie->move_state == 3)
 		{
-			temp_x = (int)(enemie->sprite->sprite_x + 0.01 + 0.1);
+			temp_x = (int)(enemie->sprite->sprite_x + 0.01 + 0.15);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 				enemie->sprite->sprite_x += 0.01;
 			else
@@ -192,7 +178,7 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 		}
 		else if (enemie->move_state == 4)
 		{
-			temp_y = (int)(enemie->sprite->sprite_y + 0.01 + 0.1);
+			temp_y = (int)(enemie->sprite->sprite_y + 0.01 + 0.15);
 			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 				enemie->sprite->sprite_y += 0.01;
 			else
