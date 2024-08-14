@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/13 16:10:57 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:50:50 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	swap_sprite(t_sprite *a, t_sprite *b)
 	*b = temp;
 }
 
-void	sprite_sort(t_graphics *graphics, t_game *game)
+void	sprite_sort(t_graphics *graphics, t_game *game, t_player *player)
 {
 	double	dist1;
 	double	dist2;
@@ -34,10 +34,10 @@ void	sprite_sort(t_graphics *graphics, t_game *game)
 		j = 0;
 		while (j < graphics->sprite_count - i - 1)
 		{
-			dist1 = sqrt(pow(graphics->sprites[j]->sprite_x - game->player->pos_x, 2)
-					+ pow(graphics->sprites[j]->sprite_y - game->player->pos_y, 2));
-			dist2 = sqrt(pow(graphics->sprites[j + 1]->sprite_x - game->player->pos_x, 2)
-					+ pow(graphics->sprites[j + 1]->sprite_y - game->player->pos_y, 2));
+			dist1 = sqrt(pow(graphics->sprites[j]->sprite_x - player->pos_x, 2)
+					+ pow(graphics->sprites[j]->sprite_y - player->pos_y, 2));
+			dist2 = sqrt(pow(graphics->sprites[j + 1]->sprite_x - player->pos_x, 2)
+					+ pow(graphics->sprites[j + 1]->sprite_y - player->pos_y, 2));
 			if (dist1 < dist2)
 				swap_sprite(graphics->sprites[j], graphics->sprites[j + 1]);
 			j++;

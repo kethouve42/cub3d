@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:08:04 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/29 17:31:01 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:11:07 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,5 @@ int	minimap(t_game *game)
 		y++;
 	}
 	draw_player(game->img, game->player);
+	draw_player(game->img, game->player_two);
 }

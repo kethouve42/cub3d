@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:25:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 18:24:20 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:55:49 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ void	update_all_sprites_index(t_game *game)
 	{
 		while (i < game->enemies_count)
 		{
-			if (game->enemies[i]->hp > 0)
-				move_enemies(game, game->enemies[i]);
+			//if (game->enemies[i]->hp > 0)
+				//move_enemies(game, game->enemies[i]);
 			i++;
 		}
 		game->last_ennemi_time_update = get_current_time();

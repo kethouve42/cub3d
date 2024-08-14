@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:19 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 20:06:41 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	draw_skyground(t_game *game)
 		x = 0;
 		while (x < game->graphics->screen_lenght)
 		{
+			if (game->gamemode == 2 && x == game->graphics->screen_lenght / 2 - 5)
+				x += 10;
 			if (y > game->graphics->screen_height / 2)
 				my_mlx_pixel_put(game->img, y, x, ground);
 			else
@@ -57,7 +59,7 @@ void	draw_skyground(t_game *game)
 
 void	raycast_door(t_game *game)
 {
-	t_raycast	ray_door;
+	/*t_raycast	ray_door;
 
 	ray_door.x = 0;
 	while (ray_door.x < (game->graphics->screen_lenght))
@@ -83,33 +85,31 @@ void	raycast_door(t_game *game)
 
 		}
 		ray_door.x++;
-	}
+	}*/
 }
 
 /* Draws a ray for each pixel column, and draws its point of impact */
-void	raycast(t_game *game)
+void	raycast(t_game *game, t_player *player, int begin, int end)
 {
 	t_raycast	raycast;
 	int			i;
 
-	sprite_sort(game->graphics, game);
-	enemies_sort(game->enemies, game);
-	raycast.x = 0;
-	while (raycast.x < (game->graphics->screen_lenght))
+	sprite_sort(game->graphics, game, player);
+	enemies_sort(game->enemies, game, player);
+	raycast.x = begin;
+	while (raycast.x < end)
 	{
-		raycast_part_one(game, &raycast);
-		raycast_part_two(game, &raycast);
-		raycast_part_three(game, &raycast);
-		raycast_part_four(game, &raycast);
-		raycast_part_five(game, &raycast);
+		raycast_part_one(game, &raycast, player);
+		raycast_part_two(game, &raycast, player);
+		raycast_part_three(game, &raycast, player);
+		raycast_part_four(game, &raycast, player);
+		raycast_part_five(game, &raycast, player);
 		raycast_part_six(game, &raycast);
 		game->z_buffer[raycast.x] = raycast.perp_wall_dist;
 		raycast.x++;
 	}
-	draw_sprite(game);
-	//draw_ennemies(game, game->enemies.sprite);
-	raycast_door(game);
-	draw_sprite(game);
-	//draw_ennemies(game, game->enemies.sprite);
-	draw_cursor(game);
+	draw_sprite(game, player, begin);
+	//raycast_door(game);
+	//draw_sprite(game, player);
+	//draw_cursor(game);
 }

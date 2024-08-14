@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 16:26:26 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:39:01 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,26 @@ void	check_map_empty_line(t_game *game, char **map)
 /* Get player start position and rotation */
 void	get_player_start(t_game *game, char **map, int x, int y)
 {
-	if (game->player_start_rot != 0)
+	t_player *player;
+
+	player = game->player;
+
+	if (game->player->player_start_rot != 0 && game->gamemode == 1)
 		close_game(game, "Two or more player found");
-	game->player->pos_x = y + 0.5;
-	game->player->pos_y = x + 0.5;
+	else if (game->gamemode == 2 && game->player->player_start_rot != 0 && game->player_two->player_start_rot == 0)
+		player = game->player_two;
+	else if (game->gamemode == 2 && game->player->player_start_rot != 0)
+		close_game(game, "There is no two players");
+	player->pos_x = y + 0.5;
+	player->pos_y = x + 0.5;
 	if (map[y][x] == 'N')
-		game->player_start_rot = 1;
+		player->player_start_rot = 1;
 	else if (map[y][x] == 'E')
-		game->player_start_rot = 2;
+		player->player_start_rot = 2;
 	else if (map[y][x] == 'S')
-		game->player_start_rot = 3;
+		player->player_start_rot = 3;
 	else if (map[y][x] == 'W')
-		game->player_start_rot = 4;
+		player->player_start_rot = 4;
 	map[y][x] = '0';
 }
 
@@ -123,7 +131,11 @@ void	check_map(t_game *game, char *map_path, int file_size)
 		explore_map_value(game, game->map, 0, y);
 		y++;
 	}
-	set_player_rot(game);
-	if (game->player_start_rot == 0)
+	set_player_rot(game->player);
+	if (game->gamemode == 2 && game->player_two->player_start_rot != 0)
+		set_player_rot(game->player_two);
+	else if (game->gamemode == 2)
+		close_game(game, "No second player");
+	if (game->player->player_start_rot == 0)
 		close_game(game, "error : no player found");
 }

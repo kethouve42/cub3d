@@ -1,0 +1,22 @@
+      NO texture/wood.xpm
+SO texture/greystone.xpm
+WE      texture/redbrick.xpm
+SO      texture/mossy.xpm
+      NO texture/eagle.xpm
+        NO texture/eagle.xpm
+   EA      texture/mossy.xpm
+
+C 41, 146, 255
+F 0, 196, 0
+
+     111111111111111
+111111B00G0000000001
+100D00000W0011111111
+111110P0P011111
+100G000000000B1
+100000000BW0001
+100011100000001
+10001 100000001
+1000111000000011111
+100G0000010G0000001
+1111111111111111111

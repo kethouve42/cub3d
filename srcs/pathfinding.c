@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:41:33 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 17:10:42 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:50:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 void	pathfinding(char **map, int x, int y)
 {
 	map[y][x] = '1';
-	if (is_into_str(map[y + 1][x], "0DG"))
+	if (is_into_str(map[y + 1][x], "0DGNSEW"))
 		pathfinding(map, x, y + 1);
-	if (is_into_str(map[y][x + 1], "0DG"))
+	if (is_into_str(map[y][x + 1], "0DGNSEW"))
 		pathfinding(map, x + 1, y);
-	if (is_into_str(map[y][x - 1], "0DG"))
+	if (is_into_str(map[y][x - 1], "0DGNSEW"))
 		pathfinding(map, x - 1, y);
-	if (is_into_str(map[y - 1][x], "0DG"))
+	if (is_into_str(map[y - 1][x], "0DGNSEW"))
 		pathfinding(map, x, y - 1);
 }
 

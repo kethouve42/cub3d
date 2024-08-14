@@ -48,7 +48,7 @@ void	swap_enemies(t_enemie *a, t_enemie *b)
 	*b = temp;
 }
 
-void	enemies_sort(t_enemie **enemies, t_game *game)
+void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 {
 	double	dist1;
 	double	dist2;
@@ -61,10 +61,10 @@ void	enemies_sort(t_enemie **enemies, t_game *game)
 		j = 0;
 		while (j < game->enemies_count - i - 1)
 		{
-			dist1 = sqrt(pow(enemies[j]->sprite->sprite_x - game->player->pos_x, 2)
-					+ pow(enemies[j]->sprite->sprite_y - game->player->pos_y, 2));
-			dist2 = sqrt(pow(enemies[j + 1]->sprite->sprite_x - game->player->pos_x, 2)
-					+ pow(enemies[j + 1]->sprite->sprite_y - game->player->pos_y, 2));
+			dist1 = sqrt(pow(enemies[j]->sprite->sprite_x - player->pos_x, 2)
+					+ pow(enemies[j]->sprite->sprite_y - player->pos_y, 2));
+			dist2 = sqrt(pow(enemies[j + 1]->sprite->sprite_x - player->pos_x, 2)
+					+ pow(enemies[j + 1]->sprite->sprite_y - player->pos_y, 2));
 			if (dist1 < dist2)
 				swap_enemies(enemies[j], enemies[j + 1]);
 			j++;
@@ -75,14 +75,14 @@ void	enemies_sort(t_enemie **enemies, t_game *game)
 
 void	draw_ennemies(t_game *game, t_sprite *enemie)
 {
-	t_img		*tex;
+	/*t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 
 	sprite = enemie;
 	tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite);
-	draw_sprite_part_two(game, &ray_tex, tex);
+	draw_sprite_part_two(game, &ray_tex, tex);*/
 }
 
 void	chase(t_game *game, t_enemie *enemie)

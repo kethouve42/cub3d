@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/13 16:10:25 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:57:35 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_img {
 
 typedef struct s_player
 {
+	int		player_start_rot;
 	double	pos_x;
 	double	pos_y;
 	double	dir_x;
@@ -59,7 +60,6 @@ typedef struct s_key
 	int	back;
 	int	left;
 	int	right;
-	int	shoot;
 	int	rotate_left;
 	int	rotate_right;
 	int	last_x;
@@ -175,14 +175,16 @@ typedef struct s_game
 	void		*mlx_win;
 	char		**cubfile;
 	int			line_map;
+	int			gamemode;
 	char		**map;
 	int			map_height;
 	int			map_length;
-	int			player_start_rot;
 	t_key		*key;
+	t_key		*key2;
 	t_img		*img;
 	t_graphics	*graphics;
 	t_player	*player;
+	t_player	*player_two;
 	t_enemie	**enemies;
 	int			enemies_count;
 	double		*z_buffer;
@@ -215,27 +217,26 @@ void	update_all_sprites_index(t_game *game);
 void	playsound(char *file, int wait, int stop, int attenued);
 
 /* ===================== RAYCAST ==================== */
-void	raycast(t_game *game);
-void	raycast_part_one(t_game *game, t_raycast *raycast);
-void	raycast_part_two(t_game *game, t_raycast *raycast);
-void	raycast_part_three(t_game *game, t_raycast *raycast);
-void	raycast_part_four(t_game *game, t_raycast *raycast);
-void	raycast_part_five(t_game *game, t_raycast *raycast);
+void	raycast(t_game *game, t_player *player, int begin, int end);
+void	raycast_part_one(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_two(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_three(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_four(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_five(t_game *game, t_raycast *raycast, t_player *player);
 void	raycast_part_six(t_game *game, t_raycast *raycast);
 void	raycast_part_three_door(t_game *game, t_raycast *raycast);
 void	raycast_part_five_door(t_game *game, t_raycast *raycast);
-void	draw_sprite_part_one(t_game *game, t_ray_tex *ray_tex,
-			t_sprite *sprite);
-void	draw_sprite_part_two(t_game *game, t_ray_tex *ray_tex, t_img *tex);
+void	draw_sprite_part_one(t_game *game, t_ray_tex *ray_tex, t_sprite *sprite, t_player *player);
+void	draw_sprite_part_two(t_game *game, t_ray_tex *ray_tex, t_img *tex, int begin);
 
 /* ===================== GRAPHICS ==================== */
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
-void	draw_sprite(t_game *game);
+void	draw_sprite(t_game *game, t_player *player, int begin);
 void	check_how_many_sprites(t_game *game);
 void	get_sprite(t_game *game, char **map, int x, int y);
-void	sprite_sort(t_graphics *graphics, t_game *game);
+void	sprite_sort(t_graphics *graphics, t_game *game, t_player *player);
 t_img	*set_test_texture_two(t_game *game, int *check, int check_tmp);
 
 /* ===================== PARSING ==================== */
@@ -249,7 +250,7 @@ void	check_path(t_game *game, char *map_path, int file_size);
 char	**copy_map(char *map_path, t_game *game, int file_size, int override);
 int		is_valid_char(char c);
 int		is_valid_coord(t_game *game, char **map, int x, int y);
-void	set_player_rot(t_game *game);
+void	set_player_rot(t_player *player);
 void	check_how_many_texture(t_game *game);
 
 /* ===================== PLAYER ==================== */
@@ -257,8 +258,9 @@ int		player(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 int		mouse(int x, int y, t_game *game);
-void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y);
-void	player_right_left(t_game *game, double speed, int temp_x, int temp_y);
+void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y, t_player *player, t_key *key);
+void	player_right_left(t_game *game, double speed, int temp_x, int temp_y, t_player *player, t_key *key);
+void	player_rotation(t_game *game, double old_dir_x, double old_plane_x, t_player *player, t_key *key);
 void	open_door(t_game *game, int y, int x, char **map);
 
 /* ============== CLOSE ============== */
@@ -286,7 +288,7 @@ void	init_map_line(t_map	*map, t_player	*player, int x1, int y1);
 /* ===================== DEBUG ==================== */
 void	display_map(char **map);
 void	display_key_input(t_game *game);
-void	display_player_info(t_game *game);
+void	display_player_info(t_player *player);
 void	display_texture_info(t_img *texture);
 void	display_color(t_game *game);
 
@@ -300,7 +302,7 @@ int		check_shot(t_game *game, t_sprite *enemies);
 void	shoot(t_game *game);
 void	draw_cursor(t_game *game);
 void	get_enemie(t_game *game, char **map, int x, int y);
-void	enemies_sort(t_enemie **enemies, t_game *game);
+void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player);
 void	move_enemies(t_game *game, t_enemie *enemie);
 
 #endif
