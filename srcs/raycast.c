@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 20:06:41 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:31:37 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,35 +57,35 @@ void	draw_skyground(t_game *game)
 	}
 }
 
-void	raycast_door(t_game *game)
+void	raycast_door(t_game *game, t_player *player, int begin, int end)
 {
-	/*t_raycast	ray_door;
+	t_raycast	ray_door;
 
-	ray_door.x = 0;
-	while (ray_door.x < (game->graphics->screen_lenght))
+	ray_door.x = begin;
+	while (ray_door.x < end)
 	{
-		raycast_part_one(game, &ray_door);
-		raycast_part_two(game, &ray_door);
-		raycast_part_three_door(game, &ray_door);
+		raycast_part_one(game, &ray_door, player, begin);
+		raycast_part_two(game, &ray_door, player);
+		raycast_part_three_door(game, &ray_door, player);
 		if (ray_door.hit == 2)
 		{
 			ray_door.tex = &game->graphics->tex_door;
-			raycast_part_four(game, &ray_door);
-			raycast_part_five_door(game, &ray_door);
+			raycast_part_four(game, &ray_door, player);
+			raycast_part_five_door(game, &ray_door, player);
 			raycast_part_six(game, &ray_door);
 			game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;
 		}
 		else if (ray_door.hit == 3)
 		{
 			ray_door.tex = &game->graphics->tex_door2;
-			raycast_part_four(game, &ray_door);
-			raycast_part_five_door(game, &ray_door);
+			raycast_part_four(game, &ray_door, player);
+			raycast_part_five_door(game, &ray_door, player);
 			raycast_part_six(game, &ray_door);
 			game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;
 
 		}
 		ray_door.x++;
-	}*/
+	}
 }
 
 /* Draws a ray for each pixel column, and draws its point of impact */
@@ -99,7 +99,7 @@ void	raycast(t_game *game, t_player *player, int begin, int end)
 	raycast.x = begin;
 	while (raycast.x < end)
 	{
-		raycast_part_one(game, &raycast, player);
+		raycast_part_one(game, &raycast, player, begin);
 		raycast_part_two(game, &raycast, player);
 		raycast_part_three(game, &raycast, player);
 		raycast_part_four(game, &raycast, player);
@@ -109,7 +109,10 @@ void	raycast(t_game *game, t_player *player, int begin, int end)
 		raycast.x++;
 	}
 	draw_sprite(game, player, begin);
-	//raycast_door(game);
-	//draw_sprite(game, player);
-	//draw_cursor(game);
+	raycast_door(game, player, begin, end);
+	draw_sprite(game, player, begin);
+	if (game->gamemode == 2)
+		draw_cursor(game, begin + game->graphics->screen_lenght / 4 - 2);
+	else
+		draw_cursor(game, game->graphics->screen_lenght / 2);
 }

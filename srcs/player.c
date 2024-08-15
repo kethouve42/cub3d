@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 20:03:39 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 16:37:27 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
 	if (keycode == 32)
-		shoot(game);
+		shoot(game, game->player, 1);
 	if (keycode == 101)
 		open_door(game, (int)game->player->pos_x,
 			(int)game->player->pos_y, game->map);
@@ -55,12 +55,11 @@ int	key_press(int keycode, t_game *game)
 		game->key2->right = 1;
 	if (keycode == 65361)
 		game->key2->left = 1;
-	/*if (keycode == 65438)
-		shoot(game); // pour l'autre player
+	if (keycode == 65438)
+		shoot(game, game->player_two, 2); // pour l'autre player
 	if (keycode == 65431)
-		open_door(game, (int)game->player->pos_x,
-			(int)game->player->pos_y, game->map); // same
-*/
+		open_door(game, (int)game->player_two->pos_x,
+			(int)game->player_two->pos_y, game->map);
 	return (0);
 }
 
@@ -119,6 +118,8 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y, t_p
 				player->pos_y += player->dir_y * speed;
 			}
 		}
+		player->sprite->sprite_x = player->pos_x;
+		player->sprite->sprite_y = player->pos_y;
 	}
 	if (key->back)
 	{
@@ -131,6 +132,8 @@ void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y, t_p
 			player->pos_x -= player->dir_x * speed;
 			player->pos_y -= player->dir_y * speed;
 		}
+		player->sprite->sprite_x = player->pos_x;
+		player->sprite->sprite_y = player->pos_y;
 	}
 }
 
@@ -148,6 +151,8 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y, t_pla
 			player->pos_x += player->dir_y * speed;
 			player->pos_y -= player->dir_x * speed;
 		}
+		player->sprite->sprite_x = player->pos_x;
+		player->sprite->sprite_y = player->pos_y;
 	}
 	if (key->left)
 	{
@@ -160,6 +165,8 @@ void	player_right_left(t_game *game, double speed, int temp_x, int temp_y, t_pla
 			player->pos_x -= player->dir_y * speed;
 			player->pos_y += player->dir_x * speed;
 		}
+		player->sprite->sprite_x = player->pos_x;
+		player->sprite->sprite_y = player->pos_y;
 	}
 }
 
@@ -222,8 +229,6 @@ int	player(t_game *game)
 			player_right_left(game, MOVE_SPEED, temp_x, temp_y, game->player_two, game->key2);
 		player_rotation(game, game->player_two->dir_x, game->player_two->plane_x, game->player_two, game->key2);
 	}
-
-	display_key_input(game);
 
 	draw_skyground(game);
 	if (game->gamemode == 2)

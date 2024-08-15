@@ -73,16 +73,16 @@ void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 	}
 }
 
-void	draw_ennemies(t_game *game, t_sprite *enemie)
+void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
 {
-	/*t_img		*tex;
+	t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 
 	sprite = enemie;
 	tex = &sprite->s_tex[sprite->index];
-	draw_sprite_part_one(game, &ray_tex, sprite);
-	draw_sprite_part_two(game, &ray_tex, tex);*/
+	draw_sprite_part_one(game, &ray_tex, sprite, player);
+	draw_sprite_part_two(game, &ray_tex, tex, begin);
 }
 
 void	chase(t_game *game, t_enemie *enemie)

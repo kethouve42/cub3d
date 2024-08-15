@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:08:04 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 19:11:07 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:12:51 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,14 @@ void	draw_square(t_img *img, int y_start, int x_start, int color)
 	}
 }
 
-void	draw_player(t_img *img, t_player *player)
+void	draw_player(t_img *img, t_player *player, int color)
 {
 	int	dir_x_end;
 	int	dir_y_end;
 
 	dir_x_end = (int)(player->pos_x * 16 + player->dir_x * 15);
 	dir_y_end = (int)(player->pos_y * 16 + player->dir_y * 15);
-	draw_circle(img, player->pos_x * 16, player->pos_y * 16, 0x80d402);
+	draw_circle(img, player->pos_x * 16, player->pos_y * 16, color);
 	draw_line(img, player, dir_x_end, dir_y_end);
 }
 
@@ -123,6 +123,7 @@ int	minimap(t_game *game)
 		}
 		y++;
 	}
-	draw_player(game->img, game->player);
-	draw_player(game->img, game->player_two);
+	draw_player(game->img, game->player, 0x80d402);
+	if (game->gamemode == 2)
+		draw_player(game->img, game->player_two, 0xD35035);
 }

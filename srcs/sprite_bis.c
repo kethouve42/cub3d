@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 19:04:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 16:27:32 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,21 +96,36 @@ void	draw_sprite(t_game *game, t_player *player, int begin)
 	int			i;
 	double	dist1;
 	double	dist2;
+	double	dist3 = 0;
 	double	old_dist;
 	int	enemi_index = 0;
+
+	t_player *opponent = NULL;
+
+	if (game->gamemode == 2 && begin == 0)
+		opponent = game->player_two;
+	else if (game->gamemode == 2)
+		opponent = game->player;
 
 	i = 0;
 	old_dist = 99;
 	dist1 = sqrt(pow(game->enemies[enemi_index]->sprite->sprite_x - player->pos_x, 2) + pow(game->enemies[enemi_index]->sprite->sprite_y - player->pos_y, 2));
+	if (opponent != NULL)
+		dist3 = sqrt(pow(opponent->pos_x - player->pos_x, 2) + pow(opponent->pos_y - player->pos_y, 2)); /////////
 	while (i < game->graphics->sprite_count)
 	{
 		sprite = game->graphics->sprites[i];
 		tex = &sprite->s_tex[sprite->index];
 		dist2 = sqrt(pow(sprite->sprite_x - player->pos_x, 2)
 			+ pow(sprite->sprite_y - player->pos_y, 2));
-		if (enemi_index < game->enemies_count && dist1 > dist2 && dist1 < old_dist)
+		if (dist3 > dist2 && dist3 < old_dist && dist3 > dist1)
 		{
-			//draw_ennemies(game, game->enemies[enemi_index]->sprite);
+			draw_ennemies(game, opponent->sprite, player, begin);
+			dist3 = 0;
+		}
+		else if (enemi_index < game->enemies_count && dist1 > dist2 && dist1 < old_dist)
+		{
+			draw_ennemies(game, game->enemies[enemi_index]->sprite, player, begin);
 			enemi_index++;
 			if (enemi_index < game->enemies_count)
 				dist1 = sqrt(pow(game->enemies[enemi_index]->sprite->sprite_x - player->pos_x, 2) + pow(game->enemies[enemi_index]->sprite->sprite_y - player->pos_y, 2));
@@ -125,8 +140,15 @@ void	draw_sprite(t_game *game, t_player *player, int begin)
 	}
 	while(enemi_index < game->enemies_count)
 	{
-		//draw_ennemies(game, game->enemies[enemi_index]->sprite);
+		if (dist3 != 0 && dist3 > dist1)
+		{
+			draw_ennemies(game, opponent->sprite, player, begin);
+			dist3 = 0;
+		}
+		draw_ennemies(game, game->enemies[enemi_index]->sprite, player, begin);
 		enemi_index++;
 
 	}
+	if (game->gamemode == 2 && dist3 != 0)
+		draw_ennemies(game, opponent->sprite, player, begin);
 }

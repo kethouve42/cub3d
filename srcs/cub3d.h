@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 19:57:35 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 16:43:50 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <sys/time.h>
 # include <string.h>
 
-# define ROT_SPEED 0.01
+# define ROT_SPEED 0.03
 # define MOVE_SPEED 0.04
 # define HITBOX_SIZE 2
 # define SPRITE_UPDATE 500
@@ -43,8 +43,21 @@ typedef struct s_img {
 	int		endian;
 }				t_img;
 
+typedef struct s_sprite
+{
+	int		index;
+	int		nb;
+	double	x;
+	double	y;
+	double	sprite_x;
+	double	sprite_y;
+	t_img	*s_tex;
+	int		size;
+}			t_sprite;
+
 typedef struct s_player
 {
+	int		hp;
 	int		player_start_rot;
 	double	pos_x;
 	double	pos_y;
@@ -52,6 +65,7 @@ typedef struct s_player
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
+	t_sprite	*sprite;
 }			t_player;
 
 typedef struct s_key
@@ -124,18 +138,6 @@ typedef struct s_texture
 	int		nb;
 	t_img	*tex;
 }			t_texture;
-
-typedef struct s_sprite
-{
-	int		index;
-	int		nb;
-	double	x;
-	double	y;
-	double	sprite_x;
-	double	sprite_y;
-	t_img	*s_tex;
-	int		size;
-}			t_sprite;
 
 typedef struct s_enemies
 {
@@ -218,14 +220,14 @@ void	playsound(char *file, int wait, int stop, int attenued);
 
 /* ===================== RAYCAST ==================== */
 void	raycast(t_game *game, t_player *player, int begin, int end);
-void	raycast_part_one(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_one(t_game *game, t_raycast *raycast, t_player *player, int begin);
 void	raycast_part_two(t_game *game, t_raycast *raycast, t_player *player);
 void	raycast_part_three(t_game *game, t_raycast *raycast, t_player *player);
 void	raycast_part_four(t_game *game, t_raycast *raycast, t_player *player);
 void	raycast_part_five(t_game *game, t_raycast *raycast, t_player *player);
 void	raycast_part_six(t_game *game, t_raycast *raycast);
-void	raycast_part_three_door(t_game *game, t_raycast *raycast);
-void	raycast_part_five_door(t_game *game, t_raycast *raycast);
+void	raycast_part_three_door(t_game *game, t_raycast *raycast, t_player *player);
+void	raycast_part_five_door(t_game *game, t_raycast *raycast, t_player *player);
 void	draw_sprite_part_one(t_game *game, t_ray_tex *ray_tex, t_sprite *sprite, t_player *player);
 void	draw_sprite_part_two(t_game *game, t_ray_tex *ray_tex, t_img *tex, int begin);
 
@@ -293,14 +295,14 @@ void	display_texture_info(t_img *texture);
 void	display_color(t_game *game);
 
 /*======================== ENNEMIES ========================*/
-void	draw_ennemies(t_game *game, t_sprite *ennemie);
-int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y);
+void	draw_ennemies(t_game *game, t_sprite *ennemie, t_player *player, int begin);
+int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y, t_player *player);
 double	calculate_distance(double x1, double y1, double x2, double y2);
 double	calculate_angle(double dir_x1, double dir_y1, double dir_x2,
 			double dir_y2);
-int		check_shot(t_game *game, t_sprite *enemies);
-void	shoot(t_game *game);
-void	draw_cursor(t_game *game);
+int		check_shot(t_game *game, t_sprite *enemies, t_player *player);
+void	shoot(t_game *game, t_player *player, int player_id);
+void	draw_cursor(t_game *game, int xstart);
 void	get_enemie(t_game *game, char **map, int x, int y);
 void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player);
 void	move_enemies(t_game *game, t_enemie *enemie);

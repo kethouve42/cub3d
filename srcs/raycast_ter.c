@@ -6,14 +6,14 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:19 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 18:04:25 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:22:05 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Impact test of the ray on a wall and its size */
-void	raycast_part_three_door(t_game *game, t_raycast *raycast)
+void	raycast_part_three_door(t_game *game, t_raycast *raycast, t_player *player)
 {
 	while (raycast->hit == 0)
 	{
@@ -37,23 +37,23 @@ void	raycast_part_three_door(t_game *game, t_raycast *raycast)
 			raycast->hit = 3;
 	}
 	if (raycast->side == 0)
-		raycast->perp_wall_dist = (raycast->map_x - game->player->pos_x
+		raycast->perp_wall_dist = (raycast->map_x - player->pos_x
 				+ (1 - raycast->step_x) / 2) / raycast->ray_dir_x;
 	else
-		raycast->perp_wall_dist = (raycast->map_y - game->player->pos_y
+		raycast->perp_wall_dist = (raycast->map_y - player->pos_y
 				+ (1 - raycast->step_y) / 2) / raycast->ray_dir_y;
 }
 
 /* Determines which texture to use */
-void	raycast_part_five_door(t_game *game, t_raycast *raycast)
+void	raycast_part_five_door(t_game *game, t_raycast *raycast, t_player *player)
 {
-	if (raycast->side == 0 && raycast->map_x < game->player->pos_x)
+	if (raycast->side == 0 && raycast->map_x < player->pos_x)
 		raycast->map_side = 1;
-	else if (raycast->side == 0 && !(raycast->map_x < game->player->pos_x))
+	else if (raycast->side == 0 && !(raycast->map_x < player->pos_x))
 		raycast->map_side = 2;
-	else if (raycast->side == 1 && raycast->map_y < game->player->pos_y)
+	else if (raycast->side == 1 && raycast->map_y < player->pos_y)
 		raycast->map_side = 1;
-	else if (raycast->side == 1 && !(raycast->map_y < game->player->pos_y))
+	else if (raycast->side == 1 && !(raycast->map_y < player->pos_y))
 		raycast->map_side = 2;
 	else
 		close_game(game, "Incorrect door detection");
