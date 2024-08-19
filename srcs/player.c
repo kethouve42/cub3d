@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 18:20:18 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:23:28 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == 101)
 		open_door(game, (int)game->player->pos_x,
 			(int)game->player->pos_y, game->map);
-
 	// Player 2
 	if (keycode == 65432)
 		game->key2->rotate_right = 1;

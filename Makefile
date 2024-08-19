@@ -14,6 +14,7 @@ FILES = check_map.c\
 		check_map_bis.c\
 		close.c\
 		cub3d.c\
+		init.c\
 		get_next_line.c\
 		graphic_info.c\
 		graphic_info_bis.c\

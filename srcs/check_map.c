@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 17:39:01 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:03:16 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ void	check_map_empty_line(t_game *game, char **map)
 /* Get player start position and rotation */
 void	get_player_start(t_game *game, char **map, int x, int y)
 {
-	t_player *player;
+	t_player	*player;
 
 	player = game->player;
-
 	if (game->player->player_start_rot != 0 && game->gamemode == 1)
 		close_game(game, "Two or more player found");
-	else if (game->gamemode == 2 && game->player->player_start_rot != 0 && game->player_two->player_start_rot == 0)
+	else if (game->gamemode == 2 && game->player->player_start_rot != 0
+		&& game->player_two->player_start_rot == 0)
 		player = game->player_two;
 	else if (game->gamemode == 2 && game->player->player_start_rot != 0)
 		close_game(game, "There is no two players");

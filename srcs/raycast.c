@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 15:31:37 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:32:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	draw_skyground(t_game *game)
 		x = 0;
 		while (x < game->graphics->screen_lenght)
 		{
-			if (game->gamemode == 2 && x == game->graphics->screen_lenght / 2 - 5)
+			if (game->gamemode == 2
+				&& x == game->graphics->screen_lenght / 2 - 5)
 				x += 10;
 			if (y > game->graphics->screen_height / 2)
 				my_mlx_pixel_put(game->img, y, x, ground);
@@ -82,8 +83,15 @@ void	raycast_door(t_game *game, t_player *player, int begin, int end)
 			raycast_part_five_door(game, &ray_door, player);
 			raycast_part_six(game, &ray_door);
 			game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;
-
 		}
+		/*if (ray_door.hit == 2)
+			ray_door.tex = &game->graphics->tex_door;
+		else if (ray_door.hit == 3)
+			ray_door.tex = &game->graphics->tex_door2;
+		raycast_part_four(game, &ray_door, player);
+		raycast_part_five_door(game, &ray_door, player);
+		raycast_part_six(game, &ray_door);
+		game->z_buffer[ray_door.x] = ray_door.perp_wall_dist;*/
 		ray_door.x++;
 	}
 }

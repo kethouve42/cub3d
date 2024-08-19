@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:50:08 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 16:37:45 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:22:12 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	display_key_input(t_game *game)
 		game->key->right);
 	printf("     |%d||%d|\n", game->key->rotate_left,
 		game->key->rotate_right);
-
 	if (game->gamemode == 2)
 	{
 		printf("\n\n== Key control 2 ==\n    |%d|\n", game->key2->forward);
@@ -52,12 +51,12 @@ void	display_key_input(t_game *game)
 void	display_player_info(t_player *player)
 {
 	printf("=== Player info ===\n");
-	//printf("Position : [%f:%f]\n", player->pos_x, player->pos_y);
+	printf("Position : [%f:%f]\n", player->pos_x, player->pos_y);
 	printf("Rotation : [%f:%f]\n", player->dir_x,
 		player->dir_y);
-	//printf("Plane    : [%f:%f]\n", player->plane_x,
-	//	player->plane_y);
-	//printf("Player start rot : %d", player->player_start_rot);
+	printf("Plane    : [%f:%f]\n", player->plane_x,
+		player->plane_y);
+	printf("Player start rot : %d", player->player_start_rot);
 	printf("\n");
 }
 

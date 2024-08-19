@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 18:26:16 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:36:18 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,45 +142,44 @@ void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
 
 }*/
 
+// angle1 and 2 = atan2 retourne l'angle entre -π et π en radians
+// result = Différence entre les deux angles
+// the if = Normaliser l'angle entre -π et π
+// return = Convertir en degrés
 double calculate_angle_opponent(double dx1, double dy1, double dx2, double dy2)
 {
-    // atan2 retourne l'angle entre -π et π en radians
-    double angle1 = atan2(dy1, dx1);
-    double angle2 = atan2(dy2, dx2);
+	double angle1;
+	double angle2;
+	double result;
 
-    // Différence entre les deux angles
-    double result = angle2 - angle1;
-
-    // Normaliser l'angle entre -π et π
+	angle1 = atan2(dy1, dx1);
+	angle2 = atan2(dy2, dx2);
+	result = angle2 - angle1;
     if (result > M_PI)
-        result -= 2 * M_PI;
-    if (result < -M_PI)
-        result += 2 * M_PI;
-
-    // Convertir en degrés
+		result -= 2 * M_PI;
+	if (result < -M_PI)
+		result += 2 * M_PI;
     return result * (180.0 / M_PI);
 }
 
+// angle = Calcul de l'angle entre les deux vecteurs
 void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin)
 {
 	t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
+	double		angle;
 
-    // Calcul de l'angle entre les deux vecteurs
-    double angle = calculate_angle_opponent(opponent->dir_x, opponent->dir_y,
+	angle = calculate_angle_opponent(opponent->dir_x, opponent->dir_y,
 		opponent->pos_x - player->pos_x, opponent->pos_y - player->pos_y);
-
-    // On détermine quel sprite afficher
-    if (angle > -45.0 && angle <= 45.0)
-        opponent->sprite->index = 6;
-    else if (angle > 45.0 && angle <= 135.0)
+	if (angle > -45.0 && angle <= 45.0)
+		opponent->sprite->index = 6;
+	else if (angle > 45.0 && angle <= 135.0)
 		opponent->sprite->index = 4;
-    else if (angle > 135.0 || angle <= -135.0)
-       	opponent->sprite->index = 0;
-    else
-    	opponent->sprite->index = 2;
-
+	else if (angle > 135.0 || angle <= -135.0)
+		opponent->sprite->index = 0;
+	else
+		opponent->sprite->index = 2;
 	sprite = opponent->sprite;
 	tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite, player);

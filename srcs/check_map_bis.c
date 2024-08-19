@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:50:59 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 17:08:25 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 19:11:18 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,17 @@ int	is_valid_coord(t_game *game, char **map, int x, int y)
 }
 
 /* Apply x and y values ​​to player direction or plane */
-void	apply_player_rot(t_player *player, int i, double x_value, double y_value)
+void	apply_player_rot(t_player *player, int i, double xvalue, double yvalue)
 {
 	if (i == 0)
 	{
-		player->dir_x = x_value;
-		player->dir_y = y_value;
+		player->dir_x = xvalue;
+		player->dir_y = yvalue;
 	}
 	else
 	{
-		player->plane_x = x_value;
-		player->plane_y = y_value;
+		player->plane_x = xvalue;
+		player->plane_y = yvalue;
 	}
 }
 
