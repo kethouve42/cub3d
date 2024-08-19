@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:50:08 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/14 19:48:56 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:37:45 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ void	display_key_input(t_game *game)
 
 void	display_player_info(t_player *player)
 {
-	printf("=== Player info ===\nPosition : [%f:%f]\n",
-		player->pos_x, player->pos_y);
+	printf("=== Player info ===\n");
+	//printf("Position : [%f:%f]\n", player->pos_x, player->pos_y);
 	printf("Rotation : [%f:%f]\n", player->dir_x,
 		player->dir_y);
-	printf("Plane    : [%f:%f]\n", player->plane_x,
-		player->plane_y);
-	printf("Player start rot : %d", player->player_start_rot);
+	//printf("Plane    : [%f:%f]\n", player->plane_x,
+	//	player->plane_y);
+	//printf("Player start rot : %d", player->player_start_rot);
 	printf("\n");
 }
 

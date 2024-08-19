@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/15 16:22:09 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 17:52:44 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,29 +33,41 @@ void	game_init(t_game *game, char *mode)
 
 	game->player->hp = 5;
 	game->player->sprite = malloc(sizeof(t_sprite));
-	game->player->sprite->s_tex = malloc(sizeof(t_img) * 2);
+	game->player->sprite->s_tex = malloc(sizeof(t_img) * 8);
 	game->player->sprite->s_tex[0].img = NULL;
 	game->player->sprite->s_tex[1].img = NULL;
+	game->player->sprite->s_tex[2].img = NULL;
+	game->player->sprite->s_tex[3].img = NULL;
+	game->player->sprite->s_tex[4].img = NULL;
+	game->player->sprite->s_tex[5].img = NULL;
+	game->player->sprite->s_tex[6].img = NULL;
+	game->player->sprite->s_tex[7].img = NULL;
 	game->player->sprite->index = 0;
-	game->player->sprite->nb = 2;
+	game->player->sprite->nb = 8;
 
 ////////////////////////////////////////////////////////////////////////
-	game->player_two = malloc(sizeof(t_player));
-	game->player_two->pos_x = 1;
-	game->player_two->pos_y = 1;
-	game->player_two->dir_x = -1;
-	game->player_two->dir_y = 0;
-	game->player_two->plane_x = 0;
-	game->player_two->plane_y = 0.66;
-	game->player_two->player_start_rot = 0;
+		game->player_two = malloc(sizeof(t_player));
+		game->player_two->pos_x = 1;
+		game->player_two->pos_y = 1;
+		game->player_two->dir_x = -1;
+		game->player_two->dir_y = 0;
+		game->player_two->plane_x = 0;
+		game->player_two->plane_y = 0.66;
+		game->player_two->player_start_rot = 0;
 
-	game->player_two->hp = 5;
-	game->player_two->sprite = malloc(sizeof(t_sprite));
-	game->player_two->sprite->s_tex = malloc(sizeof(t_img) * 2);
-	game->player_two->sprite->s_tex[0].img = NULL;
-	game->player_two->sprite->s_tex[1].img = NULL;
-	game->player_two->sprite->index = 0;
-	game->player_two->sprite->nb = 2;
+		game->player_two->hp = 5;
+		game->player_two->sprite = malloc(sizeof(t_sprite));
+		game->player_two->sprite->s_tex = malloc(sizeof(t_img) * 8);
+		game->player_two->sprite->s_tex[0].img = NULL;
+		game->player_two->sprite->s_tex[1].img = NULL;
+		game->player_two->sprite->s_tex[2].img = NULL;
+		game->player_two->sprite->s_tex[3].img = NULL;
+		game->player_two->sprite->s_tex[4].img = NULL;
+		game->player_two->sprite->s_tex[5].img = NULL;
+		game->player_two->sprite->s_tex[6].img = NULL;
+		game->player_two->sprite->s_tex[7].img = NULL;
+		game->player_two->sprite->index = 0;
+		game->player_two->sprite->nb = 8;
 
 ////////////////////////////////////////////////////////////////////////
 	game->key = malloc(sizeof(t_key));
@@ -63,12 +75,16 @@ void	game_init(t_game *game, char *mode)
 	game->key->back = 0;
 	game->key->left = 0;
 	game->key->right = 0;
+	game->key->rotate_left = 0;
+	game->key->rotate_right = 0;
 	game->key->last_x = -1;
 	game->key2 = malloc(sizeof(t_key));
 	game->key2->forward = 0;
 	game->key2->back = 0;
 	game->key2->left = 0;
 	game->key2->right = 0;
+	game->key2->rotate_left = 0;
+	game->key2->rotate_right = 0;
 	game->key2->last_x = -1;
 	game->start_time = get_current_time();
 	game->last_time_update = get_current_time();
@@ -141,9 +157,12 @@ int	main(int ac, char **av)
 {
 	t_game	game;
 
-	if (ac != 3)
+	if (ac != 3 && ac != 2)
 		return (1);
-	game_init(&game, av[2]);
+	if ((ac == 3))
+		game_init(&game, av[2]);
+	else
+		game_init(&game, "1");
 	graphic_init(&game);
 	window_init(&game);
 	sprite_init(&game);
@@ -151,9 +170,15 @@ int	main(int ac, char **av)
 	draw_skyground(&game);
 
 	game.player->sprite->s_tex[0] = game.graphics->s_enemi_one;
-	game.player->sprite->s_tex[1] = game.graphics->s_enemi_two;
+	game.player->sprite->s_tex[1] = game.graphics->s_enemi_two; 
+	game.player->sprite->s_tex[2] = game.graphics->s_pillar;
+	game.player->sprite->s_tex[4] = game.graphics->s_barrel;
+	game.player->sprite->s_tex[6] = game.graphics->s_enemi_dead;
 	game.player_two->sprite->s_tex[0] = game.graphics->s_enemi_one;
 	game.player_two->sprite->s_tex[1] = game.graphics->s_enemi_two;
+	game.player_two->sprite->s_tex[2] = game.graphics->s_pillar;
+	game.player_two->sprite->s_tex[4] = game.graphics->s_barrel;
+	game.player_two->sprite->s_tex[6] = game.graphics->s_enemi_dead;
 
 	game.player->sprite->sprite_x = game.player->pos_x;
 	game.player->sprite->sprite_y = game.player->pos_y;

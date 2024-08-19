@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 16:37:27 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 18:20:18 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,15 +230,21 @@ int	player(t_game *game)
 		player_rotation(game, game->player_two->dir_x, game->player_two->plane_x, game->player_two, game->key2);
 	}
 
+	//display_player_info(game->player);
+	//display_player_info(game->player_two);
+	//printf("\n");
+
 	draw_skyground(game);
 	if (game->gamemode == 2)
 	{
+		//printf ("=== Player 1 ===\n");
 		raycast(game, game->player, 0, game->graphics->screen_lenght / 2 - 5);
+		//printf ("=== Player 2 ===\n");
 		raycast(game, game->player_two, game->graphics->screen_lenght / 2 + 5, game->graphics->screen_lenght);
+		//printf("\n");
 	}
 	else
 		raycast(game, game->player, 0, game->graphics->screen_lenght);
-	//raycast(game);
 	minimap(game);
 	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img->img, 0, 0);
 	update_all_sprites_index(game);

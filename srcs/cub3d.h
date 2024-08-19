@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 16:43:50 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:10:59 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,7 @@ void	display_color(t_game *game);
 
 /*======================== ENNEMIES ========================*/
 void	draw_ennemies(t_game *game, t_sprite *ennemie, t_player *player, int begin);
+void	draw_opponent(t_game *game, t_player *enemie, t_player *player, int begin);
 int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y, t_player *player);
 double	calculate_distance(double x1, double y1, double x2, double y2);
 double	calculate_angle(double dir_x1, double dir_y1, double dir_x2,

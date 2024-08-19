@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/13 16:39:28 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 15:50:13 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ void	free_enemie(t_game *game)
 		i++;
 	}
 	free(game->enemies);
+}
+
+void	free_player(t_game *game)
+{
+	free(game->player->sprite->s_tex);
+	free(game->player->sprite);
+	free(game->player);
+	free(game->player_two->sprite->s_tex);
+	free(game->player_two->sprite);
+	free(game->player_two);
 }
 
 void	free_texture(t_game *game, t_texture *tex)
@@ -111,12 +121,13 @@ int	close_game(t_game *game, char *error_msg)
 	if (game->map)
 		free_tab(game->map);
 	free(game->key);
+	free(game->key2);
 	free(game->z_buffer);
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
 	free_enemie(game);
 	free_graphics(game);
-	free(game->player);
+	free_player(game);
 	free(game->img);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);

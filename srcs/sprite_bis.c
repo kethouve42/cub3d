@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 16:27:32 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:11:24 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	draw_sprite(t_game *game, t_player *player, int begin)
 			+ pow(sprite->sprite_y - player->pos_y, 2));
 		if (dist3 > dist2 && dist3 < old_dist && dist3 > dist1)
 		{
-			draw_ennemies(game, opponent->sprite, player, begin);
+			draw_opponent(game, opponent, player, begin);
 			dist3 = 0;
 		}
 		else if (enemi_index < game->enemies_count && dist1 > dist2 && dist1 < old_dist)
@@ -142,7 +142,7 @@ void	draw_sprite(t_game *game, t_player *player, int begin)
 	{
 		if (dist3 != 0 && dist3 > dist1)
 		{
-			draw_ennemies(game, opponent->sprite, player, begin);
+			draw_opponent(game, opponent, player, begin);
 			dist3 = 0;
 		}
 		draw_ennemies(game, game->enemies[enemi_index]->sprite, player, begin);
@@ -150,5 +150,5 @@ void	draw_sprite(t_game *game, t_player *player, int begin)
 
 	}
 	if (game->gamemode == 2 && dist3 != 0)
-		draw_ennemies(game, opponent->sprite, player, begin);
+		draw_opponent(game, opponent, player, begin);
 }

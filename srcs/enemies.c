@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemies->c                                          :+:      :+:    :+:   */
+/*   enemies.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student->42->fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/01 15:26:08 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/12 17:46:23 by acasanov         ###   ########->fr       */
+/*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
+/*   Updated: 2024/08/19 18:26:16 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,32 +85,134 @@ void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
 	draw_sprite_part_two(game, &ray_tex, tex, begin);
 }
 
-void	chase(t_game *game, t_enemie *enemie)
+/* 1 = Nord, 2 = Est, 3 = Sud, 4 = Ouest */
+/*int	how_he_look(t_player *player)
+{
+	if (player->dir_x <= -0.5 && -0.5 <= player->dir_y && player->dir_y <= 0.5)
+		return (1);
+	else if (-0.5 <= player->dir_x && player->dir_x <= 0.5 && player->dir_y >= 0.5)
+		return (2);
+	else if (player->dir_x >= 0.5 && -0.5 <= player->dir_y && player->dir_y <= 0.5)
+		return (3);
+	else
+		return (4);
+}*/
+
+/* 1 = dos, 2 = flanc droit, 3 = face, 4 = flanc gauche */
+/*int	what_he_see(int look, t_player *opponent)
+{
+	if (look == how_he_look(opponent))
+		return (1);
+	if (look == 1)
+	{
+		if (how_he_look(opponent) == 2)
+			return (2);
+		else if (how_he_look(opponent) == 3)
+			return (3);
+		else
+			return (4);
+	}
+	else if (look == 2)
+	{
+		if (how_he_look(opponent) == 1)
+			return (4);
+		else if (how_he_look(opponent) == 3)
+			return (2);
+		else
+			return (3);
+	}
+	else if (look == 3)
+	{
+		if (how_he_look(opponent) == 1)
+			return (3);
+		else if (how_he_look(opponent) == 2)
+			return (4);
+		else
+			return (2);
+	}
+	else
+	{
+		if (how_he_look(opponent) == 1)
+			return (2);
+		else if (how_he_look(opponent) == 2)
+			return (3);
+		else
+			return (4);
+	}
+
+}*/
+
+double calculate_angle_opponent(double dx1, double dy1, double dx2, double dy2)
+{
+    // atan2 retourne l'angle entre -π et π en radians
+    double angle1 = atan2(dy1, dx1);
+    double angle2 = atan2(dy2, dx2);
+
+    // Différence entre les deux angles
+    double result = angle2 - angle1;
+
+    // Normaliser l'angle entre -π et π
+    if (result > M_PI)
+        result -= 2 * M_PI;
+    if (result < -M_PI)
+        result += 2 * M_PI;
+
+    // Convertir en degrés
+    return result * (180.0 / M_PI);
+}
+
+void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin)
+{
+	t_img		*tex;
+	t_ray_tex	ray_tex;
+	t_sprite	*sprite;
+
+    // Calcul de l'angle entre les deux vecteurs
+    double angle = calculate_angle_opponent(opponent->dir_x, opponent->dir_y,
+		opponent->pos_x - player->pos_x, opponent->pos_y - player->pos_y);
+
+    // On détermine quel sprite afficher
+    if (angle > -45.0 && angle <= 45.0)
+        opponent->sprite->index = 6;
+    else if (angle > 45.0 && angle <= 135.0)
+		opponent->sprite->index = 4;
+    else if (angle > 135.0 || angle <= -135.0)
+       	opponent->sprite->index = 0;
+    else
+    	opponent->sprite->index = 2;
+
+	sprite = opponent->sprite;
+	tex = &sprite->s_tex[sprite->index];
+	draw_sprite_part_one(game, &ray_tex, sprite, player);
+	draw_sprite_part_two(game, &ray_tex, tex, begin);
+}
+
+void	chase(t_game *game, t_enemie *enemie, t_player *target)
 {
 	int	temp_x;
 	int	temp_y;
-	
+
 	temp_x = enemie->sprite->sprite_x;
 	temp_y = enemie->sprite->sprite_y;
-	if (enemie->sprite->sprite_x > game->player->pos_x)
+	if (enemie->sprite->sprite_x > target->pos_x)
 	{
 		temp_x = (int)enemie->sprite->sprite_x - 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_x -= 0.02;
 	}
-	if (enemie->sprite->sprite_x < game->player->pos_x)
+	if (enemie->sprite->sprite_x < target->pos_x)
 	{
 		temp_x = (int)enemie->sprite->sprite_x + 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_x += 0.02;
 	}
-	if (enemie->sprite->sprite_y < game->player->pos_y)
+	if (enemie->sprite->sprite_y < target->pos_y)
 	{
 		temp_y = (int)enemie->sprite->sprite_y + 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_y += 0.02;
 	}
-	if (enemie->sprite->sprite_y > game->player->pos_y)
+	if (enemie->sprite->sprite_y > target->pos_y)
 	{
 		temp_y = (int)enemie->sprite->sprite_y - 0.02 * HITBOX_SIZE;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
@@ -130,6 +232,19 @@ void	detection(t_game *game, t_enemie *enemie)
 			enemie->chase_status = 1;
 		}
 	}
+	else if (game->gamemode == 2)
+	{
+		if (enemie->sprite->sprite_x - game->player_two->pos_x <= 1
+			&& enemie->sprite->sprite_x - game->player_two->pos_x >= -1)
+		{
+			if (enemie->sprite->sprite_y - game->player_two->pos_y <= 1
+				&& enemie->sprite->sprite_y - game->player_two->pos_y >= -1)
+			{
+				printf("CHASE_ON\n");
+				enemie->chase_status = 2;
+			}
+		}
+	}
 }
 
 void	move_enemies(t_game *game, t_enemie *enemie)
@@ -140,7 +255,9 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 	temp_x = (int)enemie->sprite->sprite_x;
 	temp_y = (int)enemie->sprite->sprite_y;
 	if (enemie->chase_status == 1)
-		chase(game, enemie);
+		chase(game, enemie, game->player);
+	else if (enemie->chase_status == 2)
+		chase(game, enemie, game->player_two);
 	else
 	{
 		if (enemie->move_state == 1)
@@ -209,5 +326,16 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 	{
 		printf("game over\n");
 		close_game(game, NULL);
+	}
+	else if (game->gamemode == 2)
+	{
+		if ((enemie->sprite->sprite_x - game->player_two->pos_x <= 0.1
+		&& enemie->sprite->sprite_x - game->player_two->pos_x >= -0.1)
+		&& (enemie->sprite->sprite_y - game->player_two->pos_y <= 0.1
+		&& enemie->sprite->sprite_y - game->player_two->pos_y >= -0.1)) // a ameliorer
+	{
+		printf("game over\n");
+		close_game(game, NULL);
+	}
 	}
 }
