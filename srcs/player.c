@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 19:23:28 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:10:22 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,11 +236,11 @@ int	player(t_game *game)
 	draw_skyground(game);
 	if (game->gamemode == 2)
 	{
-		//printf ("=== Player 1 ===\n");
+		printf ("=== Player 1 ===\n");
 		raycast(game, game->player, 0, game->graphics->screen_lenght / 2 - 5);
-		//printf ("=== Player 2 ===\n");
+		printf ("=== Player 2 ===\n");
 		raycast(game, game->player_two, game->graphics->screen_lenght / 2 + 5, game->graphics->screen_lenght);
-		//printf("\n");
+		printf("\n");
 	}
 	else
 		raycast(game, game->player, 0, game->graphics->screen_lenght);

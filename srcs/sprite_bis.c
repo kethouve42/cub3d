@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bis.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 02:43:33 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:25:53 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	ennemy_or_opponent(t_game *game, t_player *player, t_player *opponent, int b
 		drawed = 1;
 		if (game->var.enemi_index < game->enemies_count)
 			game->var.dist1 = sqrt(pow(game->enemies[game->var.enemi_index]->sprite->sprite_x - player->pos_x, 2) + pow(game->enemies[game->var.enemi_index]->sprite->sprite_y - player->pos_y, 2));
+		else
+			game->var.dist1 = 0;
 	}
 	return (drawed);
 }
@@ -117,6 +119,7 @@ void	init_draw_var(t_game *game, t_player *player, t_player **opponent, int begi
 	game->var.i = 0;
 	game->var.old_dist = 99;
 	game->var.dist1 = 0;
+	game->var.dist2 = 0;
 	if (game->gamemode == 2 && begin == 0)
 		(*opponent) = game->player_two;
 	else if (game->gamemode == 2)
@@ -138,7 +141,6 @@ void	draw_sprite_two(t_game *game, t_player *player, t_player *opponent, int beg
 		}
 		draw_ennemies(game, game->enemies[game->var.enemi_index]->sprite, player, begin);
 		game->var.enemi_index++;
-
 	}
 	if (game->gamemode == 2 && game->var.dist3 != 0)
 		draw_opponent(game, opponent, player, begin);
