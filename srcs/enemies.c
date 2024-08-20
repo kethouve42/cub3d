@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemies.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 18:36:18 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 01:36:07 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,13 @@ void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 
 void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
 {
-	t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 
 	sprite = enemie;
-	tex = &sprite->s_tex[sprite->index];
+	ray_tex.tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite, player);
-	draw_sprite_part_two(game, &ray_tex, tex, begin);
+	draw_sprite_part_two(game, &ray_tex, ray_tex.tex, begin);
 }
 
 /* 1 = Nord, 2 = Est, 3 = Sud, 4 = Ouest */
@@ -165,7 +164,6 @@ double calculate_angle_opponent(double dx1, double dy1, double dx2, double dy2)
 // angle = Calcul de l'angle entre les deux vecteurs
 void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin)
 {
-	t_img		*tex;
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 	double		angle;
@@ -181,9 +179,9 @@ void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin
 	else
 		opponent->sprite->index = 2;
 	sprite = opponent->sprite;
-	tex = &sprite->s_tex[sprite->index];
+	ray_tex.tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite, player);
-	draw_sprite_part_two(game, &ray_tex, tex, begin);
+	draw_sprite_part_two(game, &ray_tex, ray_tex.tex, begin);
 }
 
 void	chase(t_game *game, t_enemie *enemie, t_player *target)

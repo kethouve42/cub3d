@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 19:21:17 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 01:45:36 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,16 @@
 # define MOVE_SPEED 0.04
 # define HITBOX_SIZE 2
 # define SPRITE_UPDATE 500
+
+typedef	struct	s_draw_sprite_var
+{
+	int		i;
+	double	dist1;
+	double	dist2;
+	double	dist3 ;
+	double	old_dist;
+	int		enemi_index;
+}				t_draw_sprite_var;
 
 typedef struct s_img {
 	void	*img;
@@ -130,6 +140,7 @@ typedef struct s_ray_tex
 	int				d;
 	int				tex_y;
 	unsigned int	color;
+	t_img			*tex;
 }			t_ray_tex;
 
 typedef struct s_texture
@@ -193,6 +204,7 @@ typedef struct s_game
 	int			start_time;
 	int			last_time_update;
 	int			last_ennemi_time_update;
+	t_draw_sprite_var	var;
 }				t_game;
 
 typedef struct s_map
