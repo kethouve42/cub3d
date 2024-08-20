@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:47:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 02:36:43 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:51:09 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	init_player(t_player *player)
 	player->plane_x = 0;
 	player->plane_y = 0.66;
 	player->player_start_rot = 0;
-
 	player->hp = 5;
 	player->sprite = malloc(sizeof(t_sprite));
 	player->sprite->s_tex = malloc(sizeof(t_img) * 8);
@@ -57,15 +56,8 @@ void	key_init(t_game *game)
 	game->key2->last_x = -1;
 }
 
-/* Setup the default values ​​of the window */
-void	graphic_init(t_game *game)
+void	init_tex_wall(t_game *game)
 {
-	game->graphics = malloc(sizeof(t_graphics));
-	game->graphics->sprites = NULL;
-	game->graphics->screen_lenght = 24 * 64;
-	if (game->gamemode == 2)
-		game->graphics->screen_lenght += 24 * 64 + 10;
-	game->graphics->screen_height = 13 * 64;
 	game->graphics->tex_n.index = 0;
 	game->graphics->tex_n.nb = 0;
 	game->graphics->tex_n.tex = NULL;
@@ -78,6 +70,10 @@ void	graphic_init(t_game *game)
 	game->graphics->tex_w.index = 0;
 	game->graphics->tex_w.nb = 0;
 	game->graphics->tex_w.tex = NULL;
+}
+
+void	init_img_sprite(t_game *game)
+{
 	game->graphics->s_pillar.img = NULL;
 	game->graphics->s_barrel.img = NULL;
 	game->graphics->tex_door.img = NULL;
@@ -85,7 +81,30 @@ void	graphic_init(t_game *game)
 	game->graphics->s_enemi_one.img = NULL;
 	game->graphics->s_enemi_two.img = NULL;
 	game->graphics->s_enemi_dead.img = NULL;
+}
+
+/* Setup the default values ​​of the window */
+void	graphic_init(t_game *game)
+{
+	int	i;
+
+	game->graphics = malloc(sizeof(t_graphics));
+	game->graphics->sprites = NULL;
+	game->graphics->screen_lenght = 24 * 64;
+	if (game->gamemode == 2)
+		game->graphics->screen_lenght += 24 * 64 + 10;
+	game->graphics->screen_height = 13 * 64;
+	init_tex_wall(game);
+	init_img_sprite(game);
 	game->graphics->sprite_count = 0;
+	i = 0;
+	game->z_buffer = (double *)malloc(sizeof(double)
+			* (game->graphics->screen_lenght));
+	while (i < game->graphics->screen_lenght)
+	{
+		game->z_buffer[i] = 0;
+		i++;
+	}
 }
 
 void	window_init(t_game *game)
@@ -119,7 +138,8 @@ void	game_init(t_game *game, char *mode)
 	game->last_ennemi_time_update = get_current_time();
 	game->enemies_count = 0;
 	game->img = malloc(sizeof(t_img));
-    graphic_init(game);
+	graphic_init(game);
 	window_init(game);
 	sprite_init(game);
+	sprite_init_bis(game);
 }

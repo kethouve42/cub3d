@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 17:11:14 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:38:21 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 		{
 			dist1 = sqrt(pow(enemies[j]->sprite->sprite_x - player->pos_x, 2)
 					+ pow(enemies[j]->sprite->sprite_y - player->pos_y, 2));
-			dist2 = sqrt(pow(enemies[j + 1]->sprite->sprite_x - player->pos_x, 2)
-					+ pow(enemies[j + 1]->sprite->sprite_y - player->pos_y, 2));
+			dist2 = sqrt(pow(enemies[j + 1]->sprite->sprite_x
+						- player->pos_x, 2) + pow(enemies[j + 1]
+						->sprite->sprite_y - player->pos_y, 2));
 			if (dist1 < dist2)
 				swap_enemies(enemies[j], enemies[j + 1]);
 			j++;
@@ -73,7 +74,8 @@ void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 	}
 }
 
-void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
+void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player,
+	int begin)
 {
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
@@ -141,35 +143,32 @@ void	draw_ennemies(t_game *game, t_sprite *enemie, t_player *player, int begin)
 
 }*/
 
-// angle1 and 2 = atan2 retourne l'angle entre -π et π en radians
-// result = Différence entre les deux angles
-// the if = Normaliser l'angle entre -π et π
-// return = Convertir en degrés
-double calculate_angle_opponent(double dx1, double dy1, double dx2, double dy2)
+double	calculate_angle_opponent(double dx1, double dy1, double dx2, double dy2)
 {
-	double angle1;
-	double angle2;
-	double result;
+	double	angle1;
+	double	angle2;
+	double	result;
 
 	angle1 = atan2(dy1, dx1);
 	angle2 = atan2(dy2, dx2);
 	result = angle2 - angle1;
-    if (result > M_PI)
+	if (result > M_PI)
 		result -= 2 * M_PI;
 	if (result < -M_PI)
 		result += 2 * M_PI;
-    return result * (180.0 / M_PI);
+	return (result * (180.0 / M_PI));
 }
 
 // angle = Calcul de l'angle entre les deux vecteurs
-void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin)
+void	draw_opponent(t_game *game, t_player *opponent, t_player *player,
+	int begin)
 {
 	t_ray_tex	ray_tex;
 	t_sprite	*sprite;
 	double		angle;
 
 	angle = calculate_angle_opponent(opponent->dir_x, opponent->dir_y,
-		opponent->pos_x - player->pos_x, opponent->pos_y - player->pos_y);
+			opponent->pos_x - player->pos_x, opponent->pos_y - player->pos_y);
 	if (angle > -45.0 && angle <= 45.0)
 		opponent->sprite->index = 6;
 	else if (angle > 45.0 && angle <= 135.0)
@@ -182,6 +181,27 @@ void	draw_opponent(t_game *game, t_player *opponent, t_player *player, int begin
 	ray_tex.tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite, player);
 	draw_sprite_part_two(game, &ray_tex, ray_tex.tex, begin);
+}
+
+void	chase_bis(t_game *game, t_enemie *enemie, t_player *target)
+{
+	int	temp_x;
+	int	temp_y;
+
+	temp_x = enemie->sprite->sprite_x;
+	temp_y = enemie->sprite->sprite_y;
+	if (enemie->sprite->sprite_y < target->pos_y)
+	{
+		temp_y = (int)enemie->sprite->sprite_y + 0.02 * HITBOX_SIZE;
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_y += 0.02;
+	}
+	if (enemie->sprite->sprite_y > target->pos_y)
+	{
+		temp_y = (int)enemie->sprite->sprite_y - 0.02 * HITBOX_SIZE;
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_y -= 0.02;
+	}
 }
 
 void	chase(t_game *game, t_enemie *enemie, t_player *target)
@@ -203,18 +223,7 @@ void	chase(t_game *game, t_enemie *enemie, t_player *target)
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_x += 0.02;
 	}
-	if (enemie->sprite->sprite_y < target->pos_y)
-	{
-		temp_y = (int)enemie->sprite->sprite_y + 0.02 * HITBOX_SIZE;
-		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			enemie->sprite->sprite_y += 0.02;
-	}
-	if (enemie->sprite->sprite_y > target->pos_y)
-	{
-		temp_y = (int)enemie->sprite->sprite_y - 0.02 * HITBOX_SIZE;
-		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-			enemie->sprite->sprite_y -= 0.02;
-	}
+	chase_bis(game, enemie, target);
 }
 
 void	detection(t_game *game, t_enemie *enemie)
@@ -224,10 +233,7 @@ void	detection(t_game *game, t_enemie *enemie)
 	{
 		if (enemie->sprite->sprite_y - game->player->pos_y <= 1
 			&& enemie->sprite->sprite_y - game->player->pos_y >= -1)
-		{
-			printf("CHASE_ON\n");
 			enemie->chase_status = 1;
-		}
 	}
 	else if (game->gamemode == 2)
 	{
@@ -236,90 +242,102 @@ void	detection(t_game *game, t_enemie *enemie)
 		{
 			if (enemie->sprite->sprite_y - game->player_two->pos_y <= 1
 				&& enemie->sprite->sprite_y - game->player_two->pos_y >= -1)
-			{
-				printf("CHASE_ON\n");
 				enemie->chase_status = 2;
-			}
 		}
 	}
 }
 
-void	move_enemies(t_game *game, t_enemie *enemie)
+void	ennemie_routine_bis(t_game *game, t_enemie *enemie,
+	int temp_x, int temp_y)
+{
+	if (enemie->move_state == 1)
+	{
+		temp_x = (int)(enemie->sprite->sprite_x - 0.01 - 0.15);
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_x -= 0.01;
+		else
+		{
+			enemie->move = enemie->n_move + 1;
+			enemie->move_state = 2;
+		}
+	}
+	else if (enemie->move_state == 2)
+	{
+		temp_y = (int)(enemie->sprite->sprite_y - 0.01 - 0.15);
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_y -= 0.01;
+		else
+		{
+			enemie->move = enemie->n_move + 1;
+			enemie->move_state = 3;
+		}
+	}
+}
+
+void	ennemie_routine_ter(t_game *game, t_enemie *enemie,
+	int temp_x, int temp_y)
+{
+	if (enemie->move_state == 3)
+	{
+		temp_x = (int)(enemie->sprite->sprite_x + 0.01 + 0.15);
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_x += 0.01;
+		else
+		{
+			enemie->move = enemie->n_move + 1;
+			enemie->move_state = 4;
+		}
+	}
+	else if (enemie->move_state == 4)
+	{
+		temp_y = (int)(enemie->sprite->sprite_y + 0.01 + 0.15);
+		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
+			enemie->sprite->sprite_y += 0.01;
+		else
+		{
+			enemie->move = enemie->n_move + 1;
+			enemie->move_state = 1;
+		}
+	}
+}
+
+void	ennemie_routine(t_game *game, t_enemie *enemie)
 {
 	int	temp_y;
 	int	temp_x;
 
 	temp_x = (int)enemie->sprite->sprite_x;
 	temp_y = (int)enemie->sprite->sprite_y;
+	ennemie_routine_bis(game, enemie, temp_x, temp_y);
+	ennemie_routine_ter(game, enemie, temp_x, temp_y);
+	enemie->move--;
+	if (enemie->move == 0)
+	{
+		enemie->move = enemie->n_move;
+		if (enemie->move_state == 1)
+			enemie->move_state = 2;
+		else if (enemie->move_state == 2)
+			enemie->move_state = 3;
+		else if (enemie->move_state == 3)
+			enemie->move_state = 4;
+		else
+			enemie->move_state = 1;
+	}
+	detection(game, enemie);
+}
+
+void	move_enemies(t_game *game, t_enemie *enemie)
+{
 	if (enemie->chase_status == 1)
 		chase(game, enemie, game->player);
 	else if (enemie->chase_status == 2)
 		chase(game, enemie, game->player_two);
 	else
-	{
-		if (enemie->move_state == 1)
-		{
-			temp_x = (int)(enemie->sprite->sprite_x - 0.01 - 0.15);
-			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				enemie->sprite->sprite_x -= 0.01;
-			else
-			{
-				enemie->move = enemie->n_move + 1;
-				enemie->move_state = 2;
-			}
-		}
-		else if (enemie->move_state == 2)
-		{
-			temp_y = (int)(enemie->sprite->sprite_y - 0.01 - 0.15);
-			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				enemie->sprite->sprite_y -= 0.01;
-			else
-			{
-				enemie->move = enemie->n_move + 1;
-				enemie->move_state = 3;
-			}
-		}
-		else if (enemie->move_state == 3)
-		{
-			temp_x = (int)(enemie->sprite->sprite_x + 0.01 + 0.15);
-			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				enemie->sprite->sprite_x += 0.01;
-			else
-			{
-				enemie->move = enemie->n_move + 1;
-				enemie->move_state = 4;
-			}
-		}
-		else if (enemie->move_state == 4)
-		{
-			temp_y = (int)(enemie->sprite->sprite_y + 0.01 + 0.15);
-			if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
-				enemie->sprite->sprite_y += 0.01;
-			else
-			{
-				enemie->move = enemie->n_move + 1;
-				enemie->move_state = 1;
-			}
-		}
-		enemie->move--;
-		if (enemie->move == 0)
-		{
-			enemie->move = enemie->n_move;
-			if (enemie->move_state == 1)
-				enemie->move_state = 2;
-			else if (enemie->move_state == 2)
-				enemie->move_state = 3;
-			else if (enemie->move_state == 3)
-				enemie->move_state = 4;
-			else
-				enemie->move_state = 1;
-		}
-		detection(game, enemie);
-	}
+		ennemie_routine(game, enemie);
 	if ((enemie->sprite->sprite_x - game->player->pos_x <= 0.1
-		&& enemie->sprite->sprite_x - game->player->pos_x >= -0.1)
+			&& enemie->sprite->sprite_x - game->player->pos_x >= -0.1)
 		&& (enemie->sprite->sprite_y - game->player->pos_y <= 0.1
-		&& enemie->sprite->sprite_y - game->player->pos_y >= -0.1)) // a ameliorer
+			&& enemie->sprite->sprite_y - game->player->pos_y >= -0.1))
 	{
 		printf("game over\n");
 		close_game(game, NULL);
@@ -327,12 +345,12 @@ void	move_enemies(t_game *game, t_enemie *enemie)
 	else if (game->gamemode == 2)
 	{
 		if ((enemie->sprite->sprite_x - game->player_two->pos_x <= 0.1
-		&& enemie->sprite->sprite_x - game->player_two->pos_x >= -0.1)
-		&& (enemie->sprite->sprite_y - game->player_two->pos_y <= 0.1
-		&& enemie->sprite->sprite_y - game->player_two->pos_y >= -0.1)) // a ameliorer
-	{
-		printf("game over\n");
-		close_game(game, NULL);
-	}
+				&& enemie->sprite->sprite_x - game->player_two->pos_x >= -0.1)
+			&& (enemie->sprite->sprite_y - game->player_two->pos_y <= 0.1
+				&& enemie->sprite->sprite_y - game->player_two->pos_y >= -0.1))
+		{
+			printf("game over\n");
+			close_game(game, NULL);
+		}
 	}
 }

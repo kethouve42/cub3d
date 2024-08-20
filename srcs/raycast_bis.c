@@ -6,23 +6,25 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:23:45 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 15:04:39 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:17:27 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /* Setup values and begin ray calculation  */
-void	raycast_part_one(t_game *game, t_raycast *raycast, t_player *player, int begin)
+void	raycast_part_one(t_game *game, t_raycast *raycast, t_player *player,
+	int begin)
 {
 	raycast->hit = 0;
 	raycast->map_x = (int)player->pos_x;
 	raycast->map_y = (int)player->pos_y;
 	if (game->gamemode == 2)
-		raycast->camera_x = 2 * (raycast->x - begin) / (double)(game->graphics->screen_lenght / 2 - 5) - 1; // pas sur et certain
+		raycast->camera_x = 2 * (raycast->x - begin)
+			/ (double)(game->graphics->screen_lenght / 2 - 5) - 1;
 	else
-		raycast->camera_x = 2 * raycast->x / (double)(game->graphics->screen_lenght) - 1;
-
+		raycast->camera_x = 2 * raycast->x
+			/ (double)(game->graphics->screen_lenght) - 1;
 	raycast->ray_dir_x = player->dir_x + player->plane_x
 		* raycast->camera_x;
 	raycast->ray_dir_y = player->dir_y + player->plane_y

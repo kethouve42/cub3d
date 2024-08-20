@@ -6,14 +6,25 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:19 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/15 15:22:05 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:22:00 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+void	raycast_part_three_door_bis(t_game *game, t_raycast *raycast)
+{
+	if (game->map[raycast->map_x][raycast->map_y] == '1')
+		raycast->hit = 1;
+	if (game->map[raycast->map_x][raycast->map_y] == 'D')
+		raycast->hit = 2;
+	if (game->map[raycast->map_x][raycast->map_y] == 'd')
+		raycast->hit = 3;
+}
+
 /* Impact test of the ray on a wall and its size */
-void	raycast_part_three_door(t_game *game, t_raycast *raycast, t_player *player)
+void	raycast_part_three_door(t_game *game, t_raycast *raycast,
+	t_player *player)
 {
 	while (raycast->hit == 0)
 	{
@@ -29,12 +40,7 @@ void	raycast_part_three_door(t_game *game, t_raycast *raycast, t_player *player)
 			raycast->map_y += raycast->step_y;
 			raycast->side = 1;
 		}
-		if (game->map[raycast->map_x][raycast->map_y] == '1')
-			raycast->hit = 1;
-		if (game->map[raycast->map_x][raycast->map_y] == 'D')
-			raycast->hit = 2;
-		if (game->map[raycast->map_x][raycast->map_y] == 'd')
-			raycast->hit = 3;
+		raycast_part_three_door_bis(game, raycast);
 	}
 	if (raycast->side == 0)
 		raycast->perp_wall_dist = (raycast->map_x - player->pos_x
@@ -45,7 +51,8 @@ void	raycast_part_three_door(t_game *game, t_raycast *raycast, t_player *player)
 }
 
 /* Determines which texture to use */
-void	raycast_part_five_door(t_game *game, t_raycast *raycast, t_player *player)
+void	raycast_part_five_door(t_game *game, t_raycast *raycast,
+	t_player *player)
 {
 	if (raycast->side == 0 && raycast->map_x < player->pos_x)
 		raycast->map_side = 1;

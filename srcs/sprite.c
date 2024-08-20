@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/14 17:50:50 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:30:31 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	sprite_sort(t_graphics *graphics, t_game *game, t_player *player)
 		{
 			dist1 = sqrt(pow(graphics->sprites[j]->sprite_x - player->pos_x, 2)
 					+ pow(graphics->sprites[j]->sprite_y - player->pos_y, 2));
-			dist2 = sqrt(pow(graphics->sprites[j + 1]->sprite_x - player->pos_x, 2)
-					+ pow(graphics->sprites[j + 1]->sprite_y - player->pos_y, 2));
+			dist2 = sqrt(pow(graphics->sprites[j + 1]->sprite_x
+						- player->pos_x, 2) + pow(graphics->sprites[j + 1]
+						->sprite_y - player->pos_y, 2));
 			if (dist1 < dist2)
 				swap_sprite(graphics->sprites[j], graphics->sprites[j + 1]);
 			j++;
@@ -65,18 +66,16 @@ void	get_sprite(t_game *game, char **map, int x, int y)
 	game->graphics->sprite_count++;
 }
 
+void	sprite_init_bis(t_game *game)
+{
+	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
+	load_texture(game, &game->graphics->s_enemi_dead, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+}
+
 void	sprite_init(t_game *game)
 {
-	int	i;
-
-	i = 0;
-	game->z_buffer = (double *)malloc(sizeof(double)
-			* (game->graphics->screen_lenght));
-	while (i < game->graphics->screen_lenght)
-	{
-		game->z_buffer[i] = 0;
-		i++;
-	}
 	game->graphics->tmp_path = ft_strdup("texture/pillar.xpm\n");
 	load_texture(game, &game->graphics->s_pillar, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
@@ -99,10 +98,6 @@ void	sprite_init(t_game *game)
 	game->graphics->tmp_path = NULL;
 	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
 	load_texture(game, &game->graphics->s_enemi_two, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
-	load_texture(game, &game->graphics->s_enemi_dead, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
 }

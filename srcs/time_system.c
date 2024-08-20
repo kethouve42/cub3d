@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:25:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/19 16:12:12 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:33:52 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,27 @@
 
 void	update_enemies(t_game *game)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < game->enemies_count)
 	{
 		if (game->enemies[i]->hp > 0)
 		{
 			game->enemies[i]->sprite->index++;
-			if (game->enemies[i]->sprite->index >= game->enemies[i]->sprite->nb - 1)
+			if (game->enemies[i]->sprite->index
+				>= game->enemies[i]->sprite->nb - 1)
 				game->enemies[i]->sprite->index = 0;
 		}
 		i++;
 	}
 }
 
-void update_sprite(t_game *game)
+void	update_sprite(t_game *game)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	while (i < game->graphics->sprite_count)
 	{
 		game->graphics->sprites[i]->index++;
@@ -50,14 +53,15 @@ void	update_sprite_index(t_game *game, t_texture *tex)
 
 void	update_all_sprites_index(t_game *game)
 {
-	int i = 0;
+	int	i;
 
+	i = 0;
 	if (get_current_time() - game->last_ennemi_time_update > 35)
 	{
 		while (i < game->enemies_count)
 		{
-			//if (game->enemies[i]->hp > 0)
-			//	move_enemies(game, game->enemies[i]);
+			if (game->enemies[i]->hp > 0)
+				move_enemies(game, game->enemies[i]);
 			i++;
 		}
 		game->last_ennemi_time_update = get_current_time();

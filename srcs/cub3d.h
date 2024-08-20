@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 01:45:36 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/20 18:53:20 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,18 @@ typedef struct s_ray_tex
 	t_img			*tex;
 }			t_ray_tex;
 
+typedef struct s_ray_wall
+{
+	int		map_x;
+	int		map_y;
+	double	side_dist_x;
+	double	side_dist_y;
+	int		step_x;
+	int		step_y;
+	double	ray_dir_x;
+	double	ray_dir_y;
+}			t_ray_wall;
+
 typedef struct s_texture
 {
 	int		index;
@@ -252,6 +264,7 @@ void	draw_sprite_part_two(t_game *game, t_ray_tex *ray_tex, t_img *tex,
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
+void	sprite_init_bis(t_game *game);
 void	draw_sprite(t_game *game, t_player *player, int begin);
 void	check_how_many_sprites(t_game *game);
 void	get_sprite(t_game *game, char **map, int x, int y);
@@ -277,9 +290,9 @@ int		player(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 int		mouse(int x, int y, t_game *game);
-void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y, t_player *player, t_key *key);
-void	player_right_left(t_game *game, double speed, int temp_x, int temp_y, t_player *player, t_key *key);
-void	player_rotation(t_game *game, double old_dir_x, double old_plane_x, t_player *player, t_key *key);
+void	player_forward_back(t_game *game, double speed, t_player *player, t_key *key);
+void	player_right_left(t_game *game, double speed, t_player *player, t_key *key);
+void	player_rotation(double old_dir_x, double old_plane_x, t_player *player, t_key *key);
 void	open_door(t_game *game, int y, int x, char **map);
 
 /* ============== CLOSE ============== */
@@ -317,8 +330,7 @@ void	draw_ennemies(t_game *game, t_sprite *ennemie,
 			t_player *player, int begin);
 void	draw_opponent(t_game *game, t_player *enemie,
 			t_player *player, int begin);
-int		ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x,
-			double ray_dir_y, t_player *player);
+int		ray_intersects_wall(t_game *game, t_sprite *enemie, t_player *player);
 double	calculate_distance(double x1, double y1, double x2, double y2);
 double	calculate_angle(double dir_x1, double dir_y1, double dir_x2,
 			double dir_y2);

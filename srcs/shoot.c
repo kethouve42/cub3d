@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/15 16:54:53 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/20 19:10:56 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	draw_cursor(t_game *game, int xstart)
 	int	y;
 	int	x;
 	int	ystart;
-	//int	xstart;
 
 	ystart = (game->graphics->screen_height / 2);
-	//xstart = (game->graphics->screen_lenght / 2);
 	y = 0;
 	while (y < 20)
 	{
@@ -41,102 +39,111 @@ void	draw_cursor(t_game *game, int xstart)
 		game->graphics->screen_lenght / 2, 0x555555);
 }
 
+int	shoot_bis(t_game *game, t_player *player, int id_player)
+{
+	t_player	*opponent;
+
+	if (id_player == 1)
+		opponent = game->player_two;
+	else
+		opponent = game->player;
+	if (check_shot(game, opponent->sprite, player))
+	{
+		opponent->hp -= 1;
+		if (opponent->hp <= 0)
+		{
+			printf("==============\n== PLAYER %d ==\n", id_player);
+			printf("==== WIN =====\n==============\n");
+			close_game(game, NULL);
+		}
+		return (1);
+	}
+	return (0);
+}
+
 void	shoot(t_game *game, t_player *player, int id_player)
 {
-	int	i = game->enemies_count - 1;
-	
-	enemies_sort(game->enemies, game, player);
+	int	i;
 
+	i = game->enemies_count - 1;
+	enemies_sort(game->enemies, game, player);
 	while (i >= 0)
 	{
 		if (check_shot(game, game->enemies[i]->sprite, player))
 		{
-			printf("Tir réussi!\n");
 			game->enemies[i]->hp -= 1;
 			if (game->enemies[i]->hp <= 0)
 			{
 				game->enemies[i]->chase_status = 0;
 				game->enemies[i]->move_state = 0;
-				game->enemies[i]->sprite->index = game->enemies[i]->sprite->nb - 1;
-				printf("Kill !\n");
-			}
-			break;
-		}
-		if (game->gamemode == 2)
-		{
-			t_player *opponent;
-			if (id_player == 1)
-				opponent = game->player_two;
-			else
-				opponent = game->player;
-			if (check_shot(game, opponent->sprite, player))
-			{
-				printf("Tir réussi!\n");
-				opponent->hp -= 1;
-				if (opponent->hp <= 0)
-				{
-					printf("==============\n== PLAYER %d ==\n==== WIN =====\n==============\n", id_player);
-					close_game(game, NULL);
-				}
+				game->enemies[i]->sprite->index = game->enemies[i]
+					->sprite->nb - 1;
 			}
 			break ;
 		}
+		if (game->gamemode == 2 && shoot_bis(game, player, id_player) == 1)
+			break ;
 		i--;
 	}
 }
 
-int	ray_intersects_wall(t_game *game, t_sprite *enemie, double ray_dir_x, double ray_dir_y, t_player *player)
+void	ray_inter_wall_bis(t_ray_wall *ray_wall, t_player *player)
 {
-	int		map_x;
-	int		map_y;
-	double	side_dist_x;   // faire une structure pour ces variable et une 2eme fonction
-	double	side_dist_y;
-	int		step_x;
-	int		step_y;
+	if (ray_wall->ray_dir_x < 0)
+	{
+		ray_wall->step_x = -1;
+		ray_wall->side_dist_x = (player->pos_x - ray_wall->map_x)
+			* fabs(1 / ray_wall->ray_dir_x);
+	}
+	else
+	{
+		ray_wall->step_x = 1;
+		ray_wall->side_dist_x = (ray_wall->map_x + 1.0 - player->pos_x)
+			* fabs(1 / ray_wall->ray_dir_x);
+	}
+	if (ray_wall->ray_dir_y < 0)
+	{
+		ray_wall->step_y = -1;
+		ray_wall->side_dist_y = (player->pos_y - ray_wall->map_y)
+			* fabs(1 / ray_wall->ray_dir_y);
+	}
+	else
+	{
+		ray_wall->step_y = 1;
+		ray_wall->side_dist_y = (ray_wall->map_y + 1.0 - player->pos_y)
+			* fabs(1 / ray_wall->ray_dir_y);
+	}
+}
 
-	map_x = (int)player->pos_x;
-	map_y = (int)player->pos_y;
-	if (ray_dir_x < 0)
+int	ray_intersects_wall(t_game *game, t_sprite *enemie, t_player *player)
+{
+	t_ray_wall	ray_wall;
+
+	ray_wall.ray_dir_x = enemie->sprite_x - player->pos_x;
+	ray_wall.ray_dir_y = enemie->sprite_y - player->pos_y;
+	ray_wall.map_x = (int)player->pos_x;
+	ray_wall.map_y = (int)player->pos_y;
+	ray_inter_wall_bis(&ray_wall, player);
+	while (game->map[ray_wall.map_x][ray_wall.map_y] != '1')
 	{
-		step_x = -1;
-		side_dist_x = (player->pos_x - map_x) * fabs(1 / ray_dir_x);
-	}
-	else
-	{
-		step_x = 1;
-		side_dist_x = (map_x + 1.0 - player->pos_x) * fabs(1 / ray_dir_x);
-	}
-	if (ray_dir_y < 0)
-	{
-		step_y = -1;
-		side_dist_y = (player->pos_y - map_y) * fabs(1 / ray_dir_y);
-	}
-	else
-	{
-		step_y = 1;
-		side_dist_y = (map_y + 1.0 - player->pos_y) * fabs(1 / ray_dir_y);
-	}
-	while (1)
-	{
-		if (map_x == (int)enemie->sprite_x && map_y == (int)enemie->sprite_y)
-			return 0; // Pas d'intersection avec un mur
-		if (side_dist_x < side_dist_y)
+		if (ray_wall.map_x == (int)enemie->sprite_x
+			&& ray_wall.map_y == (int)enemie->sprite_y)
+			return (0);
+		if (ray_wall.side_dist_x < ray_wall.side_dist_y)
 		{
-			side_dist_x += fabs(1 / ray_dir_x);
-			map_x += step_x;
+			ray_wall.side_dist_x += fabs(1 / ray_wall.ray_dir_x);
+			ray_wall.map_x += ray_wall.step_x;
 		}
 		else
 		{
-			side_dist_y += fabs(1 / ray_dir_y);
-			map_y += step_y;
+			ray_wall.side_dist_y += fabs(1 / ray_wall.ray_dir_y);
+			ray_wall.map_y += ray_wall.step_y;
 		}
-		if (game->map[map_x][map_y] == '1')
-			break ;
 	}
-	return 1; // Intersection avec un mur
+	return (1);
 }
 
-double	calculate_distance(double x1, double y1, double x2, double y2) // creer une variable distance dans ennemi rafraichi a chaque frame pour mise au norme de draw sprite
+double	calculate_distance(double x1, double y1, double x2, double y2)
 {
 	return (sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)));
 }
@@ -161,15 +168,14 @@ int	check_shot(t_game *game, t_sprite *enemies, t_player *player)
 	enemy_dir_x = enemies->sprite_x - player->pos_x;
 	enemy_dir_y = enemies->sprite_y - player->pos_y;
 	distance_to_enemy = calculate_distance(player->pos_x,
-		player->pos_y, enemies->sprite_x, enemies->sprite_y);
+			player->pos_y, enemies->sprite_x, enemies->sprite_y);
 	if (distance_to_enemy <= 10.0)
 	{
 		shot_angle = calculate_angle(player->dir_x,
 				player->dir_y, enemy_dir_x, enemy_dir_y);
-		if (shot_angle <= 0.1/distance_to_enemy && ray_intersects_wall(game, enemies, enemy_dir_x, enemy_dir_y, player) == 0)
+		if (shot_angle <= 0.1 / distance_to_enemy
+			&& ray_intersects_wall(game, enemies, player) == 0)
 			return (1);
 	}
-	else
-		printf("trop loin\n");
 	return (0);
 }
