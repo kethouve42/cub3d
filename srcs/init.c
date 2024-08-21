@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:47:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 19:51:09 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:20:30 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,55 +56,31 @@ void	key_init(t_game *game)
 	game->key2->last_x = -1;
 }
 
-void	init_tex_wall(t_game *game)
+void	get_enemie(t_game *game, char **map, int x, int y)
 {
-	game->graphics->tex_n.index = 0;
-	game->graphics->tex_n.nb = 0;
-	game->graphics->tex_n.tex = NULL;
-	game->graphics->tex_s.index = 0;
-	game->graphics->tex_s.nb = 0;
-	game->graphics->tex_s.tex = NULL;
-	game->graphics->tex_e.index = 0;
-	game->graphics->tex_e.nb = 0;
-	game->graphics->tex_e.tex = NULL;
-	game->graphics->tex_w.index = 0;
-	game->graphics->tex_w.nb = 0;
-	game->graphics->tex_w.tex = NULL;
-}
+	t_enemie	*enemie;
 
-void	init_img_sprite(t_game *game)
-{
-	game->graphics->s_pillar.img = NULL;
-	game->graphics->s_barrel.img = NULL;
-	game->graphics->tex_door.img = NULL;
-	game->graphics->tex_door2.img = NULL;
-	game->graphics->s_enemi_one.img = NULL;
-	game->graphics->s_enemi_two.img = NULL;
-	game->graphics->s_enemi_dead.img = NULL;
-}
-
-/* Setup the default values ​​of the window */
-void	graphic_init(t_game *game)
-{
-	int	i;
-
-	game->graphics = malloc(sizeof(t_graphics));
-	game->graphics->sprites = NULL;
-	game->graphics->screen_lenght = 24 * 64;
-	if (game->gamemode == 2)
-		game->graphics->screen_lenght += 24 * 64 + 10;
-	game->graphics->screen_height = 13 * 64;
-	init_tex_wall(game);
-	init_img_sprite(game);
-	game->graphics->sprite_count = 0;
-	i = 0;
-	game->z_buffer = (double *)malloc(sizeof(double)
-			* (game->graphics->screen_lenght));
-	while (i < game->graphics->screen_lenght)
-	{
-		game->z_buffer[i] = 0;
-		i++;
-	}
+	enemie = malloc(sizeof(t_enemie));
+	enemie->hp = 3;
+	enemie->n_move = 3000;
+	enemie->move = enemie->n_move;
+	enemie->move_state = 1;
+	enemie->chase_status = 0;
+	enemie->sprite = malloc(sizeof(t_sprite));
+	enemie->sprite->sprite_x = y + 0.5;
+	enemie->sprite->sprite_y = x + 0.5;
+	enemie->sprite->s_tex = malloc(sizeof(t_img) * 3);
+	enemie->sprite->s_tex[0].img = NULL;
+	enemie->sprite->s_tex[1].img = NULL;
+	enemie->sprite->s_tex[2].img = NULL;
+	enemie->sprite->index = 0;
+	enemie->sprite->nb = 3;
+	enemie->sprite->s_tex[0] = game->graphics->s_enemi_one;
+	enemie->sprite->s_tex[1] = game->graphics->s_enemi_two;
+	enemie->sprite->s_tex[2] = game->graphics->s_enemi_dead;
+	map[y][x] = '0';
+	game->enemies[game->enemies_count] = enemie;
+	game->enemies_count++;
 }
 
 void	window_init(t_game *game)

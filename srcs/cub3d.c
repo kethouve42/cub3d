@@ -6,11 +6,27 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/19 19:27:41 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:04:25 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	update_graphics(t_game *game)
+{
+	draw_skyground(game);
+	if (game->gamemode == 2)
+	{
+		raycast(game, game->player, 0, game->graphics->screen_lenght / 2 - 5);
+		raycast(game, game->player_two, game->graphics->screen_lenght / 2 + 5,
+			game->graphics->screen_lenght);
+	}
+	else
+		raycast(game, game->player, 0, game->graphics->screen_lenght);
+	minimap(game);
+	mlx_put_image_to_window(game->mlx, game->mlx_win, game->img->img, 0, 0);
+	update_all_sprites_index(game);
+}
 
 void	select_raycast(t_game *game)
 {

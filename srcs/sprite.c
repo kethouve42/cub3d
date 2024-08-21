@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/20 18:30:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:19:16 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,40 +64,4 @@ void	get_sprite(t_game *game, char **map, int x, int y)
 	sprite->size = 16;
 	game->graphics->sprites[game->graphics->sprite_count] = sprite;
 	game->graphics->sprite_count++;
-}
-
-void	sprite_init_bis(t_game *game)
-{
-	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
-	load_texture(game, &game->graphics->s_enemi_dead, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-}
-
-void	sprite_init(t_game *game)
-{
-	game->graphics->tmp_path = ft_strdup("texture/pillar.xpm\n");
-	load_texture(game, &game->graphics->s_pillar, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/barrel.xpm\n");
-	load_texture(game, &game->graphics->s_barrel, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/door1.xpm\n");
-	load_texture(game, &game->graphics->tex_door, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/door3.xpm\n");
-	load_texture(game, &game->graphics->tex_door2, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard3.xpm\n");
-	load_texture(game, &game->graphics->s_enemi_one, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
-	load_texture(game, &game->graphics->s_enemi_two, game->graphics->tmp_path);
-	free(game->graphics->tmp_path);
-	game->graphics->tmp_path = NULL;
 }

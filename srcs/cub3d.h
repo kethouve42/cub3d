@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 18:53:20 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:27:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define HITBOX_SIZE 2
 # define SPRITE_UPDATE 500
 
-typedef	struct	s_draw_sprite_var
+typedef struct s_draw_sprite_var
 {
 	int		i;
 	double	dist1;
@@ -196,26 +196,26 @@ typedef struct s_graphics
 
 typedef struct s_game
 {
-	void		*mlx;
-	void		*mlx_win;
-	char		**cubfile;
-	int			line_map;
-	int			gamemode;
-	char		**map;
-	int			map_height;
-	int			map_length;
-	t_key		*key;
-	t_key		*key2;
-	t_img		*img;
-	t_graphics	*graphics;
-	t_player	*player;
-	t_player	*player_two;
-	t_enemie	**enemies;
-	int			enemies_count;
-	double		*z_buffer;
-	int			start_time;
-	int			last_time_update;
-	int			last_ennemi_time_update;
+	void				*mlx;
+	void				*mlx_win;
+	char				**cubfile;
+	int					line_map;
+	int					gamemode;
+	char				**map;
+	int					map_height;
+	int					map_length;
+	t_key				*key;
+	t_key				*key2;
+	t_img				*img;
+	t_graphics			*graphics;
+	t_player			*player;
+	t_player			*player_two;
+	t_enemie			**enemies;
+	int					enemies_count;
+	double				*z_buffer;
+	int					start_time;
+	int					last_time_update;
+	int					last_ennemi_time_update;
 	t_draw_sprite_var	var;
 }				t_game;
 
@@ -261,6 +261,8 @@ void	draw_sprite_part_two(t_game *game, t_ray_tex *ray_tex, t_img *tex,
 			int begin);
 
 /* ===================== GRAPHICS ==================== */
+void	graphic_init(t_game *game);
+void	update_graphics(t_game *game);
 void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
@@ -290,14 +292,20 @@ int		player(t_game *game);
 int		key_press(int keycode, t_game *game);
 int		key_release(int keycode, t_game *game);
 int		mouse(int x, int y, t_game *game);
-void	player_forward_back(t_game *game, double speed, t_player *player, t_key *key);
-void	player_right_left(t_game *game, double speed, t_player *player, t_key *key);
-void	player_rotation(double old_dir_x, double old_plane_x, t_player *player, t_key *key);
+void	player_forward_back(t_game *game, double speed,
+			t_player *player, t_key *key);
+void	player_right_left(t_game *game, double speed,
+			t_player *player, t_key *key);
+void	player_rotation(double old_dir_x, double old_plane_x,
+			t_player *player, t_key *key);
 void	open_door(t_game *game, int y, int x, char **map);
 
 /* ============== CLOSE ============== */
 int		close_game(t_game *game, char *error_msg);
 void	free_image(t_game *game, t_img *img);
+void	free_sprite(t_game *game);
+void	free_enemie(t_game *game);
+void	free_player(t_game *game);
 void	free_tab(char **tab);
 int		red_cross(t_game *game);
 
@@ -334,9 +342,15 @@ int		ray_intersects_wall(t_game *game, t_sprite *enemie, t_player *player);
 double	calculate_distance(double x1, double y1, double x2, double y2);
 double	calculate_angle(double dir_x1, double dir_y1, double dir_x2,
 			double dir_y2);
+double	calculate_angle_opponent(double dx1, double dy1,
+			double dx2, double dy2);
 int		check_shot(t_game *game, t_sprite *enemies, t_player *player);
+void	chase(t_game *game, t_enemie *enemie, t_player *target);
 void	shoot(t_game *game, t_player *player, int player_id);
+void	swap_enemies(t_enemie *a, t_enemie *b);
 void	draw_cursor(t_game *game, int xstart);
+void	detection(t_game *game, t_enemie *enemie);
+void	ennemie_routine(t_game *game, t_enemie *enemie);
 void	get_enemie(t_game *game, char **map, int x, int y);
 void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player);
 void	move_enemies(t_game *game, t_enemie *enemie);

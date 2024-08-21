@@ -13,28 +13,35 @@ MLXFLAGS = -Werror -Wall -Wextra -lX11 -lXext -lm
 FILES = check_map.c\
 		check_map_bis.c\
 		close.c\
+		close_bis.c\
 		cub3d.c\
-		init.c\
+		enemies.c\
+		enemies_bis.c\
+		enemies_ter.c\
 		get_next_line.c\
 		graphic_info.c\
 		graphic_info_bis.c\
 		graphic_info_ter.c\
+		init.c\
+		init_bis.c\
 		minimap.c\
 		pathfinding.c\
 		player.c\
 		player_bis.c\
+		player_movement.c\
 		raycast.c\
 		raycast_bis.c\
 		raycast_ter.c\
+		shoot.c\
+		shoot_bis.c\
 		sound.c\
 		sprite.c\
 		sprite_bis.c\
+		sprite_ter.c\
 		time_system.c\
 		utils1.c\
 		utils2.c\
 		utils3.c\
-		shoot.c\
-		enemies.c\
 		debug.c
 
 SRC = $(addprefix $(SRCS_DIR)/, $(FILES))
