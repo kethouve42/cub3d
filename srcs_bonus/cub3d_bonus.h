@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d.h                                            :+:      :+:    :+:   */
+/*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:27:54 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:14:29 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,14 @@ typedef struct s_graphics
 	t_img		s_enemi_one;
 	t_img		s_enemi_two;
 	t_img		s_enemi_dead;
+	t_img		s_pl_face1;
+	t_img		s_pl_face2;
+	t_img		s_pl_left1;
+	t_img		s_pl_left2;
+	t_img		s_pl_right1;
+	t_img		s_pl_right2;
+	t_img		s_pl_back1;
+	t_img		s_pl_back2;
 	t_sprite	**sprites;
 	int			sprite_count;
 	int			color_sky[3];
@@ -267,6 +275,7 @@ void	draw_skyground(t_game *game);
 void	my_mlx_pixel_put(t_img *img, int y, int x, int color);
 void	sprite_init(t_game *game);
 void	sprite_init_bis(t_game *game);
+void	sprite_init_ter(t_game *game);
 void	draw_sprite(t_game *game, t_player *player, int begin);
 void	check_how_many_sprites(t_game *game);
 void	get_sprite(t_game *game, char **map, int x, int y);

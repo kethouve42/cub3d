@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:08 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:16:56 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ void	select_raycast(t_game *game)
 
 void	sprite_player(t_game *game, t_player *player)
 {
-	player->sprite->s_tex[0] = game->graphics->s_enemi_one;
-	player->sprite->s_tex[1] = game->graphics->s_enemi_two;
-	player->sprite->s_tex[2] = game->graphics->s_pillar;
-	player->sprite->s_tex[3] = game->graphics->s_pillar;
-	player->sprite->s_tex[4] = game->graphics->s_barrel;
-	player->sprite->s_tex[5] = game->graphics->s_barrel;
-	player->sprite->s_tex[6] = game->graphics->s_enemi_dead;
-	player->sprite->s_tex[7] = game->graphics->s_enemi_dead;
+	player->sprite->s_tex[0] = game->graphics->s_pl_face1;
+	player->sprite->s_tex[1] = game->graphics->s_pl_face2;
+	player->sprite->s_tex[2] = game->graphics->s_pl_left1;
+	player->sprite->s_tex[3] = game->graphics->s_pl_left2;
+	player->sprite->s_tex[4] = game->graphics->s_pl_right1;
+	player->sprite->s_tex[5] = game->graphics->s_pl_right2;
+	player->sprite->s_tex[6] = game->graphics->s_pl_back1;
+	player->sprite->s_tex[7] = game->graphics->s_pl_back2;
 	player->sprite->sprite_x = player->pos_x;
 	player->sprite->sprite_y = player->pos_y;
 }

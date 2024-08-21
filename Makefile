@@ -45,6 +45,7 @@ FILES_BNS = check_map_bonus.c\
 		graphic_info_ter_bonus.c\
 		init_bonus.c\
 		init_bis_bonus.c\
+		init_ter_bonus.c\
 		minimap_bonus.c\
 		pathfinding_bonus.c\
 		player_bonus.c\

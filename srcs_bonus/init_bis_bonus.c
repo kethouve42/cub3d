@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bis_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:18:24 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:50 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:13:43 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,28 @@
 
 void	sprite_init_bis(t_game *game)
 {
-	game->graphics->tmp_path = ft_strdup("texture/w_guard4.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/demon3.xpm\n");
 	load_texture(game, &game->graphics->s_enemi_dead, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/marine_face_1.xpm\n");
+	load_texture(game, &game->graphics->s_pl_face1, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/marine_face_2.xpm\n");
+	load_texture(game, &game->graphics->s_pl_face2, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/marine_back_1.xpm\n");
+	load_texture(game, &game->graphics->s_pl_back1, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/marine_back_2.xpm\n");
+	load_texture(game, &game->graphics->s_pl_back2, game->graphics->tmp_path);
+	free(game->graphics->tmp_path);
+	game->graphics->tmp_path = NULL;
+	game->graphics->tmp_path = ft_strdup("texture/marine_left_1.xpm\n");
+	load_texture(game, &game->graphics->s_pl_left1, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
 }
@@ -30,19 +50,19 @@ void	sprite_init(t_game *game)
 	load_texture(game, &game->graphics->s_barrel, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/door1.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/newdoor1.xpm\n");
 	load_texture(game, &game->graphics->tex_door, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/door3.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/newdoor2.xpm\n");
 	load_texture(game, &game->graphics->tex_door2, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard3.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/demon.xpm\n");
 	load_texture(game, &game->graphics->s_enemi_one, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
-	game->graphics->tmp_path = ft_strdup("texture/w_guard2.xpm\n");
+	game->graphics->tmp_path = ft_strdup("texture/demon2.xpm\n");
 	load_texture(game, &game->graphics->s_enemi_two, game->graphics->tmp_path);
 	free(game->graphics->tmp_path);
 	game->graphics->tmp_path = NULL;
@@ -73,6 +93,14 @@ void	init_img_sprite(t_game *game)
 	game->graphics->s_enemi_one.img = NULL;
 	game->graphics->s_enemi_two.img = NULL;
 	game->graphics->s_enemi_dead.img = NULL;
+	game->graphics->s_pl_back1.img = NULL;
+	game->graphics->s_pl_back2.img = NULL;
+	game->graphics->s_pl_face1.img = NULL;
+	game->graphics->s_pl_face2.img = NULL;
+	game->graphics->s_pl_left1.img = NULL;
+	game->graphics->s_pl_left2.img = NULL;
+	game->graphics->s_pl_right1.img = NULL;
+	game->graphics->s_pl_right2.img = NULL;
 }
 
 /* Setup the default values ​​of the window */

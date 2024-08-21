@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:47:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:56 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:14:51 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,5 @@ void	game_init(t_game *game, char *mode)
 	window_init(game);
 	sprite_init(game);
 	sprite_init_bis(game);
+	sprite_init_ter(game);
 }
