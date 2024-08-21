@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/22 16:25:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:38:58 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:44:55 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	update_all_sprites_index(t_game *game)
 		update_sprite_index(game, &game->graphics->tex_w);
 		update_enemies(game);
 		update_sprite(game);
+		if (game->gamemode == 2)
+			update_sprite_player(game);
 		game->last_time_update = get_current_time();
 	}
 }

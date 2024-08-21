@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:24 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:39:59 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,13 @@ void	draw_opponent(t_game *game, t_player *opponent, t_player *player,
 	angle = calculate_angle_opponent(opponent->dir_x, opponent->dir_y,
 			opponent->pos_x - player->pos_x, opponent->pos_y - player->pos_y);
 	if (angle > -45.0 && angle <= 45.0)
-		opponent->sprite->index = 6;
+		opponent->sprite->index = 6 + opponent->sprite_buff;
 	else if (angle > 45.0 && angle <= 135.0)
-		opponent->sprite->index = 4;
+		opponent->sprite->index = 4 + opponent->sprite_buff;
 	else if (angle > 135.0 || angle <= -135.0)
-		opponent->sprite->index = 0;
+		opponent->sprite->index = 0 + opponent->sprite_buff;
 	else
-		opponent->sprite->index = 2;
+		opponent->sprite->index = 2 + opponent->sprite_buff;
 	sprite = opponent->sprite;
 	ray_tex.tex = &sprite->s_tex[sprite->index];
 	draw_sprite_part_one(game, &ray_tex, sprite, player);

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 19:14:29 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:45:46 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB3D_H
-# define CUB3D_H
+#ifndef CUB3D_BONUS_H
+# define CUB3D_BONUS_H
 
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
@@ -76,6 +76,7 @@ typedef struct s_player
 	double		plane_x;
 	double		plane_y;
 	t_sprite	*sprite;
+	int			sprite_buff;
 }			t_player;
 
 typedef struct s_key
@@ -246,6 +247,7 @@ int		minimap(t_game *game);
 /* ======================= TIME ====================== */
 int		get_current_time(void);
 void	update_all_sprites_index(t_game *game);
+void	update_sprite_player(t_game *game);
 
 /* ====================== SOUND ===================== */
 void	playsound(char *file, int wait, int stop, int attenued);

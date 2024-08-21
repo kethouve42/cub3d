@@ -6,11 +6,23 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/21 18:38:49 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:45:09 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_bonus.h"
+
+void	update_sprite_player(t_game *game)
+{
+	if (game->player->sprite->index % 2 == 1)
+		game->player->sprite_buff = 0;
+	else
+		game->player->sprite_buff = 1;
+	if (game->player_two->sprite->index % 2 == 1)
+		game->player_two->sprite_buff = 0;
+	else
+		game->player_two->sprite_buff = 1;
+}
 
 void	swap_sprite(t_sprite *a, t_sprite *b)
 {

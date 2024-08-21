@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:47:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 19:14:51 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/21 19:37:33 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	init_player(t_player *player)
 	}
 	player->sprite->index = 0;
 	player->sprite->nb = 8;
+	player->sprite_buff = 0;
 }
 
 void	key_init(t_game *game)
