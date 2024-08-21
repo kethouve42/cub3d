@@ -1,16 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils3.c                                           :+:      :+:    :+:   */
+/*   utils3_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:28:02 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:33:11 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:39:17 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
+
+void	init_map_line(t_map	*map, t_player	*player, int x1, int y1)
+{
+	map->x0 = (int)(player->pos_x * 16);
+	map->y0 = (int)(player->pos_y * 16);
+	map->color = 0xFF0000;
+	map->dx = abs(x1 - map->x0);
+	map->dy = abs(y1 - map->y0);
+	if (map->x0 < x1)
+		map->sx = 1;
+	else
+		map->sx = -1;
+	if (map->y0 < y1)
+		map->sy = 1;
+	else
+		map->sy = -1;
+	if (map->dx > map->dy)
+		map->err = (map->dx / 2);
+	else
+		map->err = (-(map->dy) / 2);
+}
 
 /* Skip all non-alphanumeric characters */
 char	*skip_empty(char *str)
@@ -70,4 +91,19 @@ int	get_lines(t_game *game, char *map_path)
 	}
 	close(fd);
 	return (i);
+}
+
+/* Check if a char is one of the char into str */
+int	is_into_str(char c, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }

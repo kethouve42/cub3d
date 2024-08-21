@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.c                                            :+:      :+:    :+:   */
+/*   debug_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:50:08 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:35:09 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:43:05 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* = Call them wherever you want as part of the code (especially in player) = */
 /* ========================================================================== */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	display_map(char **map)
 {
@@ -38,16 +38,25 @@ void	display_key_input(t_game *game)
 		game->key->right);
 	printf("     |%d||%d|\n", game->key->rotate_left,
 		game->key->rotate_right);
+	if (game->gamemode == 2)
+	{
+		printf("\n\n== Key control 2 ==\n    |%d|\n", game->key2->forward);
+		printf("|%d| |%d| |%d|", game->key2->left, game->key2->back,
+			game->key2->right);
+		printf("     |%d||%d|\n", game->key2->rotate_left,
+			game->key2->rotate_right);
+	}
 }
 
-void	display_player_info(t_game *game)
+void	display_player_info(t_player *player)
 {
-	printf("=== Player info ===\nPosition : [%f:%f]\n",
-		game->player->pos_x, game->player->pos_y);
-	printf("Rotation : [%f:%f]\n", game->player->dir_x,
-		game->player->dir_y);
-	printf("Plane    : [%f:%f]\n", game->player->plane_x,
-		game->player->plane_y);
+	printf("=== Player info ===\n");
+	printf("Position : [%f:%f]\n", player->pos_x, player->pos_y);
+	printf("Rotation : [%f:%f]\n", player->dir_x,
+		player->dir_y);
+	printf("Plane    : [%f:%f]\n", player->plane_x,
+		player->plane_y);
+	printf("Player start rot : %d", player->player_start_rot);
 	printf("\n");
 }
 

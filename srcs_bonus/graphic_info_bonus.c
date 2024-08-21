@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphic_info.c                                     :+:      :+:    :+:   */
+/*   graphic_info_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/20 21:50:15 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:37:42 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* Load a .xpm texture */
 void	load_texture(t_game *game, t_img *texture, char *file_path)
@@ -29,18 +29,25 @@ void	load_texture(t_game *game, t_img *texture, char *file_path)
 			&texture->bits_per_pixel, &texture->size_l, &texture->endian);
 }
 
-/* Update the tester and return the corresponding texture location */
-t_img	*set_test_texture(t_game *game, int *check, int check_tmp)
+/* Update the tester and return the corresponding texture location - part 1 */
+t_img	*set_test_texture_one(t_game *game, int *check, int check_tmp)
 {
-	*check += check_tmp;
 	if (check_tmp == 1)
-		return (&game->graphics->text_n);
+	{
+		if (game->graphics->tex_n.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_n.index++;
+		return (&game->graphics->tex_n.tex[game->graphics->tex_n.index - 1]);
+	}
 	else if (check_tmp == 10)
-		return (&game->graphics->text_s);
-	else if (check_tmp == 100)
-		return (&game->graphics->text_w);
-	else if (check_tmp == 1000)
-		return (&game->graphics->text_e);
+	{
+		if (game->graphics->tex_s.index == 0)
+			*check += check_tmp;
+		game->graphics->tex_s.index++;
+		return (&game->graphics->tex_s.tex[game->graphics->tex_s.index - 1]);
+	}
+	else
+		return (set_test_texture_two(game, check, check_tmp));
 }
 
 /* Searche for corresponding texture identifier (NO, SO, WE, EA) */
@@ -51,13 +58,13 @@ int	test_texture(t_game *game, int *check, int i, int j)
 
 	texture = NULL;
 	if (ft_strncmp(game->cubfile[i] + j, "NO", 2) == 0)
-		texture = set_test_texture(game, check, 1);
+		texture = set_test_texture_one(game, check, 1);
 	else if (ft_strncmp(game->cubfile[i] + j, "SO", 2) == 0)
-		texture = set_test_texture(game, check, 10);
+		texture = set_test_texture_one(game, check, 10);
 	else if (ft_strncmp(game->cubfile[i] + j, "WE", 2) == 0)
-		texture = set_test_texture(game, check, 100);
+		texture = set_test_texture_one(game, check, 100);
 	else if (ft_strncmp(game->cubfile[i] + j, "EA", 2) == 0)
-		texture = set_test_texture(game, check, 1000);
+		texture = set_test_texture_one(game, check, 1000);
 	if (texture)
 	{
 		path = game->cubfile[i] + j + 2;
@@ -101,6 +108,7 @@ void	check_graphics(t_game *game)
 	int		j;
 	int		check;
 
+	check_how_many_texture(game);
 	i = 0;
 	check = 0;
 	while (check != 111111 && game->cubfile[i])
@@ -116,5 +124,9 @@ void	check_graphics(t_game *game)
 	}
 	if (check != 111111)
 		close_game(game, "Missing graphic info");
+	game->graphics->tex_n.index = 0;
+	game->graphics->tex_s.index = 0;
+	game->graphics->tex_e.index = 0;
+	game->graphics->tex_w.index = 0;
 	game->line_map = i;
 }

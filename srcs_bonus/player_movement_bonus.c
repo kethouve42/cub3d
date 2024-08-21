@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_movement.c                                  :+:      :+:    :+:   */
+/*   player_movement_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:59:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:02:30 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:15 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	player_back(t_game *game, double speed, t_player *player, t_key *key)
 {

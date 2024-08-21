@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map_bis.c                                    :+:      :+:    :+:   */
+/*   check_map_bis_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:50:59 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 17:00:26 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:36:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* Check the validity of a character on the map */
 int	is_valid_char(char c)
 {
-	if (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	if (c == '1' || c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W'
+		|| c == 'D' || c == 'B' || c == 'P' || c == 'G')
 		return (1);
 	return (0);
 }
@@ -45,41 +46,41 @@ int	is_valid_coord(t_game *game, char **map, int x, int y)
 }
 
 /* Apply x and y values ​​to player direction or plane */
-void	apply_player_rot(t_game *game, int i, double x_value, double y_value)
+void	apply_player_rot(t_player *player, int i, double xvalue, double yvalue)
 {
 	if (i == 0)
 	{
-		game->player->dir_x = x_value;
-		game->player->dir_y = y_value;
+		player->dir_x = xvalue;
+		player->dir_y = yvalue;
 	}
 	else
 	{
-		game->player->plane_x = x_value;
-		game->player->plane_y = y_value;
+		player->plane_x = xvalue;
+		player->plane_y = yvalue;
 	}
 }
 
 /* Set the player values according to its starting rotation */
-void	set_player_rot(t_game *game)
+void	set_player_rot(t_player *player)
 {
-	if (game->player_start_rot == 1)
+	if (player->player_start_rot == 1)
 	{
-		apply_player_rot(game, 0, -1, 0);
-		apply_player_rot(game, 1, 0, 0.66);
+		apply_player_rot(player, 0, -1, 0);
+		apply_player_rot(player, 1, 0, 0.66);
 	}
-	else if (game->player_start_rot == 2)
+	else if (player->player_start_rot == 2)
 	{
-		apply_player_rot(game, 0, 0, 1);
-		apply_player_rot(game, 1, 0.66, 0);
+		apply_player_rot(player, 0, 0, 1);
+		apply_player_rot(player, 1, 0.66, 0);
 	}
-	else if (game->player_start_rot == 3)
+	else if (player->player_start_rot == 3)
 	{
-		apply_player_rot(game, 0, 1, 0);
-		apply_player_rot(game, 1, 0, -0.66);
+		apply_player_rot(player, 0, 1, 0);
+		apply_player_rot(player, 1, 0, -0.66);
 	}
-	else if (game->player_start_rot == 4)
+	else if (player->player_start_rot == 4)
 	{
-		apply_player_rot(game, 0, 0, -1);
-		apply_player_rot(game, 1, -0.66, 0);
+		apply_player_rot(player, 0, 0, -1);
+		apply_player_rot(player, 1, -0.66, 0);
 	}
 }

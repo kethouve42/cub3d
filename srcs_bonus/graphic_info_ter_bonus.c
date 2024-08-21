@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   graphic_info_ter.c                                 :+:      :+:    :+:   */
+/*   graphic_info_ter_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 16:44:19 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 16:16:07 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:37:46 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* Atoi a RGB number and applies it (R = 0, G = 1, B = 2) */
 void	get_color_value(t_game *game, char c, char *str, int rgb)

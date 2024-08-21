@@ -6,123 +6,46 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 20:58:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/12 17:22:00 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:51:04 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-/* Set all sprites images to NULL */
-void	set_img_tex(t_texture *tex)
+/* Atoi a RGB number and applies it (R = 0, G = 1, B = 2) */
+void	get_color_value(t_game *game, char c, char *str, int rgb)
 {
-	int	i;
+	int	color;
 
-	i = 0;
-	while (i < tex->nb)
-	{
-		tex->tex[i].img = NULL;
-		i++;
-	}
+	if (ft_isnum(*str))
+		color = ft_atoi(str);
+	else
+		close_game(game, "Syntax color error");
+	if (color < 0 || color > 255)
+		close_game(game, "Color value error");
+	if (c == 'C')
+		game->graphics->color_sky[rgb] = ft_atoi(str);
+	else
+		game->graphics->color_ground[rgb] = ft_atoi(str);
 }
 
-/* Check how many sprites exists into the map */
-void	check_how_many_sprites(t_game *game)
+/* Get and store RGB values */
+void	parse_color(t_game *game, char *str, char c)
 {
-	int	x;
-	int	y;
-	int	object_counter;
-	int	enemies_counter;
-
-	object_counter = 0;
-	enemies_counter = 0;
-	y = 0;
-	while (y < game->map_height)
-	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			if (game->map[y][x] == 'B' || game->map[y][x] == 'P')
-				object_counter++;
-			else if (game->map[y][x] == 'G')
-				enemies_counter++;
-			x++;
-		}
-		y++;
-	}
-	game->graphics->sprites = malloc(sizeof(t_sprite *) * (object_counter));
-	game->enemies = malloc(sizeof(t_sprite *) * (enemies_counter));
-}
-
-void	check_how_many_texture_loop(t_game *game, int i, int j)
-{
-	while (j < ft_strlen(game->cubfile[i]))
-	{
-		if (ft_strncmp(game->cubfile[i] + j, "NO", 2) == 0)
-		{
-			game->graphics->tex_n.nb++;
-			break ;
-		}
-		else if (ft_strncmp(game->cubfile[i] + j, "SO", 2) == 0)
-		{
-			game->graphics->tex_s.nb++;
-			break ;
-		}
-		else if (ft_strncmp(game->cubfile[i] + j, "WE", 2) == 0)
-		{
-			game->graphics->tex_w.nb++;
-			break ;
-		}
-		else if (ft_strncmp(game->cubfile[i] + j, "EA", 2) == 0)
-		{
-			game->graphics->tex_e.nb++;
-			break ;
-		}
-		j++;
-	}
-}
-
-/* Check hom many animated sprites exists for one all textures */
-void	check_how_many_texture(t_game *game)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (game->cubfile[i])
-	{
-		j = 0;
-		check_how_many_texture_loop(game, i, j);
-		i++;
-	}
-	game->graphics->tex_n.tex = malloc(sizeof(t_img)
-			* game->graphics->tex_n.nb);
-	game->graphics->tex_s.tex = malloc(sizeof(t_img)
-			* game->graphics->tex_s.nb);
-	game->graphics->tex_e.tex = malloc(sizeof(t_img)
-			* game->graphics->tex_e.nb);
-	game->graphics->tex_w.tex = malloc(sizeof(t_img)
-			* game->graphics->tex_w.nb);
-	set_img_tex(&game->graphics->tex_n);
-	set_img_tex(&game->graphics->tex_s);
-	set_img_tex(&game->graphics->tex_e);
-	set_img_tex(&game->graphics->tex_w);
-}
-
-/* Update the tester and return the corresponding texture location - part 2 */
-t_img	*set_test_texture_two(t_game *game, int *check, int check_tmp)
-{
-	if (check_tmp == 100)
-	{
-		if (game->graphics->tex_w.index == 0)
-			*check += check_tmp;
-		game->graphics->tex_w.index++;
-		return (&game->graphics->tex_w.tex[game->graphics->tex_w.index - 1]);
-	}
-	else if (check_tmp == 1000)
-	{
-		if (game->graphics->tex_e.index == 0)
-			*check += check_tmp;
-		game->graphics->tex_e.index++;
-		return (&game->graphics->tex_e.tex[game->graphics->tex_e.index - 1]);
-	}
+	str = skip_empty(str);
+	get_color_value(game, c, str, 0);
+	while (ft_isnum(*str))
+		str++;
+	if (*str != ',')
+		close_game(game, "syntax color error");
+	str++;
+	str = skip_empty(str);
+	get_color_value(game, c, str, 1);
+	while (ft_isnum(*str))
+		str++;
+	if (*str != ',')
+		close_game(game, "syntax color error");
+	str++;
+	str = skip_empty(str);
+	get_color_value(game, c, str, 2);
 }

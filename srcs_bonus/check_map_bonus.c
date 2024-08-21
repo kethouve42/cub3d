@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_map.c                                        :+:      :+:    :+:   */
+/*   check_map_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:46:14 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 20:30:41 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:36:57 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* Get map dimensions*/
 void	get_map_dimensions(t_game *game, int file_size, char **map)
@@ -57,18 +57,26 @@ void	check_map_empty_line(t_game *game, char **map)
 /* Get player start position and rotation */
 void	get_player_start(t_game *game, char **map, int x, int y)
 {
-	if (game->player_start_rot != 0)
+	t_player	*player;
+
+	player = game->player;
+	if (game->player->player_start_rot != 0 && game->gamemode == 1)
 		close_game(game, "Two or more player found");
-	game->player->pos_x = y;
-	game->player->pos_y = x;
+	else if (game->gamemode == 2 && game->player->player_start_rot != 0
+		&& game->player_two->player_start_rot == 0)
+		player = game->player_two;
+	else if (game->gamemode == 2 && game->player->player_start_rot != 0)
+		close_game(game, "There is no two players");
+	player->pos_x = y + 0.5;
+	player->pos_y = x + 0.5;
 	if (map[y][x] == 'N')
-		game->player_start_rot = 1;
+		player->player_start_rot = 1;
 	else if (map[y][x] == 'E')
-		game->player_start_rot = 2;
+		player->player_start_rot = 2;
 	else if (map[y][x] == 'S')
-		game->player_start_rot = 3;
+		player->player_start_rot = 3;
 	else if (map[y][x] == 'W')
-		game->player_start_rot = 4;
+		player->player_start_rot = 4;
 	map[y][x] = '0';
 }
 
@@ -80,13 +88,16 @@ void	explore_map_value(t_game *game, char **map, int x, int y)
 		if (is_valid_char(map[y][x]) == 1 || map[y][x] == ' '
 			|| map[y][x] == '\n')
 		{
-			if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'S'
-				|| map[y][x] == 'E' || map[y][x] == 'W')
+			if (is_into_str(map[y][x], "0NSEWDBPG"))
 			{
 				if (is_valid_coord(game, map, x, y) == 1)
 					close_game(game, NULL);
-				if (map[y][x] != '0')
+				if (is_into_str(map[y][x], "NSWE"))
 					get_player_start(game, map, x, y);
+				if (map[y][x] == 'B' || map[y][x] == 'P')
+					get_sprite(game, map, x, y);
+				if (map[y][x] == 'G')
+					get_enemie(game, map, x, y);
 			}
 		}
 		else
@@ -112,6 +123,7 @@ void	check_map(t_game *game, char *map_path, int file_size)
 	game->map = copy_map(map_path, game, file_size
 			- game->line_map, game->line_map);
 	get_map_dimensions(game, file_size, game->map);
+	check_how_many_sprites(game);
 	check_map_empty_line(game, game->map);
 	y = 0;
 	while (y < game->map_height)
@@ -119,7 +131,11 @@ void	check_map(t_game *game, char *map_path, int file_size)
 		explore_map_value(game, game->map, 0, y);
 		y++;
 	}
-	set_player_rot(game);
-	if (game->player_start_rot == 0)
+	set_player_rot(game->player);
+	if (game->gamemode == 2 && game->player_two->player_start_rot != 0)
+		set_player_rot(game->player_two);
+	else if (game->gamemode == 2)
+		close_game(game, "No second player");
+	if (game->player->player_start_rot == 0)
 		close_game(game, "error : no player found");
 }

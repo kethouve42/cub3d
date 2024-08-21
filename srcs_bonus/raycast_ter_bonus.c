@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   raycast_ter.c                                      :+:      :+:    :+:   */
+/*   raycast_ter_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:45:19 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/20 18:22:00 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:28 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	raycast_part_three_door_bis(t_game *game, t_raycast *raycast)
 {

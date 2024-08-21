@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shoot_bis.c                                        :+:      :+:    :+:   */
+/*   shoot_bis_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:05:26 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:13:31 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:32 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	ray_inter_wall_bis(t_ray_wall *ray_wall, t_player *player)
 {

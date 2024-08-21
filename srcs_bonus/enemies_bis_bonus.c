@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemies_bis.c                                      :+:      :+:    :+:   */
+/*   enemies_bis_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:09:54 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:11:12 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:37:20 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	ennemie_routine_bis(t_game *game, t_enemie *enemie,
 	int temp_x, int temp_y)

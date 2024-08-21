@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemies.c                                          :+:      :+:    :+:   */
+/*   enemies_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:12:36 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:37:24 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	enemies_sort(t_enemie **enemies, t_game *game, t_player *player)
 {

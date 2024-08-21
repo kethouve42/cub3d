@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite_ter.c                                       :+:      :+:    :+:   */
+/*   sprite_ter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:14:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:15:50 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:54 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 void	draw_sprite_part_one_bis(t_game *game, t_ray_tex *ray_tex,
 	t_sprite *sprite, t_player *player)

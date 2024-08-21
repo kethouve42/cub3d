@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:04:06 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:29:26 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,16 @@
 /* ============================== KEY VALUES ================================ */
 /* 65307 = escape	|	65363 = right arrow	 |	65361 = left arrow			  */
 /* 119 = W	|	122 = Z	 |	115 = S	 |	100 = D	 |	97 = A	 |	 113 = Q      */
-/* 101 = E																	  */
 /* ========================================================================== */
-
-void	key_press_two(int keycode, t_game *game)
-{
-	if (keycode == 65432)
-		game->key2->rotate_right = 1;
-	if (keycode == 65430)
-		game->key2->rotate_left = 1;
-	if (keycode == 65362)
-		game->key2->forward = 1;
-	if (keycode == 65364)
-		game->key2->back = 1;
-	if (keycode == 65363)
-		game->key2->right = 1;
-	if (keycode == 65361)
-		game->key2->left = 1;
-	if (keycode == 65438)
-		shoot(game, game->player_two, 2);
-	if (keycode == 65431)
-		open_door(game, (int)game->player_two->pos_x,
-			(int)game->player_two->pos_y, game->map);
-}
 
 /* Changes to 1 the keys pressed */
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == 65307)
 		close_game(game, NULL);
-	if (keycode == 108)
+	if (keycode == 65363)
 		game->key->rotate_right = 1;
-	if (keycode == 107)
+	if (keycode == 65361)
 		game->key->rotate_left = 1;
 	if (keycode == 119 || keycode == 122)
 		game->key->forward = 1;
@@ -56,22 +34,15 @@ int	key_press(int keycode, t_game *game)
 		game->key->right = 1;
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
-	if (keycode == 32)
-		shoot(game, game->player, 1);
-	if (keycode == 101)
-		open_door(game, (int)game->player->pos_x,
-			(int)game->player->pos_y, game->map);
-	if (game->gamemode == 2)
-		key_press_two(keycode, game);
 	return (0);
 }
 
 /* Changes to 0 the keys released */
 int	key_release(int keycode, t_game *game)
 {
-	if (keycode == 108)
+	if (keycode == 65363)
 		game->key->rotate_right = 0;
-	if (keycode == 107)
+	if (keycode == 65361)
 		game->key->rotate_left = 0;
 	if (keycode == 119 || keycode == 122)
 		game->key->forward = 0;
@@ -81,52 +52,90 @@ int	key_release(int keycode, t_game *game)
 		game->key->right = 0;
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 0;
-	if (keycode == 65432)
-		game->key2->rotate_right = 0;
-	if (keycode == 65430)
-		game->key2->rotate_left = 0;
-	if (keycode == 65362)
-		game->key2->forward = 0;
-	if (keycode == 65364)
-		game->key2->back = 0;
-	if (keycode == 65363)
-		game->key2->right = 0;
-	if (keycode == 65361)
-		game->key2->left = 0;
 	return (0);
 }
 
-void	player_two(t_game *game)
+/* Rotate player by changing dir and plane */
+void	player_rotation(t_game *game, double old_dir_x, double old_plane_x)
 {
-	if (game->key2->left + game->key2->right == 1)
-		player_forward_back(game, MOVE_SPEED / 2,
-			game->player_two, game->key2);
-	else
-		player_forward_back(game, MOVE_SPEED, game->player_two, game->key2);
-	if (game->key2->forward + game->key2->back == 1)
-		player_right_left(game, MOVE_SPEED / 2, game->player_two, game->key2);
-	else
-		player_right_left(game, MOVE_SPEED, game->player_two, game->key2);
-	player_rotation(game->player_two->dir_x, game->player_two->plane_x,
-		game->player_two, game->key2);
+	if (game->key->rotate_right && !game->key->rotate_left)
+	{
+		game->player->dir_x = game->player->dir_x * cos(-ROT_SPEED)
+			- game->player->dir_y * sin(-ROT_SPEED);
+		game->player->dir_y = old_dir_x * sin(-ROT_SPEED)
+			+ game->player->dir_y * cos(-ROT_SPEED);
+		game->player->plane_x = game->player->plane_x * cos(-ROT_SPEED)
+			- game->player->plane_y * sin(-ROT_SPEED);
+		game->player->plane_y = old_plane_x * sin(-ROT_SPEED)
+			+ game->player->plane_y * cos(-ROT_SPEED);
+	}
+	else if (game->key->rotate_left && !game->key->rotate_right)
+	{
+		game->player->dir_x = game->player->dir_x * cos(ROT_SPEED)
+			- game->player->dir_y * sin(ROT_SPEED);
+		game->player->dir_y = old_dir_x * sin(ROT_SPEED)
+			+ game->player->dir_y * cos(ROT_SPEED);
+		game->player->plane_x = game->player->plane_x * cos(ROT_SPEED)
+			- game->player->plane_y * sin(ROT_SPEED);
+		game->player->plane_y = old_plane_x * sin(ROT_SPEED)
+			+ game->player->plane_y * cos(ROT_SPEED);
+	}
 }
 
-/* Update player placements and display
-   The speed is divided by 2 in case of diagonal movement */
-int	player(t_game *game)
+/* Moves the player vertically if there is no wall */
+void	player_forward_back(t_game *game, double speed, int temp_x, int temp_y)
 {
-	if (game->key->left + game->key->right == 1)
-		player_forward_back(game, MOVE_SPEED / 2, game->player, game->key);
-	else
-		player_forward_back(game, MOVE_SPEED, game->player, game->key);
-	if (game->key->forward + game->key->back == 1)
-		player_right_left(game, MOVE_SPEED / 2, game->player, game->key);
-	else
-		player_right_left(game, MOVE_SPEED, game->player, game->key);
-	player_rotation(game->player->dir_x, game->player->plane_x,
-		game->player, game->key);
-	if (game->gamemode == 2)
-		player_two(game);
-	update_graphics(game);
-	return (0);
+	if (game->key->forward)
+	{
+		temp_x = (int)(game->player->pos_x + game->player->dir_x
+				* speed * HITBOX_SIZE);
+		temp_y = (int)(game->player->pos_y + game->player->dir_y
+				* speed * HITBOX_SIZE);
+		if (game->map[temp_x][temp_y] == '0')
+		{
+			game->player->pos_x += game->player->dir_x * speed;
+			game->player->pos_y += game->player->dir_y * speed;
+		}
+	}
+	if (game->key->back)
+	{
+		temp_x = (int)(game->player->pos_x - game->player->dir_x
+				* speed * HITBOX_SIZE);
+		temp_y = (int)(game->player->pos_y - game->player->dir_y
+				* speed * HITBOX_SIZE);
+		if (game->map[temp_x][temp_y] == '0')
+		{
+			game->player->pos_x -= game->player->dir_x * speed;
+			game->player->pos_y -= game->player->dir_y * speed;
+		}
+	}
+}
+
+/* Moves the player horizontally if there is no wall */
+void	player_right_left(t_game *game, double speed, int temp_x, int temp_y)
+{
+	if (game->key->right)
+	{
+		temp_x = (int)(game->player->pos_x + game->player->dir_y
+				* speed * HITBOX_SIZE);
+		temp_y = (int)(game->player->pos_y - game->player->dir_x
+				* speed * HITBOX_SIZE);
+		if (game->map[temp_x][temp_y] == '0')
+		{
+			game->player->pos_x += game->player->dir_y * speed;
+			game->player->pos_y -= game->player->dir_x * speed;
+		}
+	}
+	if (game->key->left)
+	{
+		temp_x = (int)(game->player->pos_x - game->player->dir_y
+				* speed * HITBOX_SIZE);
+		temp_y = (int)(game->player->pos_y + game->player->dir_x
+				* speed * HITBOX_SIZE);
+		if (game->map[temp_x][temp_y] == '0')
+		{
+			game->player->pos_x -= game->player->dir_y * speed;
+			game->player->pos_y += game->player->dir_x * speed;
+		}
+	}
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sprite_bis.c                                       :+:      :+:    :+:   */
+/*   sprite_bis_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:51:22 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 16:15:36 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:45 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 int	ennemy_or_opponent(t_game *game, t_player *player,
 	t_player *opponent, int begin)

@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pathfinding.c                                      :+:      :+:    :+:   */
+/*   pathfinding_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:41:33 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 16:42:10 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/21 18:38:03 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "cub3d_bonus.h"
 
 /* Explore possible paths and change them to 1 */
 void	pathfinding(char **map, int x, int y)
 {
 	map[y][x] = '1';
-	if (map[y + 1][x] == '0')
+	if (is_into_str(map[y + 1][x], "0DGNSEW"))
 		pathfinding(map, x, y + 1);
-	if (map[y][x + 1] == '0')
+	if (is_into_str(map[y][x + 1], "0DGNSEW"))
 		pathfinding(map, x + 1, y);
-	if (map[y][x - 1] == '0')
+	if (is_into_str(map[y][x - 1], "0DGNSEW"))
 		pathfinding(map, x - 1, y);
-	if (map[y - 1][x] == '0')
+	if (is_into_str(map[y - 1][x], "0DGNSEW"))
 		pathfinding(map, x, y - 1);
 }
 
@@ -39,7 +39,8 @@ void	check_all_one(t_game *game, char **test_map)
 		while (x < ft_strlen(test_map[y]))
 		{
 			if (test_map[y][x] != '1' && test_map[y][x]
-				!= ' ' && test_map[y][x] != '\n')
+				!= ' ' && test_map[y][x] != '\n' && test_map[y][x] != 'B'
+				&& test_map[y][x] != 'P')
 			{
 				printf("Error:\n'%c' at [%d:%d] n'est pas accessible\n",
 					test_map[y][x], x + 1, y + 1);

@@ -6,24 +6,16 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 15:31:35 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:33:23 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_texture(t_game *game, t_texture *tex)
+void	free_image(t_game *game, t_img *img)
 {
-	int	i;
-
-	i = 0;
-	while (i < tex->nb)
-	{
-		if (tex->tex[i].img)
-			mlx_destroy_image(game->mlx, tex->tex[i].img);
-		i++;
-	}
-	free(tex->tex);
+	if (img->img)
+		mlx_destroy_image(game->mlx, img->img);
 }
 
 void	free_tab(char **tab)
@@ -44,51 +36,24 @@ int	red_cross(t_game *game)
 	close_game(game, NULL);
 }
 
-void	free_graphics(t_game *game)
-{
-	if (game->graphics->s_barrel.img)
-		mlx_destroy_image(game->mlx, game->graphics->s_barrel.img);
-	if (game->graphics->s_pillar.img)
-		mlx_destroy_image(game->mlx, game->graphics->s_pillar.img);
-	if (game->graphics->tex_door.img)
-		mlx_destroy_image(game->mlx, game->graphics->tex_door.img);
-	if (game->graphics->tex_door2.img)
-		mlx_destroy_image(game->mlx, game->graphics->tex_door2.img);
-	if (game->graphics->s_enemi_one.img)
-		mlx_destroy_image(game->mlx, game->graphics->s_enemi_one.img);
-	if (game->graphics->s_enemi_two.img)
-		mlx_destroy_image(game->mlx, game->graphics->s_enemi_two.img);
-	if (game->graphics->s_enemi_dead.img)
-		mlx_destroy_image(game->mlx, game->graphics->s_enemi_dead.img);
-	free_texture(game, &game->graphics->tex_n);
-	free_texture(game, &game->graphics->tex_s);
-	free_texture(game, &game->graphics->tex_e);
-	free_texture(game, &game->graphics->tex_w);
-	if (game->graphics->sprites)
-		free(game->graphics->sprites);
-	if (game->graphics->tmp_path != NULL)
-		free(game->graphics->tmp_path);
-	free(game->graphics);
-}
-
 /* Free everything that has been allocated and exit the program */
 int	close_game(t_game *game, char *error_msg)
 {
 	if (error_msg)
 		printf("Error\n%s\n", error_msg);
-	free_sprite(game);
 	if (game->cubfile)
 		free_tab(game->cubfile);
 	if (game->map)
 		free_tab(game->map);
 	free(game->key);
-	free(game->key2);
-	free(game->z_buffer);
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
-	free_enemie(game);
-	free_graphics(game);
-	free_player(game);
+	free_image(game, &game->graphics->text_n);
+	free_image(game, &game->graphics->text_s);
+	free_image(game, &game->graphics->text_e);
+	free_image(game, &game->graphics->text_w);
+	free(game->graphics);
+	free(game->player);
 	free(game->img);
 	mlx_destroy_window(game->mlx, game->mlx_win);
 	mlx_destroy_display(game->mlx);
