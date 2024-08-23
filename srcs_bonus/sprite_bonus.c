@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprite_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 22:00:50 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/21 19:45:09 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:06:21 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	update_sprite_player(t_game *game)
 {
+	if (game->key->left + game->key->right
+		+ game->key->forward + game->key->back >= 1)
+		playsound("footstep", 0, 0, 0);
+	if (game->key2->left + game->key2->right
+		+ game->key2->forward + game->key2->back >= 1)
+		playsound("footstep", 0, 0, 0);
 	if (game->player->sprite->index % 2 == 1)
 		game->player->sprite_buff = 0;
 	else

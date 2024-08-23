@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shoot_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/29 17:53:09 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/21 18:38:36 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:50:26 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	check_shot(t_game *game, t_sprite *enemies, t_player *player)
 	{
 		shot_angle = calculate_angle(player->dir_x,
 				player->dir_y, enemy_dir_x, enemy_dir_y);
-		if (shot_angle <= 0.1 / distance_to_enemy
+		if (shot_angle <= 0.2 / distance_to_enemy
 			&& ray_intersects_wall(game, enemies, player) == 0)
 			return (1);
 	}
