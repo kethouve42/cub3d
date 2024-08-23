@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:47:52 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 19:37:33 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:12:26 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	game_init(t_game *game, char *mode)
 	game->map = NULL;
 	game->map_length = 0;
 	game->map_height = 0;
+	game->enemies = NULL;
 	game->player = malloc(sizeof(t_player));
 	game->player_two = malloc(sizeof(t_player));
 	init_player(game->player);

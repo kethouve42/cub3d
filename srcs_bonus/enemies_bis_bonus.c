@@ -6,7 +6,7 @@
 /*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:09:54 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:20 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:22:33 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ void	chase_bis(t_game *game, t_enemie *enemie, t_player *target)
 	temp_y = enemie->sprite->sprite_y;
 	if (enemie->sprite->sprite_y < target->pos_y)
 	{
-		temp_y = (int)enemie->sprite->sprite_y + 0.02 * HITBOX_SIZE;
+		temp_y = (int)enemie->sprite->sprite_y + 0.02 + 0.15;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_y += 0.02;
 	}
 	if (enemie->sprite->sprite_y > target->pos_y)
 	{
-		temp_y = (int)enemie->sprite->sprite_y - 0.02 * HITBOX_SIZE;
+		temp_y = (int)enemie->sprite->sprite_y - 0.02 - 0.15;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_y -= 0.02;
 	}
@@ -121,13 +121,13 @@ void	chase(t_game *game, t_enemie *enemie, t_player *target)
 	temp_y = enemie->sprite->sprite_y;
 	if (enemie->sprite->sprite_x > target->pos_x)
 	{
-		temp_x = (int)enemie->sprite->sprite_x - 0.02 * HITBOX_SIZE;
+		temp_x = (int)enemie->sprite->sprite_x - 0.02 - 0.15;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_x -= 0.02;
 	}
 	if (enemie->sprite->sprite_x < target->pos_x)
 	{
-		temp_x = (int)enemie->sprite->sprite_x + 0.02 * HITBOX_SIZE;
+		temp_x = (int)enemie->sprite->sprite_x + 0.02 + 0.15;
 		if (is_into_str(game->map[temp_x][temp_y], "1PDB") == 0)
 			enemie->sprite->sprite_x += 0.02;
 	}

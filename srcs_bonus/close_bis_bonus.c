@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_bis_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
+/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:31:00 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/23 15:53:17 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/23 16:09:17 by acasanov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	free_enemie(t_game *game)
 		free(game->enemies[i]);
 		i++;
 	}
-	free(game->enemies);
+	if (game->enemies)
+		free(game->enemies);
 }
 
 void	free_player(t_game *game)
