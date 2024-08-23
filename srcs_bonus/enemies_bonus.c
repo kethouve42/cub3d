@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemies_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/19 18:25:28 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 19:39:59 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:28:35 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,20 +75,20 @@ void	draw_opponent(t_game *game, t_player *opponent, t_player *player,
 
 void	detection(t_game *game, t_enemie *enemie)
 {
-	if (enemie->sprite->sprite_x - game->player->pos_x <= 1
-		&& enemie->sprite->sprite_x - game->player->pos_x >= -1)
+	if (enemie->sprite->sprite_x - game->player->pos_x <= 3
+		&& enemie->sprite->sprite_x - game->player->pos_x >= -3)
 	{
-		if (enemie->sprite->sprite_y - game->player->pos_y <= 1
-			&& enemie->sprite->sprite_y - game->player->pos_y >= -1)
+		if (enemie->sprite->sprite_y - game->player->pos_y <= 3
+			&& enemie->sprite->sprite_y - game->player->pos_y >= -3)
 			enemie->chase_status = 1;
 	}
 	else if (game->gamemode == 2)
 	{
-		if (enemie->sprite->sprite_x - game->player_two->pos_x <= 1
-			&& enemie->sprite->sprite_x - game->player_two->pos_x >= -1)
+		if (enemie->sprite->sprite_x - game->player_two->pos_x <= 3
+			&& enemie->sprite->sprite_x - game->player_two->pos_x >= -3)
 		{
-			if (enemie->sprite->sprite_y - game->player_two->pos_y <= 1
-				&& enemie->sprite->sprite_y - game->player_two->pos_y >= -1)
+			if (enemie->sprite->sprite_y - game->player_two->pos_y <= 3
+				&& enemie->sprite->sprite_y - game->player_two->pos_y >= -3)
 				enemie->chase_status = 2;
 		}
 	}

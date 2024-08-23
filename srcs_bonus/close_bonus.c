@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 19:48:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:04 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:55:10 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	free_graphics(t_game *game)
 /* Free everything that has been allocated and exit the program */
 int	close_game(t_game *game, char *error_msg)
 {
+	playsound("shotgun", 0, 1, 0);
 	if (error_msg)
 		printf("Error\n%s\n", error_msg);
 	free_sprite(game);
@@ -87,6 +88,7 @@ int	close_game(t_game *game, char *error_msg)
 	if (game->img->img)
 		mlx_destroy_image(game->mlx, game->img->img);
 	free_enemie(game);
+	free_player_img(game);
 	free_graphics(game);
 	free_player(game);
 	free(game->img);

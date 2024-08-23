@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sound_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 16:12:13 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:38:40 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:46:07 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ void	playsound(char *file, int wait, int stop, int attenued)
 	memset(tmp, 0, 256);
 	memcpy(tmp, base, strlen(base));
 	if (stop)
-	{
 		result = system("pkill -f paplay");
-		if (result != 0)
-			perror("");
-	}
 	if (hashstr(file) == 2784)
 		return ;
 	memcpy(&tmp[strlen(base)], file, strlen(file));

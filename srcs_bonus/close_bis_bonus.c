@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   close_bis_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 15:31:00 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:37:01 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:53:17 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,24 @@ void	free_player(t_game *game)
 	free(game->player_two->sprite->s_tex);
 	free(game->player_two->sprite);
 	free(game->player_two);
+}
+
+void	free_player_img(t_game *game)
+{
+	if (game->graphics->s_pl_face1.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_face1.img);
+	if (game->graphics->s_pl_face2.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_face2.img);
+	if (game->graphics->s_pl_back1.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_back1.img);
+	if (game->graphics->s_pl_back2.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_back2.img);
+	if (game->graphics->s_pl_left1.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_left1.img);
+	if (game->graphics->s_pl_left2.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_left2.img);
+	if (game->graphics->s_pl_right1.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_right1.img);
+	if (game->graphics->s_pl_right2.img)
+		mlx_destroy_image(game->mlx, game->graphics->s_pl_right2.img);
 }

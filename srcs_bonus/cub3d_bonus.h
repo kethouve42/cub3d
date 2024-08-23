@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:30 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 19:45:46 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:53:38 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,7 @@ void	open_door(t_game *game, int y, int x, char **map);
 /* ============== CLOSE ============== */
 int		close_game(t_game *game, char *error_msg);
 void	free_image(t_game *game, t_img *img);
+void	free_player_img(t_game *game);
 void	free_sprite(t_game *game);
 void	free_enemie(t_game *game);
 void	free_player(t_game *game);

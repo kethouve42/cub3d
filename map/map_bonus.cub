@@ -1,19 +1,31 @@
-NO texture/wood.xpm
-SO texture/greystone.xpm
-WE texture/redbrick.xpm
-EA texture/mossy.xpm
+NO texture/stone_wall5.xpm
+NO texture/stone_wall2.xpm
+NO texture/stone_wall3.xpm
+NO texture/stone_wall4.xpm
+SO texture/organic_wall.xpm
+SO texture/organic_wall2.xpm
+SO texture/organic_wall3.xpm
+SO texture/organic_wall4.xpm
+WE texture/blue_wall.xpm
+WE texture/blue_wall2.xpm
+WE texture/blue_wall3.xpm
+WE texture/blue_wall4.xpm
+EA texture/fire_wall.xpm
+EA texture/fire_wall2.xpm
+EA texture/fire_wall3.xpm
+EA texture/fire_wall4.xpm
 
-C 41, 146, 255
-F 0, 196, 0
+C 137, 25, 25
+F 53, 52, 70
 
      111111111111111
-111111B00G0000000001
-100D0000000011111111
+111111B00G00D000G001
+1G000000000011111111
 111110P0P011111
 100G000000000B1
-100000000000001
+10000000000G001
 100011100000001
-10001 100N00001
+10001 100000001
 1000111000000011111
-100G0000010G0000001
+100G0000010000000W1
 1111111111111111111
