@@ -6,7 +6,7 @@
 /*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:25:56 by kethouve          #+#    #+#             */
-/*   Updated: 2024/08/21 19:16:56 by kethouve         ###   ########.fr       */
+/*   Updated: 2024/08/23 12:27:41 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int ac, char **av)
 	map_analysis(&game, av[1]);
 	select_raycast(&game);
 	mlx_put_image_to_window(game.mlx, game.mlx_win, game.img->img, 0, 0);
-	playsound("suspense", 0, 0, 0);
+	playsound("music", 0, 0, 0);
 	mlx_hook(game.mlx_win, 2, 1L << 0, key_press, &game);
 	mlx_loop_hook(game.mlx, player, &game);
 	mlx_hook(game.mlx_win, 3, 1L << 1, key_release, &game);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:34:37 by acasanov          #+#    #+#             */
-/*   Updated: 2024/07/21 19:29:44 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 13:27:25 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	raycast_part_two(t_game *game, t_raycast *raycast)
 		raycast->step_y = 1;
 		raycast->side_dist_y = (raycast->map_y + 1.0 - game->player->pos_y)
 			* raycast->delta_dist_y;
-	}	
+	}
 }
 
 /* Impact test of the ray on a wall and its size */

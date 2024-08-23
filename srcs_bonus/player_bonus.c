@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: acasanov <acasanov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kethouve <kethouve@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:24:51 by acasanov          #+#    #+#             */
-/*   Updated: 2024/08/21 18:38:11 by acasanov         ###   ########.fr       */
+/*   Updated: 2024/08/23 12:30:39 by kethouve         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	key_press_two(int keycode, t_game *game)
 	if (keycode == 65361)
 		game->key2->left = 1;
 	if (keycode == 65438)
+	{
+		playsound("shotgun", 0, 0, 0);
 		shoot(game, game->player_two, 2);
+	}
 	if (keycode == 65431)
 		open_door(game, (int)game->player_two->pos_x,
 			(int)game->player_two->pos_y, game->map);
@@ -57,7 +60,10 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == 97 || keycode == 113)
 		game->key->left = 1;
 	if (keycode == 32)
+	{
+		playsound("shotgun", 0, 0, 0);
 		shoot(game, game->player, 1);
+	}
 	if (keycode == 101)
 		open_door(game, (int)game->player->pos_x,
 			(int)game->player->pos_y, game->map);
